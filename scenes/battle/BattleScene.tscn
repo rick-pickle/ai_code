@@ -1,0 +1,135 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/battle/battle_scene.gd" id="1_battle_scene"]
+
+[node name="BattleScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_battle_scene")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="BattleLayout" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EncounterLabel" type="Label" parent="MarginContainer/BattleLayout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "遭遇："
+
+[node name="PhaseLabel" type="Label" parent="MarginContainer/BattleLayout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "阶段："
+
+[node name="RestartButton" type="Button" parent="MarginContainer/BattleLayout/Header"]
+layout_mode = 2
+text = "重开"
+
+[node name="Body" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="PartyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PartyBox" type="VBoxContainer" parent="MarginContainer/BattleLayout/Body/PartyPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PartyTitle" type="Label" parent="MarginContainer/BattleLayout/Body/PartyPanel/PartyBox"]
+layout_mode = 2
+text = "我方"
+
+[node name="PartyStatsLabel" type="Label" parent="MarginContainer/BattleLayout/Body/PartyPanel/PartyBox"]
+layout_mode = 2
+text = "阿澄意志：30/30\n祈意志：24/24\n灯火值：3/8"
+
+[node name="EnemyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyBox" type="VBoxContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EnemyTitle" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+layout_mode = 2
+text = "敌方"
+
+[node name="EnemyStatsLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+layout_mode = 2
+text = "执念："
+
+[node name="SealLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+layout_mode = 2
+text = "封缄："
+
+[node name="IntentLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = "意图："
+
+[node name="LogPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+
+[node name="LogLabel" type="RichTextLabel" parent="MarginContainer/BattleLayout/LogPanel"]
+layout_mode = 2
+scroll_active = true
+fit_content = true
+
+[node name="Commands" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="OpenSealButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "拆封 2"
+
+[node name="ArchiveSealButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "封存 2"
+
+[node name="ReturnButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "退回 3"
+
+[node name="SendButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "寄出 0"
+
+[node name="SeeButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "照见 1"
+
+[node name="LamplightButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "添灯 2"

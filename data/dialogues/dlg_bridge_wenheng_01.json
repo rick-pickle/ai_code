@@ -1,0 +1,45 @@
+{
+  "id": "dlg_bridge_wenheng_01",
+  "lines": [
+    {
+      "speaker": "acheng",
+      "portrait": "acheng_calm",
+      "text": "请问，您是温衡吗？"
+    },
+    {
+      "speaker": "wenheng",
+      "portrait": "wenheng_calm",
+      "text": "是。邮差？"
+    },
+    {
+      "speaker": "acheng",
+      "portrait": "acheng_calm",
+      "text": "有一封给您的信。"
+    },
+    {
+      "speaker": "wenheng",
+      "portrait": "wenheng_smile",
+      "text": "从南边来的？"
+    },
+    {
+      "speaker": "acheng",
+      "portrait": "acheng_confused",
+      "text": "信上没写寄件人。"
+    },
+    {
+      "speaker": "wenheng",
+      "portrait": "wenheng_smile",
+      "text": "没事。他从小就这样。写信总忘了落款。"
+    },
+    {
+      "speaker": "qi",
+      "portrait": "qi_suspicious",
+      "text": "他在笑。可信还没拆。"
+    }
+  ],
+  "choices": [],
+  "effects": [
+    "flag:found_wenheng_bridge"
+  ]
+}
+

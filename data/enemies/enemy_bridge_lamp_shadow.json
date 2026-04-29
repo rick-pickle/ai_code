@@ -1,0 +1,73 @@
+{
+  "id": "enemy_bridge_lamp_shadow",
+  "display_name": "桥灯影",
+  "type": "tutorial",
+  "will": 45,
+  "obsession": 52,
+  "seal_layers": [
+    {
+      "id": "surface_waiting",
+      "name": "表层情绪：等待",
+      "reveal_skill": "open_seal",
+      "revealed_text": "桥灯亮着，不是为了照路，而是在等一个不再经过的人。",
+      "break_obsession": 10
+    },
+    {
+      "id": "hidden_false_reply",
+      "name": "隐藏谎言：假回信",
+      "reveal_skill": "open_seal",
+      "requires_status": "seal_loosened",
+      "locked_hint": "这层谎言贴得太紧，先照见并退回伪造来信。",
+      "revealed_text": "那些回信的温柔笔迹，来自同一盏桥灯下的自我安慰。",
+      "break_obsession": 18
+    }
+  ],
+  "skills": [
+    "false_reply",
+    "bridge_lamp_sways",
+    "lamp_shadow_grasp"
+  ],
+  "intent_cycle": [
+    {
+      "id": "false_reply",
+      "display_name": "伪造来信",
+      "intent_text": "它正在折出一封看似来自远方的回信。",
+      "damage": 0,
+      "status": "bound_by_lie",
+      "status_turns": 2,
+      "enemy_status": "lie_shroud",
+      "enemy_status_turns": 2,
+      "tags": [
+        "lie",
+        "counterable"
+      ]
+    },
+    {
+      "id": "bridge_lamp_sways",
+      "display_name": "桥灯摇晃",
+      "intent_text": "桥灯在风里发抖，雨声压过脚步。",
+      "damage": 3,
+      "target": "qi",
+      "rain_noise": 2,
+      "tags": [
+        "rain"
+      ]
+    },
+    {
+      "id": "lamp_shadow_grasp",
+      "display_name": "灯影牵扯",
+      "intent_text": "拉长的灯影要拽住阿澄的袖口。",
+      "damage": 6,
+      "target": "acheng",
+      "tags": [
+        "attack"
+      ]
+    }
+  ],
+  "victory_condition": "all_seals_revealed",
+  "tutorial_hints": [
+    "照见可以看清伪造来信。",
+    "退回谎言后，第二层封缄会短暂松动。"
+  ]
+}
+

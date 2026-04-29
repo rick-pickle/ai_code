@@ -1,0 +1,14 @@
+Use case: final-quality game map concept asset and baked raster reference.
+Asset type: 3/4 top-down pixel art RPG interior map for a Chinese narrative 2D RPG vertical slice.
+
+Primary request: Create the old post office interior of "雨灯镇" / Rainlamp Town, the first playable room where the dead-letter post carrier receives the first wet letter.
+
+Canvas and camera: 16:9 composition, designed to crop cleanly to 640x360 gameplay pixels. 3/4 top-down RPG exploration view, not isometric. Keep the floor plane readable and leave a clear walkable path from the bottom entrance to the central counter.
+
+Scene content: cozy but eerie old post office at rainy night, worn wooden floor, service counter in the upper middle, wall of mail slots, an open postman handbook on the counter, one damp letter beside it, a hanging faded postal uniform on the right wall, an empty dripping mailbox in the left corner, shelves of old letters, rain-streaked window, small copper rain lantern glow, subtle wet floor reflections near the entrance.
+
+Readable gameplay anchors: bottom entrance spawn, counter and handbook interaction, first wet letter pickup, notice board, empty mailbox, hanging uniform, rain window, clear exit back to street. Furniture should form simple Godot collision blocks and should not crowd the player route.
+
+Style: polished modern pixel art for a refined 2D RPG, crisp readable silhouettes, elegant small details, cold blue-gray rain through the windows contrasted with warm amber interior light, gentle melancholy, not 8-bit, not chunky retro, not realistic painting, not high-detail noise.
+
+Constraints: no readable text, no labels, no UI, no speech bubbles, no characters, no watermark, no logo. Avoid extreme darkness, messy clutter, strong perspective distortion, and objects blocking the main path.

@@ -1,0 +1,180 @@
+{
+  "schema": "rainlamp.map.v1",
+  "id": "old_stone_bridge",
+  "scene_id": "Map_StoneBridge_Dusk",
+  "display_name": "旧石桥",
+  "chapter": "序章",
+  "map_kind": "bridge",
+  "visual_model": "baked_raster_reference",
+  "asset_prompt_id": "",
+  "dimensions": {
+    "unit": "px",
+    "width": 960,
+    "height": 540
+  },
+  "ambient": {
+    "time_of_day": "dusk",
+    "weather": "steady_rain",
+    "palette": "湿石桥、河面冷光、桥灯暖晕",
+    "music_cue": "stone_bridge_waiting"
+  },
+  "default_spawn_id": "from_rainlamp_street",
+  "spawns": [
+    {
+      "id": "from_rainlamp_street",
+      "label": "雨灯街桥头",
+      "position": {
+        "x": 152,
+        "y": 324
+      },
+      "facing": "right",
+      "required_flags": [],
+      "blocked_by_flags": []
+    },
+    {
+      "id": "from_memory_bridge",
+      "label": "从记忆回到桥灯下",
+      "position": {
+        "x": 478,
+        "y": 282
+      },
+      "facing": "up",
+      "required_flags": [
+        "bridge_memory_unlocked"
+      ],
+      "blocked_by_flags": []
+    },
+    {
+      "id": "after_boss",
+      "label": "寄出后桥头",
+      "position": {
+        "x": 512,
+        "y": 294
+      },
+      "facing": "up",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": []
+    }
+  ],
+  "exits": [
+    {
+      "id": "to_rainlamp_street",
+      "label": "回到雨灯街",
+      "target_map_id": "rainlamp_street",
+      "target_spawn_id": "from_old_stone_bridge",
+      "area": {
+        "x": 44,
+        "y": 274,
+        "w": 112,
+        "h": 96
+      },
+      "required_flags": [],
+      "blocked_by_flags": [],
+      "locked_text": ""
+    },
+    {
+      "id": "to_memory_bridge",
+      "label": "进入记忆回溯",
+      "target_map_id": "memory_bridge",
+      "target_spawn_id": "from_old_stone_bridge",
+      "area": {
+        "x": 438,
+        "y": 228,
+        "w": 118,
+        "h": 92
+      },
+      "required_flags": [
+        "bakery_lie_discovered",
+        "tutorial_battle_02_cleared"
+      ],
+      "blocked_by_flags": [
+        "letter_001_sent"
+      ],
+      "locked_text": "桥灯下的雨还只是雨。真话还没被逼到这里。"
+    }
+  ],
+  "npcs": [
+    {
+      "instance_id": "wenheng_bridge_waiting",
+      "npc_id": "wenheng",
+      "position": {
+        "x": 586,
+        "y": 254
+      },
+      "facing": "left",
+      "required_flags": [
+        "letter_001_received"
+      ],
+      "blocked_by_flags": [
+        "letter_001_sent"
+      ],
+      "dialogue_id": "wenheng_first_delivery",
+      "dialogue_ids": [
+        "wenheng_first_delivery",
+        "wenheng_waiting_repeat"
+      ]
+    },
+    {
+      "instance_id": "wenheng_bridge_after_boss",
+      "npc_id": "wenheng",
+      "position": {
+        "x": 588,
+        "y": 254
+      },
+      "facing": "left",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": [
+        "ending_hook_seen"
+      ],
+      "dialogue_id": "wenheng_after_boss",
+      "dialogue_ids": [
+        "wenheng_after_boss"
+      ]
+    },
+    {
+      "instance_id": "linmo_bridge_after_boss",
+      "npc_id": "linmo",
+      "position": {
+        "x": 682,
+        "y": 294
+      },
+      "facing": "left",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": [
+        "ending_hook_seen"
+      ],
+      "dialogue_id": "linmo_after_boss"
+    }
+  ],
+  "interactable_ids": [
+    "old_bridge_lamp",
+    "old_bridge_rail_marks",
+    "old_bridge_dry_patch",
+    "old_bridge_river_reflection",
+    "old_bridge_cloth_bag",
+    "old_bridge_mailbox"
+  ],
+  "flags": {
+    "required": [
+      "letter_001_received"
+    ],
+    "on_enter": [
+      "entered_old_stone_bridge"
+    ],
+    "story_goals": [
+      "found_wenheng_bridge",
+      "tutorial_battle_02_cleared",
+      "bridge_memory_unlocked"
+    ]
+  },
+  "notes": [
+    "旧石桥是温衡主场景，第一次交信、桥灯调查和记忆入口都在这里。",
+    "记忆入口必须等面包店真相与桥灯教学战后开放。"
+  ]
+}

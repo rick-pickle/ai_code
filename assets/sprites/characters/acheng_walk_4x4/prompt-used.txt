@@ -1,0 +1,12 @@
+Asset type: player character, exact 4x4 top-down 3/4 pixel art walking sprite sheet for a refined 2D RPG.
+
+Subject: A quiet young dead-letter post carrier named Acheng, wearing a deep teal short postal cloak, a clearly visible red scarf, an old brown leather mail satchel, wet dark boots, and carrying a small copper rain lantern. Androgynous youthful silhouette, calm and determined, not heroic armor, not modern clothes.
+
+Sheet layout: exactly 16 equal cells in a 4x4 grid. Row 1 facing down, row 2 facing left, row 3 facing right, row 4 facing up. Column 1 neutral, column 2 left foot forward, column 3 neutral again, column 4 right foot forward.
+
+Style: polished readable pixel art for a 3/4 top-down RPG, crisp dark outlines, elegant small details, rain-town mood, readable silhouette at small size.
+
+Containment: the entire character must fit fully inside each cell, no scarf, lantern, bag, foot, or cloak edge may cross a cell edge, leave magenta margin on all four sides, use the same silhouette scale and bounding box in every frame.
+
+Background: 100% solid flat #FF00FF magenta background, no gradients, no text, no labels, no UI, no cell borders.
+

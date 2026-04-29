@@ -1,0 +1,95 @@
+{
+  "schema": "rainlamp.map.v1",
+  "id": "clocktower_exterior",
+  "scene_id": "Map_ClocktowerExterior",
+  "display_name": "旧钟楼外围",
+  "chapter": "序章",
+  "map_kind": "town_landmark",
+  "visual_model": "baked_raster_reference",
+  "asset_prompt_id": "",
+  "dimensions": {
+    "unit": "px",
+    "width": 960,
+    "height": 540
+  },
+  "ambient": {
+    "time_of_day": "early_morning_after_rain",
+    "weather": "rain_pause",
+    "palette": "清晨冷雾、湿石阶、旧钟铜绿",
+    "music_cue": "clocktower_hook"
+  },
+  "default_spawn_id": "from_rainlamp_street",
+  "spawns": [
+    {
+      "id": "from_rainlamp_street",
+      "label": "钟楼巷口",
+      "position": {
+        "x": 192,
+        "y": 374
+      },
+      "facing": "right",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": []
+    }
+  ],
+  "exits": [
+    {
+      "id": "to_rainlamp_street",
+      "label": "回到雨灯街",
+      "target_map_id": "rainlamp_street",
+      "target_spawn_id": "from_clocktower_exterior",
+      "area": {
+        "x": 76,
+        "y": 332,
+        "w": 116,
+        "h": 94
+      },
+      "required_flags": [],
+      "blocked_by_flags": [],
+      "locked_text": ""
+    }
+  ],
+  "npcs": [
+    {
+      "instance_id": "uncle_liang_clocktower",
+      "npc_id": "uncle_liang",
+      "position": {
+        "x": 626,
+        "y": 258
+      },
+      "facing": "left",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": [
+        "ending_hook_seen"
+      ],
+      "dialogue_id": "uncle_liang_clocktower_hook"
+    }
+  ],
+  "interactable_ids": [
+    "clocktower_red_bean_bun",
+    "clocktower_lit_lamp",
+    "clocktower_thirteenth_letter",
+    "clocktower_old_door",
+    "clocktower_wet_stairs"
+  ],
+  "flags": {
+    "required": [
+      "letter_001_sent"
+    ],
+    "on_enter": [
+      "entered_clocktower_exterior"
+    ],
+    "story_goals": [
+      "thirteenth_letter_seen",
+      "ending_hook_seen"
+    ]
+  },
+  "notes": [
+    "旧钟楼外围是 Demo 结尾钩子，不展开新任务，只投放第十三封信与梁叔悬念。",
+    "此地图应在第一封信寄出后开放，避免玩家过早接触主线谜底。"
+  ]
+}

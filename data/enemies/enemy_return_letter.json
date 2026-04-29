@@ -1,0 +1,36 @@
+{
+  "id": "enemy_return_letter",
+  "display_name": "无址回信",
+  "type": "boss",
+  "will": 120,
+  "obsession": 100,
+  "seal_layers": [
+    {
+      "id": "surface_waiting",
+      "name": "表层情绪：等待",
+      "reveal_skill": "open_seal",
+      "revealed_text": "它守着桥灯，像守着一个不会再来的黄昏。"
+    },
+    {
+      "id": "hidden_false_reply",
+      "name": "隐藏谎言：伪造来信",
+      "reveal_skill": "return_to_sender",
+      "revealed_text": "那些信并非来自远方，而是来自面包店后厨的灯下。"
+    },
+    {
+      "id": "truth_refuse_leave",
+      "name": "真实心结：不肯离开",
+      "reveal_skill": "send_letter",
+      "revealed_text": "没有地址的不是这封信，是他自己。"
+    }
+  ],
+  "skills": [
+    "wet_paper_storm",
+    "false_reply",
+    "bridge_lamp_sways",
+    "addressless_delivery",
+    "refuse_to_leave"
+  ],
+  "victory_condition": "use_send_letter_on_final_layer"
+}
+

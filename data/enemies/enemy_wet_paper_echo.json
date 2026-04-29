@@ -1,0 +1,55 @@
+{
+  "id": "enemy_wet_paper_echo",
+  "display_name": "湿信纸残影",
+  "type": "tutorial",
+  "will": 24,
+  "obsession": 34,
+  "seal_layers": [
+    {
+      "id": "surface_panic",
+      "name": "表层情绪：慌乱",
+      "reveal_skill": "open_seal",
+      "revealed_text": "它不是想伤人，只是怕信上的字再也没人看清。",
+      "break_obsession": 12,
+      "weakness": "archive_seal"
+    }
+  ],
+  "weakness_after_reveal": "archive_seal",
+  "skills": [
+    "wet_letters_slap",
+    "paper_panic"
+  ],
+  "intent_cycle": [
+    {
+      "id": "wet_letters_slap",
+      "display_name": "湿字扑面",
+      "intent_text": "湿掉的字迹要糊住邮路。",
+      "damage": 4,
+      "target": "acheng",
+      "status": "wet_words",
+      "status_turns": 2,
+      "tags": [
+        "attack",
+        "wet"
+      ]
+    },
+    {
+      "id": "paper_panic",
+      "display_name": "慌乱拍打",
+      "intent_text": "残影蜷成一团，下一拍会撞向信灯。",
+      "damage": 7,
+      "target": "acheng",
+      "can_archive": true,
+      "tags": [
+        "attack",
+        "strong"
+      ]
+    }
+  ],
+  "victory_condition": "obsession_zero",
+  "tutorial_hints": [
+    "先用拆封读出表层情绪。",
+    "拆封后使用封存，可以压住它的强力行动。"
+  ]
+}
+

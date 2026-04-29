@@ -1,0 +1,45 @@
+{
+  "id": "dlg_boss_return_letter_intro",
+  "lines": [
+    {
+      "speaker": "return_letter",
+      "portrait": "enemy_return_letter",
+      "text": "信没有错。"
+    },
+    {
+      "speaker": "return_letter",
+      "portrait": "enemy_return_letter",
+      "text": "等的人也没有错。"
+    },
+    {
+      "speaker": "return_letter",
+      "portrait": "enemy_return_letter",
+      "text": "错的是把门敲响的人。"
+    },
+    {
+      "speaker": "acheng",
+      "portrait": "acheng_serious",
+      "text": "温衡已经不在了。"
+    },
+    {
+      "speaker": "return_letter",
+      "portrait": "enemy_return_letter",
+      "text": "不在的人，怎么会等？"
+    },
+    {
+      "speaker": "return_letter",
+      "portrait": "enemy_return_letter",
+      "text": "不等的人，怎么会疼？"
+    },
+    {
+      "speaker": "qi",
+      "portrait": "qi_worried",
+      "text": "阿澄，小心。它不是不懂。它是不肯懂。"
+    }
+  ],
+  "choices": [],
+  "effects": [
+    "flag:boss_return_letter_started"
+  ]
+}
+

@@ -1,0 +1,118 @@
+{
+  "schema": "rainlamp.map.v1",
+  "id": "memory_bridge",
+  "scene_id": "Map_MemoryBridge",
+  "display_name": "记忆石桥",
+  "chapter": "序章",
+  "map_kind": "memory_space",
+  "visual_model": "baked_raster_reference",
+  "asset_prompt_id": "",
+  "dimensions": {
+    "unit": "px",
+    "width": 960,
+    "height": 540
+  },
+  "ambient": {
+    "time_of_day": "memory_dusk",
+    "weather": "muted_rain",
+    "palette": "褪色旧日、低饱和蓝灰、信纸白光",
+    "music_cue": "memory_bridge_truth"
+  },
+  "default_spawn_id": "from_old_stone_bridge",
+  "spawns": [
+    {
+      "id": "from_old_stone_bridge",
+      "label": "桥灯倒影",
+      "position": {
+        "x": 472,
+        "y": 314
+      },
+      "facing": "up",
+      "required_flags": [
+        "bakery_lie_discovered"
+      ],
+      "blocked_by_flags": []
+    }
+  ],
+  "exits": [
+    {
+      "id": "return_to_old_stone_bridge",
+      "label": "回到旧石桥",
+      "target_map_id": "old_stone_bridge",
+      "target_spawn_id": "from_memory_bridge",
+      "area": {
+        "x": 430,
+        "y": 398,
+        "w": 118,
+        "h": 74
+      },
+      "required_flags": [
+        "boss_return_letter_started"
+      ],
+      "blocked_by_flags": [
+        "letter_001_sent"
+      ],
+      "locked_text": "回去的路被未寄出的信压住了。"
+    },
+    {
+      "id": "after_boss_to_old_stone_bridge",
+      "label": "雨声回到现实",
+      "target_map_id": "old_stone_bridge",
+      "target_spawn_id": "after_boss",
+      "area": {
+        "x": 430,
+        "y": 398,
+        "w": 118,
+        "h": 74
+      },
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": [],
+      "locked_text": ""
+    }
+  ],
+  "npcs": [
+    {
+      "instance_id": "young_wenheng_memory",
+      "npc_id": "young_wenheng",
+      "position": {
+        "x": 526,
+        "y": 246
+      },
+      "facing": "left",
+      "required_flags": [
+        "bakery_lie_discovered"
+      ],
+      "blocked_by_flags": [
+        "letter_001_sent"
+      ],
+      "dialogue_id": "young_wenheng_unsent_letter"
+    }
+  ],
+  "interactable_ids": [
+    "memory_bridge_mailbox",
+    "memory_bridge_unsent_letter",
+    "memory_bridge_lamp",
+    "memory_bridge_truth_pool",
+    "memory_bridge_boss_trigger"
+  ],
+  "flags": {
+    "required": [
+      "bakery_lie_discovered",
+      "tutorial_battle_02_cleared"
+    ],
+    "on_enter": [
+      "memory_bridge_seen",
+      "bridge_memory_unlocked"
+    ],
+    "story_goals": [
+      "boss_return_letter_started",
+      "letter_001_sent"
+    ]
+  },
+  "notes": [
+    "记忆石桥不作为普通探索地图，重点是真相调查、Boss 前对白和战斗入口。",
+    "Boss 入口由桥灯与信封调查共同推进，不需要随机遇敌。"
+  ]
+}

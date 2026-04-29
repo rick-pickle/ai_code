@@ -1,0 +1,14 @@
+Use case: final-quality game map concept asset and baked raster reference.
+Asset type: 3/4 top-down pixel art RPG town street map for a Chinese narrative 2D RPG vertical slice.
+
+Primary request: Create the main street of "雨灯镇" / Rainlamp Town, a rainy dusk hub connecting the old post office, paper umbrella shop, bakery, old stone bridge, and a later clocktower alley.
+
+Canvas and camera: 16:9 composition, designed to crop cleanly to 960x540 gameplay pixels. 3/4 top-down RPG exploration view, not isometric. The player route should read as a gentle horizontal street with side entrances and enough open walking space.
+
+Scene content: wet dark stone pavement, shallow puddles reflecting lanterns, warm shop lights in a cold blue-gray rain palette, old post office entrance on the left, paper umbrella shop with umbrella rack, bakery with soft amber window light near the center, a street rain lantern as a visual anchor, narrow alley leading toward an old clocktower in the upper area, stone bridge entrance hinted clearly at the far right, small eaves, crates, gutters, rain chains, and soft mist.
+
+Readable gameplay anchors: spawn outside old post office, entrance to bakery, route to old stone bridge, later route to clocktower alley, NPC standing spots near umbrella shop and street lamp, investigation puddle, bridge direction sign without readable text. Place props along edges and keep the central path unobstructed for Godot collision.
+
+Style: polished modern pixel art for a refined 2D RPG, crisp silhouettes, readable gameplay shapes, cold rainy town mood with warm amber lantern accents, gentle melancholy, not 8-bit, not chunky retro, not realistic painting, not high-detail noise.
+
+Constraints: no readable text, no labels, no UI, no speech bubbles, no characters, no watermark, no logo. Avoid extreme darkness, oversized empty plazas, clutter in the walking path, and confusing entrances.

@@ -1,0 +1,231 @@
+{
+  "schema": "rainlamp.map.v1",
+  "id": "rainlamp_street",
+  "scene_id": "Map_RainlampStreet",
+  "display_name": "雨灯街",
+  "chapter": "序章",
+  "map_kind": "town_street",
+  "visual_model": "baked_raster_reference",
+  "asset_prompt_id": "rainlamp_street_map",
+  "dimensions": {
+    "unit": "px",
+    "width": 960,
+    "height": 540
+  },
+  "ambient": {
+    "time_of_day": "dusk_to_night",
+    "weather": "steady_rain",
+    "palette": "冷蓝石板与暖黄店灯",
+    "music_cue": "rainlamp_street_soft"
+  },
+  "default_spawn_id": "from_post_office",
+  "spawns": [
+    {
+      "id": "from_post_office",
+      "label": "旧邮局门口",
+      "position": {
+        "x": 142,
+        "y": 352
+      },
+      "facing": "right",
+      "required_flags": [],
+      "blocked_by_flags": []
+    },
+    {
+      "id": "from_bakery",
+      "label": "面包店门口",
+      "position": {
+        "x": 450,
+        "y": 386
+      },
+      "facing": "down",
+      "required_flags": [],
+      "blocked_by_flags": []
+    },
+    {
+      "id": "from_old_stone_bridge",
+      "label": "旧石桥街口",
+      "position": {
+        "x": 780,
+        "y": 318
+      },
+      "facing": "left",
+      "required_flags": [],
+      "blocked_by_flags": []
+    },
+    {
+      "id": "from_clocktower_exterior",
+      "label": "旧钟楼巷口",
+      "position": {
+        "x": 588,
+        "y": 142
+      },
+      "facing": "down",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": []
+    }
+  ],
+  "exits": [
+    {
+      "id": "to_post_office",
+      "label": "进入旧邮局",
+      "target_map_id": "post_office",
+      "target_spawn_id": "from_rainlamp_street",
+      "area": {
+        "x": 86,
+        "y": 292,
+        "w": 90,
+        "h": 82
+      },
+      "required_flags": [],
+      "blocked_by_flags": [],
+      "locked_text": ""
+    },
+    {
+      "id": "to_bakery",
+      "label": "进入面包店",
+      "target_map_id": "bakery",
+      "target_spawn_id": "from_rainlamp_street",
+      "area": {
+        "x": 404,
+        "y": 302,
+        "w": 92,
+        "h": 68
+      },
+      "required_flags": [],
+      "blocked_by_flags": [],
+      "locked_text": ""
+    },
+    {
+      "id": "to_old_stone_bridge",
+      "label": "前往旧石桥",
+      "target_map_id": "old_stone_bridge",
+      "target_spawn_id": "from_rainlamp_street",
+      "area": {
+        "x": 790,
+        "y": 270,
+        "w": 132,
+        "h": 94
+      },
+      "required_flags": [
+        "letter_001_received"
+      ],
+      "blocked_by_flags": [],
+      "locked_text": "第一封信还没确认地址。桥在雨里，急不得。"
+    },
+    {
+      "id": "to_clocktower_exterior",
+      "label": "前往旧钟楼外围",
+      "target_map_id": "clocktower_exterior",
+      "target_spawn_id": "from_rainlamp_street",
+      "area": {
+        "x": 548,
+        "y": 78,
+        "w": 96,
+        "h": 74
+      },
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": [],
+      "locked_text": "旧钟楼的巷子被雨幕遮住。现在看过去，只剩一片水光。"
+    }
+  ],
+  "npcs": [
+    {
+      "instance_id": "umbrella_owner_street",
+      "npc_id": "umbrella_shop_owner",
+      "position": {
+        "x": 292,
+        "y": 296
+      },
+      "facing": "down",
+      "required_flags": [],
+      "blocked_by_flags": [
+        "letter_001_sent"
+      ],
+      "dialogue_id": "umbrella_owner_ask_wenheng",
+      "dialogue_ids": [
+        "umbrella_owner_ask_wenheng",
+        "umbrella_owner_after_bridge"
+      ]
+    },
+    {
+      "instance_id": "rain_counting_child_street",
+      "npc_id": "rain_counting_child",
+      "position": {
+        "x": 628,
+        "y": 368
+      },
+      "facing": "left",
+      "required_flags": [],
+      "blocked_by_flags": [
+        "letter_001_sent"
+      ],
+      "dialogue_id": "child_counts_rain",
+      "dialogue_ids": [
+        "child_counts_rain",
+        "child_after_boss"
+      ]
+    },
+    {
+      "instance_id": "rain_counting_child_after_boss",
+      "npc_id": "rain_counting_child",
+      "position": {
+        "x": 628,
+        "y": 368
+      },
+      "facing": "left",
+      "required_flags": [
+        "letter_001_sent"
+      ],
+      "blocked_by_flags": [],
+      "dialogue_id": "child_after_boss",
+      "dialogue_ids": [
+        "child_after_boss"
+      ]
+    },
+    {
+      "instance_id": "uncle_liang_far_street",
+      "npc_id": "uncle_liang",
+      "position": {
+        "x": 672,
+        "y": 160
+      },
+      "facing": "down",
+      "required_flags": [],
+      "blocked_by_flags": [
+        "met_uncle_liang_street",
+        "letter_001_sent"
+      ],
+      "dialogue_id": "uncle_liang_first_warning"
+    }
+  ],
+  "interactable_ids": [
+    "rainlamp_street_lamp",
+    "rainlamp_street_puddle",
+    "rainlamp_street_bridge_sign",
+    "rainlamp_street_bakery_window",
+    "rainlamp_street_umbrella_rack",
+    "rainlamp_street_clocktower_alley"
+  ],
+  "flags": {
+    "required": [
+      "letter_001_received"
+    ],
+    "on_enter": [
+      "entered_rainlamp_street"
+    ],
+    "story_goals": [
+      "asked_umbrella_owner_about_wenheng",
+      "asked_child_about_wenheng",
+      "found_wenheng_bridge"
+    ]
+  },
+  "notes": [
+    "雨灯街是第一封信的问路枢纽，连接旧邮局、面包店、旧石桥与结尾旧钟楼。",
+    "旧钟楼出口在第一封信寄出后开放，用于 Demo 钩子。"
+  ]
+}

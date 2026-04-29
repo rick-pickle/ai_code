@@ -1,0 +1,76 @@
+{
+  "skills": [
+    {
+      "id": "open_seal",
+      "display_name": "拆封",
+      "owner_id": "acheng",
+      "cost_lamplight": 2,
+      "target_type": "enemy",
+      "description": "揭示一层封缄，暴露敌人的真实弱点。",
+      "tags": [
+        "seal",
+        "truth"
+      ]
+    },
+    {
+      "id": "archive_seal",
+      "display_name": "封存",
+      "owner_id": "acheng",
+      "cost_lamplight": 2,
+      "target_type": "enemy",
+      "description": "压制敌方下一次强力行动。",
+      "tags": [
+        "control",
+        "seal"
+      ]
+    },
+    {
+      "id": "return_to_sender",
+      "display_name": "退回",
+      "owner_id": "acheng",
+      "cost_lamplight": 3,
+      "target_type": "enemy",
+      "description": "反弹谎言类攻击或状态。",
+      "tags": [
+        "counter",
+        "lie"
+      ]
+    },
+    {
+      "id": "send_letter",
+      "display_name": "寄出",
+      "owner_id": "acheng",
+      "cost_lamplight": 0,
+      "target_type": "enemy",
+      "description": "在真实心结已被拆封后完成投递。",
+      "tags": [
+        "finish",
+        "truth"
+      ]
+    },
+    {
+      "id": "lamplight",
+      "display_name": "添灯",
+      "owner_id": "qi",
+      "cost_lamplight": 2,
+      "target_type": "ally",
+      "description": "恢复少量意志。",
+      "tags": [
+        "heal"
+      ]
+    },
+    {
+      "id": "see_through",
+      "display_name": "照见",
+      "owner_id": "qi",
+      "cost_lamplight": 1,
+      "target_type": "enemy",
+      "description": "显示敌人下回合意图。",
+      "tags": [
+        "intent",
+        "truth"
+      ]
+    }
+  ]
+}
+

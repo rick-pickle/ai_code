@@ -1,0 +1,104 @@
+{
+  "schema": "rainlamp.map.v1",
+  "id": "post_office",
+  "scene_id": "Map_PostOffice",
+  "display_name": "旧邮局",
+  "chapter": "序章",
+  "map_kind": "interior",
+  "visual_model": "baked_raster_reference",
+  "asset_prompt_id": "post_office_map",
+  "dimensions": {
+    "unit": "px",
+    "width": 640,
+    "height": 360
+  },
+  "ambient": {
+    "time_of_day": "night",
+    "weather": "rain_outside",
+    "palette": "暖灯内景与冷雨窗光",
+    "music_cue": "rainlamp_post_office_low"
+  },
+  "default_spawn_id": "from_intro",
+  "spawns": [
+    {
+      "id": "from_intro",
+      "label": "开场进入",
+      "position": {
+        "x": 318,
+        "y": 300
+      },
+      "facing": "up",
+      "required_flags": [],
+      "blocked_by_flags": []
+    },
+    {
+      "id": "from_rainlamp_street",
+      "label": "从雨灯街返回",
+      "position": {
+        "x": 318,
+        "y": 314
+      },
+      "facing": "up",
+      "required_flags": [],
+      "blocked_by_flags": []
+    }
+  ],
+  "exits": [
+    {
+      "id": "to_rainlamp_street",
+      "label": "前往雨灯街",
+      "target_map_id": "rainlamp_street",
+      "target_spawn_id": "from_post_office",
+      "area": {
+        "x": 278,
+        "y": 332,
+        "w": 84,
+        "h": 22
+      },
+      "required_flags": [
+        "postman_handbook_obtained",
+        "letter_001_received"
+      ],
+      "blocked_by_flags": [],
+      "locked_text": "柜台上的手册和第一封信还没看完。雨声在门外等着。"
+    }
+  ],
+  "npcs": [
+    {
+      "instance_id": "qi_post_office",
+      "npc_id": "qi",
+      "position": {
+        "x": 386,
+        "y": 188
+      },
+      "facing": "down",
+      "required_flags": [
+        "postman_handbook_obtained"
+      ],
+      "blocked_by_flags": [],
+      "dialogue_id": "qi_post_office_hint"
+    }
+  ],
+  "interactable_ids": [
+    "post_office_handbook",
+    "post_office_first_letter",
+    "post_office_notice_board",
+    "post_office_empty_mailbox",
+    "post_office_uniform",
+    "post_office_rain_window"
+  ],
+  "flags": {
+    "required": [],
+    "on_enter": [
+      "entered_post_office"
+    ],
+    "story_goals": [
+      "postman_handbook_obtained",
+      "letter_001_received"
+    ]
+  },
+  "notes": [
+    "垂直切片起点，承担教程、手册、第一封信和祈登场。",
+    "出口在拿到手册并查看第一封信前保持软锁。"
+  ]
+}

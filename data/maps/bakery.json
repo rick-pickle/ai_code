@@ -1,0 +1,92 @@
+{
+  "schema": "rainlamp.map.v1",
+  "id": "bakery",
+  "scene_id": "Map_Bakery",
+  "display_name": "面包店",
+  "chapter": "序章",
+  "map_kind": "interior",
+  "visual_model": "baked_raster_reference",
+  "asset_prompt_id": "",
+  "dimensions": {
+    "unit": "px",
+    "width": 640,
+    "height": 360
+  },
+  "ambient": {
+    "time_of_day": "dusk",
+    "weather": "rain_outside",
+    "palette": "暖炉光、红豆馅、潮湿窗沿",
+    "music_cue": "bakery_warm_low"
+  },
+  "default_spawn_id": "from_rainlamp_street",
+  "spawns": [
+    {
+      "id": "from_rainlamp_street",
+      "label": "店门",
+      "position": {
+        "x": 318,
+        "y": 314
+      },
+      "facing": "up",
+      "required_flags": [],
+      "blocked_by_flags": []
+    }
+  ],
+  "exits": [
+    {
+      "id": "to_rainlamp_street",
+      "label": "回到雨灯街",
+      "target_map_id": "rainlamp_street",
+      "target_spawn_id": "from_bakery",
+      "area": {
+        "x": 276,
+        "y": 332,
+        "w": 88,
+        "h": 24
+      },
+      "required_flags": [],
+      "blocked_by_flags": [],
+      "locked_text": ""
+    }
+  ],
+  "npcs": [
+    {
+      "instance_id": "linmo_bakery_counter",
+      "npc_id": "linmo",
+      "position": {
+        "x": 330,
+        "y": 154
+      },
+      "facing": "down",
+      "required_flags": [],
+      "blocked_by_flags": [],
+      "dialogue_id": "linmo_about_wenheng",
+      "dialogue_ids": [
+        "linmo_about_wenheng",
+        "linmo_key_dialogue"
+      ]
+    }
+  ],
+  "interactable_ids": [
+    "bakery_counter",
+    "bakery_red_bean_bun",
+    "bakery_linmo_drawer",
+    "bakery_delivery_receipts",
+    "bakery_steamed_window"
+  ],
+  "flags": {
+    "required": [],
+    "on_enter": [
+      "entered_bakery"
+    ],
+    "story_goals": [
+      "received_red_bean_bun",
+      "linmo_drawer_discovered",
+      "bakery_lie_discovered"
+    ]
+  },
+  "notes": [
+    "面包店在第一次去桥前提供温衡位置，在温衡拒绝拆信后揭示林茉代写来信。",
+    "林茉抽屉是第一封信真相推进的关键调查点。"
+  ]
+}

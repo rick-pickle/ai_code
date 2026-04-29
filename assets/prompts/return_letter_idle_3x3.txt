@@ -1,0 +1,12 @@
+Asset type: creature boss, exact 3x3 pixel art idle animation sheet in 3/4 battle view.
+
+Subject: "Return Letter Without Address", a sorrowful memory-boss made from wet old letters, blank envelopes, torn postal seals, broken red postmarks, rainwater ink trails, and the reflected light of a stone bridge lantern. The creature should look like a folded mass of letters forming a hunched spectral body, with no normal human face, only an empty address window glowing faintly. Emotional tone: grief, waiting, denial, not evil.
+
+Motion: nine-frame idle aura loop. The letter body slowly breathes and unfolds, wet paper edges tremble, broken postmarks pulse faintly, rain-ink drips inward, then the silhouette returns to its original shape. Keep it loopable and readable.
+
+Style: polished readable pixel art boss sprite for a refined 2D RPG battle, strong silhouette, crisp edges, cold blue-gray wet paper with small red postmark accents and warm bridge-lamp highlights.
+
+Containment: exactly 9 equal cells in a 3x3 grid, same boss identity in every cell, same bounding box and same pixel scale in every frame, subject fills about 60% of each cell, no paper strip, ink trail, glow, seal, or rain effect may cross a cell edge, leave magenta margin on all four sides.
+
+Background: 100% solid flat #FF00FF magenta background, no gradients, no text, no labels, no UI, no borders.
+

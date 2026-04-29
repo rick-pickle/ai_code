@@ -1,0 +1,29 @@
+# Godot generated files
+.godot/
+.import/
+*.import
+
+# Godot export settings that may contain local paths or credentials
+export.cfg
+export_presets.cfg
+
+# Build and export outputs
+build/
+dist/
+exports/
+*.pck
+*.zip
+*.exe
+*.app
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

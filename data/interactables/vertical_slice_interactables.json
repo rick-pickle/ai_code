@@ -1,0 +1,833 @@
+{
+  "schema": "rainlamp.interactables.v1",
+  "interactables_by_map": {
+    "post_office": [
+      {
+        "id": "post_office_handbook",
+        "display_name": "邮差手册",
+        "kind": "story_pickup",
+        "position": {
+          "x": 320,
+          "y": 146
+        },
+        "radius": 28,
+        "required_flags": [],
+        "blocked_by_flags": [
+          "postman_handbook_obtained"
+        ],
+        "text": [
+          "一本旧手册摊在柜台上，纸页潮得发皱。",
+          "第一页只有一行字：请把未送达的，送到该到的地方。"
+        ],
+        "repeat_text": [
+          "手册安静地合上，像刚刚只是替你确认了一件旧事。"
+        ],
+        "effects": [
+          "flag:postman_handbook_obtained",
+          "quest_step:letter_001_bridge_waiter.arrive_post_office"
+        ]
+      },
+      {
+        "id": "post_office_first_letter",
+        "display_name": "第一封湿信",
+        "kind": "story_pickup",
+        "position": {
+          "x": 382,
+          "y": 154
+        },
+        "radius": 26,
+        "required_flags": [
+          "postman_handbook_obtained"
+        ],
+        "blocked_by_flags": [
+          "letter_001_received"
+        ],
+        "text": [
+          "最上面的信封比其他信更潮，像刚从雨里被捞出来。",
+          "封面还能辨认：温衡 收。雨灯镇旧石桥。",
+          "祈说：名字没化，地址也没化。这封信很想被送到。"
+        ],
+        "repeat_text": [
+          "邮包里少了一点湿意。第一封信已经在等你出门。"
+        ],
+        "effects": [
+          "flag:letter_001_received",
+          "quest_step:letter_001_bridge_waiter.ask_about_wenheng"
+        ]
+      },
+      {
+        "id": "post_office_notice_board",
+        "display_name": "旧邮局公告板",
+        "kind": "investigation",
+        "position": {
+          "x": 180,
+          "y": 96
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "公告纸被雨气泡软，大多字迹已经模糊。",
+          "只有一张讣告被人钉得很牢。",
+          "讣告的名字被新纸盖住了。"
+        ],
+        "repeat_text": [
+          "新纸边缘卷起一点，下面的名字还是看不清。"
+        ],
+        "effects": [
+          "flag:inspected_post_office_notice_board"
+        ]
+      },
+      {
+        "id": "post_office_empty_mailbox",
+        "display_name": "空信箱",
+        "kind": "investigation",
+        "position": {
+          "x": 112,
+          "y": 230
+        },
+        "radius": 28,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "信箱里没有信，只有一点积水。",
+          "水面映出你的脸，比你本人慢了一拍。"
+        ],
+        "repeat_text": [
+          "积水轻轻晃动，像有人刚刚把目光移开。"
+        ],
+        "effects": [
+          "flag:inspected_empty_mailbox"
+        ]
+      },
+      {
+        "id": "post_office_uniform",
+        "display_name": "旧邮差制服",
+        "kind": "investigation",
+        "position": {
+          "x": 490,
+          "y": 94
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "旧制服挂在墙上，肩口磨得发白。",
+          "口袋里有半张便签：不要拆第十三封。"
+        ],
+        "repeat_text": [
+          "便签只剩半张，像另一半被谁急急收走。"
+        ],
+        "effects": [
+          "flag:found_note_do_not_open_13"
+        ]
+      },
+      {
+        "id": "post_office_rain_window",
+        "display_name": "雨窗",
+        "kind": "flavor",
+        "position": {
+          "x": 536,
+          "y": 178
+        },
+        "radius": 22,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "窗外的雨把街灯拉成细线。",
+          "有一瞬间，你看见桥的影子停在玻璃上。"
+        ],
+        "repeat_text": [
+          "雨线继续往下落，没有一条真正落到地上。"
+        ],
+        "effects": []
+      }
+    ],
+    "rainlamp_street": [
+      {
+        "id": "rainlamp_street_lamp",
+        "display_name": "街心雨灯",
+        "kind": "investigation",
+        "position": {
+          "x": 514,
+          "y": 264
+        },
+        "radius": 30,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "铜制雨灯挂在街心，灯罩里积着一圈水光。",
+          "灯火不大，却把每个经过的人照得像刚从远处回来。"
+        ],
+        "repeat_text": [
+          "祈靠近灯罩，轻轻哼了一声：它比我老。别告诉它。"
+        ],
+        "effects": [
+          "flag:inspected_rainlamp_street_lamp"
+        ]
+      },
+      {
+        "id": "rainlamp_street_puddle",
+        "display_name": "街边水洼",
+        "kind": "investigation",
+        "position": {
+          "x": 706,
+          "y": 398
+        },
+        "radius": 26,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "水洼映出你的靴子，也映出一双不属于你的脚。",
+          "你眨眼时，那双脚先一步消失了。"
+        ],
+        "repeat_text": [
+          "水面只剩灯影。祈说：我说了，别跟倒影走。"
+        ],
+        "effects": [
+          "flag:inspected_slow_reflection"
+        ]
+      },
+      {
+        "id": "rainlamp_street_bridge_sign",
+        "display_name": "旧石桥路牌",
+        "kind": "navigation_hint",
+        "position": {
+          "x": 804,
+          "y": 252
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "木牌被雨泡得发黑，箭头还勉强指向街尽头。",
+          "旧石桥三个字只有石字最清楚。"
+        ],
+        "repeat_text": [
+          "箭头下方有新刻的短线，像有人每天经过时都确认一次方向。"
+        ],
+        "effects": [
+          "flag:found_old_bridge_direction"
+        ]
+      },
+      {
+        "id": "rainlamp_street_bakery_window",
+        "display_name": "面包店窗灯",
+        "kind": "navigation_hint",
+        "position": {
+          "x": 442,
+          "y": 292
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "玻璃后有红豆包的热气。",
+          "暖光贴在窗上，比街上的灯更像一句挽留。"
+        ],
+        "repeat_text": [
+          "窗上有一小块被擦得很干净，正好能看见柜台。"
+        ],
+        "effects": [
+          "flag:noticed_bakery_window"
+        ]
+      },
+      {
+        "id": "rainlamp_street_umbrella_rack",
+        "display_name": "纸伞架",
+        "kind": "flavor",
+        "position": {
+          "x": 286,
+          "y": 246
+        },
+        "radius": 22,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "纸伞整齐靠在门边，每一把都写着借伞人的名字。",
+          "最外侧有一把没有名字，伞面干得出奇。"
+        ],
+        "repeat_text": [
+          "伞架旁压着一张小纸：桥边那位仍旧不借。"
+        ],
+        "effects": [
+          "flag:inspected_umbrella_rack"
+        ]
+      },
+      {
+        "id": "rainlamp_street_clocktower_alley",
+        "display_name": "钟楼巷口",
+        "kind": "navigation_hint",
+        "position": {
+          "x": 590,
+          "y": 118
+        },
+        "radius": 26,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "巷口深处传来很轻的钟摆声。",
+          "雨幕太密，暂时看不清钟楼。"
+        ],
+        "conditional_text": [
+          {
+            "required_flags": [
+              "letter_001_sent"
+            ],
+            "blocked_by_flags": [],
+            "text": [
+              "雨停了一瞬。巷子露出旧钟楼的轮廓。",
+              "有人站在钟楼下，像早就知道你会来。"
+            ],
+            "effects": [
+              "flag:clocktower_alley_revealed"
+            ]
+          }
+        ],
+        "repeat_text": [
+          "钟摆声隔着雨，慢得像一句没说完的话。"
+        ],
+        "effects": []
+      }
+    ],
+    "bakery": [
+      {
+        "id": "bakery_counter",
+        "display_name": "面包店柜台",
+        "kind": "investigation",
+        "position": {
+          "x": 318,
+          "y": 176
+        },
+        "radius": 26,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "柜台上摆着刚出炉的红豆包。",
+          "热气很轻，像一句没说出口的道歉。"
+        ],
+        "repeat_text": [
+          "柜台木纹里有细小的白粉，像每天清晨都被仔细擦过。"
+        ],
+        "effects": [
+          "flag:bakery_counter_seen"
+        ]
+      },
+      {
+        "id": "bakery_red_bean_bun",
+        "display_name": "红豆包",
+        "kind": "story_pickup",
+        "position": {
+          "x": 374,
+          "y": 178
+        },
+        "radius": 20,
+        "required_flags": [
+          "letter_001_received"
+        ],
+        "blocked_by_flags": [
+          "received_red_bean_bun"
+        ],
+        "text": [
+          "林茉把一只纸袋推过来。",
+          "她说：如果他没吃饭，就把这个给他吧。别说是我给的。"
+        ],
+        "repeat_text": [
+          "纸袋还温着，油纸上有一点红豆馅的甜味。"
+        ],
+        "effects": [
+          "flag:received_red_bean_bun"
+        ]
+      },
+      {
+        "id": "bakery_linmo_drawer",
+        "display_name": "林茉的抽屉",
+        "kind": "key_investigation",
+        "position": {
+          "x": 430,
+          "y": 146
+        },
+        "radius": 22,
+        "required_flags": [
+          "found_wenheng_bridge"
+        ],
+        "blocked_by_flags": [
+          "bakery_lie_discovered"
+        ],
+        "locked_text": "抽屉关得很紧。现在还没有理由打开。",
+        "text": [
+          "抽屉里有许多没寄出的信纸。",
+          "每一张开头都写着：爹，我在外面很好。",
+          "笔迹很稳，稳得像练过很多次。"
+        ],
+        "repeat_text": [
+          "那些信纸被重新收好。抽屉合上时，没有发出声音。"
+        ],
+        "effects": [
+          "flag:linmo_drawer_discovered",
+          "flag:bakery_lie_discovered",
+          "quest_step:letter_001_bridge_waiter.investigate_bakery"
+        ]
+      },
+      {
+        "id": "bakery_delivery_receipts",
+        "display_name": "旧送货单",
+        "kind": "investigation",
+        "position": {
+          "x": 178,
+          "y": 132
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "送货单按日期夹好，每隔几天就有一行：旧石桥，红豆包一只。",
+          "收款栏一直空着。"
+        ],
+        "repeat_text": [
+          "最后一张送货单的日期是今天。墨还没干透。"
+        ],
+        "effects": [
+          "flag:inspected_bakery_receipts"
+        ]
+      },
+      {
+        "id": "bakery_steamed_window",
+        "display_name": "起雾的窗",
+        "kind": "flavor",
+        "position": {
+          "x": 510,
+          "y": 104
+        },
+        "radius": 22,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "窗上雾气很厚，外面的雨灯只剩一团暖影。",
+          "有人用手指在雾上写过一个温字，又很快擦掉。"
+        ],
+        "repeat_text": [
+          "雾气重新漫上来，像什么都没发生。"
+        ],
+        "effects": [
+          "flag:inspected_bakery_window"
+        ]
+      }
+    ],
+    "old_stone_bridge": [
+      {
+        "id": "old_bridge_lamp",
+        "display_name": "旧石桥桥灯",
+        "kind": "key_investigation",
+        "position": {
+          "x": 502,
+          "y": 232
+        },
+        "radius": 30,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "桥灯在雨里晃。灯下有一块干燥的地方。",
+          "像有人每天都站在那里，把雨也等累了。"
+        ],
+        "conditional_text": [
+          {
+            "required_flags": [
+              "bakery_lie_discovered",
+              "tutorial_battle_02_cleared"
+            ],
+            "blocked_by_flags": [
+              "bridge_memory_unlocked"
+            ],
+            "text": [
+              "桥灯下的雨声忽然变低。",
+              "信封自己打开一角，桥面出现旧日倒影。"
+            ],
+            "effects": [
+              "flag:bridge_memory_unlocked"
+            ]
+          }
+        ],
+        "repeat_text": [
+          "灯火稳了一点，像终于知道自己该照哪里。"
+        ],
+        "effects": [
+          "flag:inspected_old_bridge_lamp"
+        ]
+      },
+      {
+        "id": "old_bridge_rail_marks",
+        "display_name": "桥栏刻痕",
+        "kind": "investigation",
+        "position": {
+          "x": 610,
+          "y": 210
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "木栏上刻着十三道短线。",
+          "前十二道很旧，最后一道是新的。"
+        ],
+        "repeat_text": [
+          "最后一道刻痕边缘很新，像刚被雨水洗过。"
+        ],
+        "effects": [
+          "flag:inspected_bridge_rail_marks"
+        ]
+      },
+      {
+        "id": "old_bridge_dry_patch",
+        "display_name": "灯下干痕",
+        "kind": "investigation",
+        "position": {
+          "x": 522,
+          "y": 280
+        },
+        "radius": 22,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "桥面只有这里没有湿透。",
+          "不是雨绕开了它，是有人站得太久。"
+        ],
+        "repeat_text": [
+          "石缝里有很淡的红豆甜味。"
+        ],
+        "effects": [
+          "flag:inspected_bridge_dry_patch"
+        ]
+      },
+      {
+        "id": "old_bridge_river_reflection",
+        "display_name": "河面倒影",
+        "kind": "flavor",
+        "position": {
+          "x": 456,
+          "y": 382
+        },
+        "radius": 28,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "河面映着桥，也映着一个没有撑伞的背影。",
+          "那背影站在温衡身后，一直没有靠近。"
+        ],
+        "repeat_text": [
+          "倒影被雨点打碎，又很快拼回原样。"
+        ],
+        "effects": [
+          "flag:inspected_bridge_reflection"
+        ]
+      },
+      {
+        "id": "old_bridge_cloth_bag",
+        "display_name": "旧布包",
+        "kind": "investigation",
+        "position": {
+          "x": 632,
+          "y": 284
+        },
+        "radius": 20,
+        "required_flags": [
+          "found_wenheng_bridge"
+        ],
+        "blocked_by_flags": [
+          "letter_001_sent"
+        ],
+        "text": [
+          "温衡手里的布包磨得发白。",
+          "袋口露出半块油纸，里面像是很久以前凉掉的点心。"
+        ],
+        "repeat_text": [
+          "温衡把布包抱得更紧，像怕雨把里面的东西也带走。"
+        ],
+        "effects": [
+          "flag:inspected_wenheng_cloth_bag"
+        ]
+      },
+      {
+        "id": "old_bridge_mailbox",
+        "display_name": "桥头旧信箱",
+        "kind": "investigation",
+        "position": {
+          "x": 350,
+          "y": 258
+        },
+        "radius": 24,
+        "required_flags": [],
+        "blocked_by_flags": [],
+        "text": [
+          "桥头的旧信箱已经停用，投信口却被擦得很亮。",
+          "里面没有信，只有被反复放进去又拿出来的痕迹。"
+        ],
+        "repeat_text": [
+          "信箱深处传来很轻的回声，像纸页摩擦。"
+        ],
+        "effects": [
+          "flag:inspected_bridge_mailbox"
+        ]
+      }
+    ],
+    "memory_bridge": [
+      {
+        "id": "memory_bridge_mailbox",
+        "display_name": "记忆中的信箱",
+        "kind": "key_investigation",
+        "position": {
+          "x": 388,
+          "y": 246
+        },
+        "radius": 26,
+        "required_flags": [
+          "memory_bridge_seen"
+        ],
+        "blocked_by_flags": [
+          "boss_return_letter_started"
+        ],
+        "text": [
+          "信箱在记忆里还是新的，红漆没有剥落。",
+          "投信口一开一合，像有人在里面反复吸气。"
+        ],
+        "repeat_text": [
+          "信箱里传来回声：可是他已经回不来了。"
+        ],
+        "effects": [
+          "flag:memory_mailbox_seen"
+        ]
+      },
+      {
+        "id": "memory_bridge_unsent_letter",
+        "display_name": "未寄出的告别信",
+        "kind": "key_investigation",
+        "position": {
+          "x": 524,
+          "y": 282
+        },
+        "radius": 24,
+        "required_flags": [
+          "memory_bridge_seen"
+        ],
+        "blocked_by_flags": [
+          "boss_return_letter_started"
+        ],
+        "text": [
+          "信纸边缘干净得不真实。",
+          "开头写着：孩子，家里一切都好。",
+          "后面的字被温衡的手掌压住，像一扇没敢打开的门。"
+        ],
+        "repeat_text": [
+          "信纸被风掀起一点，又被年轻的温衡按回去。"
+        ],
+        "effects": [
+          "flag:memory_unsent_letter_seen"
+        ]
+      },
+      {
+        "id": "memory_bridge_lamp",
+        "display_name": "记忆桥灯",
+        "kind": "investigation",
+        "position": {
+          "x": 486,
+          "y": 220
+        },
+        "radius": 28,
+        "required_flags": [
+          "memory_bridge_seen"
+        ],
+        "blocked_by_flags": [],
+        "text": [
+          "桥灯没有雨水，只有一层旧日的灰。",
+          "灯芯里压着一枚褪色邮戳。"
+        ],
+        "repeat_text": [
+          "邮戳的日期晃了一下，始终看不清年份。"
+        ],
+        "effects": [
+          "flag:memory_lamp_seen"
+        ]
+      },
+      {
+        "id": "memory_bridge_truth_pool",
+        "display_name": "真话的水洼",
+        "kind": "key_investigation",
+        "position": {
+          "x": 584,
+          "y": 338
+        },
+        "radius": 28,
+        "required_flags": [
+          "memory_unsent_letter_seen",
+          "memory_mailbox_seen"
+        ],
+        "blocked_by_flags": [
+          "boss_return_letter_started"
+        ],
+        "text": [
+          "水洼里没有倒影，只有一行被冲散的字。",
+          "你辨认出最后几个字：别等我。"
+        ],
+        "repeat_text": [
+          "那行字重新散开，像从来没有完整过。"
+        ],
+        "effects": [
+          "flag:memory_truth_line_seen"
+        ]
+      },
+      {
+        "id": "memory_bridge_boss_trigger",
+        "display_name": "湿信纸旋涡",
+        "kind": "boss_trigger",
+        "position": {
+          "x": 492,
+          "y": 292
+        },
+        "radius": 34,
+        "required_flags": [
+          "memory_truth_line_seen"
+        ],
+        "blocked_by_flags": [
+          "letter_001_sent"
+        ],
+        "text": [
+          "湿信纸从桥灯下飞起，围着那封没寄出的信旋转。",
+          "祈说：它不是不懂。它是不肯懂。"
+        ],
+        "repeat_text": [
+          "信纸旋涡已经散去，只剩桥灯还在发亮。"
+        ],
+        "effects": [
+          "flag:boss_return_letter_started",
+          "encounter:enc_boss_return_letter",
+          "quest_step:letter_001_bridge_waiter.fight_return_letter"
+        ]
+      }
+    ],
+    "clocktower_exterior": [
+      {
+        "id": "clocktower_red_bean_bun",
+        "display_name": "凉掉的红豆包",
+        "kind": "investigation",
+        "position": {
+          "x": 350,
+          "y": 336
+        },
+        "radius": 24,
+        "required_flags": [
+          "letter_001_sent"
+        ],
+        "blocked_by_flags": [],
+        "text": [
+          "红豆包已经凉了。",
+          "油纸被压在桥栏带来的水痕下，像有人怕它被风吹走。"
+        ],
+        "repeat_text": [
+          "甜味很淡，却没有完全散。"
+        ],
+        "effects": [
+          "flag:inspected_cool_red_bean_bun"
+        ]
+      },
+      {
+        "id": "clocktower_lit_lamp",
+        "display_name": "仍亮着的灯",
+        "kind": "investigation",
+        "position": {
+          "x": 448,
+          "y": 318
+        },
+        "radius": 26,
+        "required_flags": [
+          "letter_001_sent"
+        ],
+        "blocked_by_flags": [],
+        "text": [
+          "灯还亮着。",
+          "不是为了等人，像是为了照路。"
+        ],
+        "repeat_text": [
+          "祈说：少了一个人。雨灯镇好像反而没那么空了。"
+        ],
+        "effects": [
+          "flag:inspected_after_boss_lamp"
+        ]
+      },
+      {
+        "id": "clocktower_thirteenth_letter",
+        "display_name": "第十三封信",
+        "kind": "ending_hook",
+        "position": {
+          "x": 520,
+          "y": 366
+        },
+        "radius": 28,
+        "required_flags": [
+          "letter_001_sent"
+        ],
+        "blocked_by_flags": [
+          "thirteenth_letter_seen"
+        ],
+        "text": [
+          "阿澄打开邮包，第一封信已经消失。",
+          "邮包底部露出第十三封信。",
+          "封面被雨水晕开，只剩一个字清晰可见：澄。"
+        ],
+        "repeat_text": [
+          "第十三封信安静躺在邮包底部，比其他信都轻。"
+        ],
+        "effects": [
+          "flag:thirteenth_letter_seen"
+        ]
+      },
+      {
+        "id": "clocktower_old_door",
+        "display_name": "旧钟楼木门",
+        "kind": "flavor",
+        "position": {
+          "x": 666,
+          "y": 220
+        },
+        "radius": 28,
+        "required_flags": [
+          "letter_001_sent"
+        ],
+        "blocked_by_flags": [],
+        "text": [
+          "木门上挂着生锈的锁。",
+          "锁孔里没有钥匙，只有一小片干燥的信封角。"
+        ],
+        "repeat_text": [
+          "钟楼里面传来一次很轻的齿轮声。"
+        ],
+        "effects": [
+          "flag:inspected_clocktower_door"
+        ]
+      },
+      {
+        "id": "clocktower_wet_stairs",
+        "display_name": "湿石阶",
+        "kind": "flavor",
+        "position": {
+          "x": 588,
+          "y": 386
+        },
+        "radius": 24,
+        "required_flags": [
+          "letter_001_sent"
+        ],
+        "blocked_by_flags": [],
+        "text": [
+          "石阶上有两串脚印。",
+          "一串从桥边来，一串从钟楼里出来。"
+        ],
+        "repeat_text": [
+          "脚印在晨雾里慢慢变浅，方向却没有变。"
+        ],
+        "effects": [
+          "flag:inspected_clocktower_steps"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-04-29",
+  "assets": [
+    {
+      "id": "acheng_walk_4x4",
+      "display_name": "阿澄四向行走",
+      "type": "player_walk_sheet",
+      "status": "concept_usable_needs_padding_regen_for_final",
+      "raw": "assets/sprites/raw/acheng_walk_4x4_raw.png",
+      "sheet": "assets/sprites/characters/acheng_walk_4x4/sheet-transparent.png",
+      "preview_gif": "assets/sprites/characters/acheng_walk_4x4/animation.gif",
+      "meta": "assets/sprites/characters/acheng_walk_4x4/pipeline-meta.json",
+      "notes": "视觉方向强，源图部分帧格内留白不足，正式工程建议再生成严格留白版。"
+    },
+    {
+      "id": "qi_hover_1x4",
+      "display_name": "祈悬浮待机",
+      "type": "companion_hover_sheet",
+      "status": "prototype_usable",
+      "raw": "assets/sprites/raw/qi_hover_2x2_raw.png",
+      "sheet": "assets/sprites/characters/qi_hover_1x4/sheet-transparent.png",
+      "preview_gif": "assets/sprites/characters/qi_hover_1x4/animation.gif",
+      "meta": "assets/sprites/characters/qi_hover_1x4/pipeline-meta.json",
+      "notes": "原始生成实际为 1x4 横排，已按 1x4 正确后处理。"
+    },
+    {
+      "id": "return_letter_idle_3x3",
+      "display_name": "无址回信待机",
+      "type": "boss_idle_sheet",
+      "status": "concept_usable_needs_padding_regen_for_final",
+      "raw": "assets/sprites/raw/return_letter_idle_3x3_raw.png",
+      "sheet": "assets/sprites/enemies/return_letter_idle_3x3/sheet-transparent.png",
+      "preview_gif": "assets/sprites/enemies/return_letter_idle_3x3/animation.gif",
+      "meta": "assets/sprites/enemies/return_letter_idle_3x3/pipeline-meta.json",
+      "notes": "Boss 视觉标杆成立，源图少数帧触边，正式战斗版建议再生成更大留白。"
+    }
+  ]
+}
+

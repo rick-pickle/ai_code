@@ -1,0 +1,12 @@
+Asset type: companion spirit NPC, exact 2x2 pixel art hover idle animation sheet.
+
+Subject: Qi, a tiny warm lantern spirit girl living inside a copper rain lantern. She has a small floating humanoid silhouette, amber-gold glow, translucent short mantle like a lamp flame, hair tips shaped like a candle wick, clever expressive eyes, gentle but slightly teasing personality. She should feel magical, warm, and protective, not fairy wings, not angel, not fire monster.
+
+Motion: four-frame hover idle loop. Frame 1 neutral floating pose, frame 2 slight upward bob with soft lantern glow, frame 3 neutral pose with a tiny mantle sway, frame 4 slight downward bob returning to loop.
+
+Style: polished readable pixel art for a refined 2D RPG, crisp silhouette, warm amber light accents, clean dark outline where needed, small but expressive.
+
+Containment: the entire spirit and glow must fit fully inside each cell, detached glow must remain tightly grouped near the body, no glow, hair, mantle, or spark may cross a cell edge, leave magenta margin on all four sides, same scale and bounding box in every frame.
+
+Background: 100% solid flat #FF00FF magenta background, no gradients, no text, no labels, no UI, no borders.
+

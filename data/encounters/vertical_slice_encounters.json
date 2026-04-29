@@ -1,0 +1,55 @@
+{
+  "encounters": [
+    {
+      "id": "enc_tutorial_wet_paper",
+      "display_name": "湿信纸残影",
+      "trigger_type": "story",
+      "scene_id": "Map_PostOffice",
+      "enemies": [
+        "enemy_wet_paper_echo"
+      ],
+      "required_flags": [
+        "letter_001_received"
+      ],
+      "reward_flags": [
+        "tutorial_battle_01_cleared"
+      ],
+      "post_battle_dialogue_id": ""
+    },
+    {
+      "id": "enc_tutorial_bridge_lamp",
+      "display_name": "桥灯影",
+      "trigger_type": "inspect",
+      "scene_id": "Map_StoneBridge_Dusk",
+      "enemies": [
+        "enemy_bridge_lamp_shadow"
+      ],
+      "required_flags": [
+        "found_wenheng_bridge"
+      ],
+      "reward_flags": [
+        "tutorial_battle_02_cleared"
+      ],
+      "post_battle_dialogue_id": ""
+    },
+    {
+      "id": "enc_boss_return_letter",
+      "display_name": "无址回信",
+      "trigger_type": "boss",
+      "scene_id": "Map_MemoryBridge",
+      "enemies": [
+        "enemy_return_letter"
+      ],
+      "required_flags": [
+        "bakery_lie_discovered",
+        "tutorial_battle_02_cleared"
+      ],
+      "reward_flags": [
+        "letter_001_sent",
+        "bridge_waiter_resolved"
+      ],
+      "post_battle_dialogue_id": "dlg_boss_return_letter_after"
+    }
+  ]
+}
+

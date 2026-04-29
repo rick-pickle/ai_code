@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-04-29",
+  "assets": [
+    {
+      "id": "rainlamp_street_reference",
+      "display_name": "雨灯街视觉参考",
+      "type": "baked_raster_reference",
+      "path": "assets/maps/rainlamp_street_reference.png",
+      "prompt": "assets/prompts/rainlamp_street_map.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "visual_reference",
+      "notes": "适合作为雨灯街总体氛围、建筑密度、冷雨暖灯配色、主路动线标杆。正式 Godot 地图建议拆为 TileMap 或 layered raster。"
+    },
+    {
+      "id": "post_office_reference",
+      "display_name": "旧邮局视觉参考",
+      "type": "baked_raster_reference",
+      "path": "assets/maps/post_office_reference.png",
+      "prompt": "assets/prompts/post_office_map.txt",
+      "size": [
+        1122,
+        1402
+      ],
+      "status": "visual_reference",
+      "notes": "适合作为旧邮局室内布局、交互点、灯光层次和碰撞遮挡标杆。正式工程建议按 480x270 视口裁出房间区域或重绘成可编辑 TileMap。"
+    }
+  ]
+}
+

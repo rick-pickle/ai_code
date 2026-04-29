@@ -1,0 +1,41 @@
+{
+  "id": "letter_001_bridge_waiter",
+  "title": "桥边等信的人",
+  "chapter": "序章",
+  "sender": "未署名",
+  "recipient": "温衡",
+  "summary": "一封寄给桥边老人的死信，牵出多年未说出口的告别。",
+  "required_flags": [],
+  "steps": [
+    {
+      "id": "arrive_post_office",
+      "text": "前往旧邮局，查看第一封湿信。"
+    },
+    {
+      "id": "ask_about_wenheng",
+      "text": "在雨灯街打听温衡。"
+    },
+    {
+      "id": "investigate_bakery",
+      "text": "调查面包店老板娘代写的来信。"
+    },
+    {
+      "id": "fight_return_letter",
+      "text": "在石桥记忆中拆封真相。"
+    },
+    {
+      "id": "send_letter",
+      "text": "将第一封信寄出。"
+    }
+  ],
+  "truth_layers": [
+    "温衡一直在等儿子的信。",
+    "所谓回信其实由林茉代写。",
+    "温衡本人早已离开，只是不肯承认告别。"
+  ],
+  "completion_flags": [
+    "letter_001_sent",
+    "bridge_waiter_resolved"
+  ]
+}
+

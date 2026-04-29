@@ -1,0 +1,713 @@
+{
+  "schema": "rainlamp.npcs.v1",
+  "npcs": [
+    {
+      "id": "qi",
+      "display_name": "祈",
+      "role": "铜雨灯里的灯灵同伴",
+      "default_portrait": "qi_calm",
+      "tags": [
+        "companion",
+        "lantern",
+        "guide"
+      ],
+      "dialogues": [
+        {
+          "id": "qi_post_office_hint",
+          "priority": 10,
+          "required_flags": [
+            "postman_handbook_obtained"
+          ],
+          "blocked_by_flags": [
+            "letter_001_received"
+          ],
+          "lines": [
+            {
+              "speaker": "qi",
+              "portrait": "qi_suspicious",
+              "text": "手册都自己翻开了。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_calm",
+              "text": "柜台上那封湿信，也许比我们更着急。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        },
+        {
+          "id": "qi_street_hint",
+          "priority": 10,
+          "required_flags": [
+            "letter_001_received"
+          ],
+          "blocked_by_flags": [
+            "found_wenheng_bridge"
+          ],
+          "lines": [
+            {
+              "speaker": "qi",
+              "portrait": "qi_calm",
+              "text": "旧石桥在街尽头。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_teasing",
+              "text": "不过先问问人也行。邮差迷路，说出去不太体面。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        },
+        {
+          "id": "qi_bridge_memory_hint",
+          "priority": 20,
+          "required_flags": [
+            "bakery_lie_discovered"
+          ],
+          "blocked_by_flags": [
+            "bridge_memory_unlocked"
+          ],
+          "lines": [
+            {
+              "speaker": "qi",
+              "portrait": "qi_worried",
+              "text": "桥灯下的雨声变低了。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_suspicious",
+              "text": "有些话快憋不住了。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        },
+        {
+          "id": "qi_clocktower_silence",
+          "priority": 30,
+          "required_flags": [
+            "thirteenth_letter_seen"
+          ],
+          "blocked_by_flags": [],
+          "lines": [
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_confused",
+              "text": "这是给我的？"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_worried",
+              "text": "别拆。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_worried",
+              "text": "至少……现在别拆。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        }
+      ],
+      "barks": [
+        "雨这么大，灯都快学会叹气了。",
+        "别跟着水里的倒影走。那东西方向感比你还差。"
+      ]
+    },
+    {
+      "id": "umbrella_shop_owner",
+      "display_name": "纸伞铺老板",
+      "role": "雨灯街问路 NPC",
+      "default_portrait": "umbrella_owner_calm",
+      "tags": [
+        "townsfolk",
+        "street",
+        "hint"
+      ],
+      "dialogues": [
+        {
+          "id": "umbrella_owner_ask_wenheng",
+          "priority": 10,
+          "required_flags": [
+            "letter_001_received"
+          ],
+          "blocked_by_flags": [
+            "found_wenheng_bridge"
+          ],
+          "lines": [
+            {
+              "speaker": "umbrella_shop_owner",
+              "portrait": "umbrella_owner_calm",
+              "text": "温衡？桥边那个老人吧。"
+            },
+            {
+              "speaker": "umbrella_shop_owner",
+              "portrait": "umbrella_owner_calm",
+              "text": "他每天黄昏都在。雨大也在。"
+            },
+            {
+              "speaker": "umbrella_shop_owner",
+              "portrait": "umbrella_owner_soft",
+              "text": "有时候我想借他一把伞，他说不用，等的人认得他的背影。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:asked_umbrella_owner_about_wenheng"
+          ]
+        },
+        {
+          "id": "umbrella_owner_after_bridge",
+          "priority": 20,
+          "required_flags": [
+            "found_wenheng_bridge"
+          ],
+          "blocked_by_flags": [
+            "letter_001_sent"
+          ],
+          "lines": [
+            {
+              "speaker": "umbrella_shop_owner",
+              "portrait": "umbrella_owner_calm",
+              "text": "见着温伯了？"
+            },
+            {
+              "speaker": "umbrella_shop_owner",
+              "portrait": "umbrella_owner_soft",
+              "text": "他不接伞，也不躲雨。像怕一躲，就错过什么。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        }
+      ],
+      "barks": [
+        "伞骨要慢慢收，急了会折。",
+        "这条街不缺雨，只缺愿意回家的人。"
+      ]
+    },
+    {
+      "id": "rain_counting_child",
+      "display_name": "数雨点的小孩",
+      "role": "雨灯街童言线索 NPC",
+      "default_portrait": "child_curious",
+      "tags": [
+        "townsfolk",
+        "child",
+        "hint"
+      ],
+      "dialogues": [
+        {
+          "id": "child_counts_rain",
+          "priority": 10,
+          "required_flags": [
+            "letter_001_received"
+          ],
+          "blocked_by_flags": [
+            "found_wenheng_bridge"
+          ],
+          "lines": [
+            {
+              "speaker": "rain_counting_child",
+              "portrait": "child_curious",
+              "text": "桥爷爷会数雨点。"
+            },
+            {
+              "speaker": "rain_counting_child",
+              "portrait": "child_smile",
+              "text": "我问他数到多少了，他说还差一封信。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:asked_child_about_wenheng"
+          ]
+        },
+        {
+          "id": "child_after_boss",
+          "priority": 20,
+          "required_flags": [
+            "letter_001_sent"
+          ],
+          "blocked_by_flags": [],
+          "lines": [
+            {
+              "speaker": "rain_counting_child",
+              "portrait": "child_curious",
+              "text": "今天桥爷爷不在。"
+            },
+            {
+              "speaker": "rain_counting_child",
+              "portrait": "child_smile",
+              "text": "可是桥灯还亮着。我觉得他没有迷路。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        }
+      ],
+      "barks": [
+        "一滴、两滴、三滴……数错了。",
+        "雨灯亮的时候，影子会慢半拍。"
+      ]
+    },
+    {
+      "id": "linmo",
+      "display_name": "林茉",
+      "role": "面包店老板娘",
+      "default_portrait": "linmo_calm",
+      "tags": [
+        "townsfolk",
+        "bakery",
+        "key_truth"
+      ],
+      "dialogues": [
+        {
+          "id": "linmo_about_wenheng",
+          "priority": 10,
+          "required_flags": [
+            "letter_001_received"
+          ],
+          "blocked_by_flags": [
+            "found_wenheng_bridge"
+          ],
+          "lines": [
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_calm",
+              "text": "你找温伯？"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_calm",
+              "text": "这个点他该在桥上。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_soft",
+              "text": "如果他没吃饭，就把这个给他吧。别说是我给的，他不爱欠人情。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:received_red_bean_bun"
+          ]
+        },
+        {
+          "id": "linmo_key_dialogue",
+          "priority": 30,
+          "required_flags": [
+            "found_wenheng_bridge"
+          ],
+          "blocked_by_flags": [
+            "bakery_lie_discovered"
+          ],
+          "lines": [
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_calm",
+              "text": "温衡没有拆信。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_downcast",
+              "text": "他总这样。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_downcast",
+              "text": "说等明天。明天又说明天。"
+            },
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_confused",
+              "text": "他在等谁？"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_calm",
+              "text": "他儿子。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_calm",
+              "text": "很多年前离开雨灯镇，说要去看不下雨的地方。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_suspicious",
+              "text": "你替他儿子写信？"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_downcast",
+              "text": "温伯眼睛不好。有些字，他看不清。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_downcast",
+              "text": "有些事，他也不该看清。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:bakery_lie_discovered"
+          ]
+        },
+        {
+          "id": "linmo_after_boss",
+          "priority": 40,
+          "required_flags": [
+            "letter_001_sent"
+          ],
+          "blocked_by_flags": [],
+          "lines": [
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_soft",
+              "text": "温伯。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "小茉。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "这些年，麻烦你了。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_downcast",
+              "text": "没有。"
+            },
+            {
+              "speaker": "linmo",
+              "portrait": "linmo_downcast",
+              "text": "我只是……不想让桥空着。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        }
+      ],
+      "barks": [
+        "红豆包趁热才好。可有些人总说，明天再吃。",
+        "雨天面团发得慢，等人的心也一样。"
+      ]
+    },
+    {
+      "id": "wenheng",
+      "display_name": "温衡",
+      "role": "桥边等信的人",
+      "default_portrait": "wenheng_calm",
+      "tags": [
+        "recipient",
+        "bridge",
+        "letter_001"
+      ],
+      "dialogues": [
+        {
+          "id": "wenheng_first_delivery",
+          "priority": 10,
+          "required_flags": [
+            "letter_001_received"
+          ],
+          "blocked_by_flags": [
+            "found_wenheng_bridge"
+          ],
+          "lines": [
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_calm",
+              "text": "请问，您是温衡吗？"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "是。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "邮差？"
+            },
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_calm",
+              "text": "有一封给您的信。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "从南边来的？"
+            },
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_confused",
+              "text": "信上没写寄件人。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "没事。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "他从小就这样。写信总忘了落款。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_suspicious",
+              "text": "他在笑。"
+            },
+            {
+              "speaker": "qi",
+              "portrait": "qi_suspicious",
+              "text": "可信还没拆。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "今天雨大。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "字怕是看不清了。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "明天再读吧。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:found_wenheng_bridge",
+            "flag:letter_001_delivered_to_wenheng"
+          ]
+        },
+        {
+          "id": "wenheng_waiting_repeat",
+          "priority": 20,
+          "required_flags": [
+            "found_wenheng_bridge"
+          ],
+          "blocked_by_flags": [
+            "letter_001_sent"
+          ],
+          "lines": [
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "雨还没小。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "等明天，字会清楚些。"
+            }
+          ],
+          "choices": [],
+          "effects": []
+        },
+        {
+          "id": "wenheng_after_boss",
+          "priority": 40,
+          "required_flags": [
+            "letter_001_sent"
+          ],
+          "blocked_by_flags": [],
+          "lines": [
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "原来是这样。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "我还以为，是雨把字冲淡了。"
+            },
+            {
+              "speaker": "acheng",
+              "portrait": "acheng_calm",
+              "text": "您要读吗？"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "不了。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_smile",
+              "text": "等了这么久，忽然觉得，不急了。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "邮差。帮我寄出去吧。"
+            },
+            {
+              "speaker": "wenheng",
+              "portrait": "wenheng_calm",
+              "text": "寄到哪里都行。别再留在雨里了。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:bridge_waiter_resolved"
+          ]
+        }
+      ],
+      "barks": [
+        "今天雨大。",
+        "灯还亮着，就不算晚。"
+      ]
+    },
+    {
+      "id": "young_wenheng",
+      "display_name": "年轻的温衡",
+      "role": "记忆回溯中的温衡",
+      "default_portrait": "young_wenheng_downcast",
+      "tags": [
+        "memory",
+        "truth",
+        "letter_001"
+      ],
+      "dialogues": [
+        {
+          "id": "young_wenheng_unsent_letter",
+          "priority": 10,
+          "required_flags": [
+            "memory_bridge_seen"
+          ],
+          "blocked_by_flags": [
+            "boss_return_letter_started"
+          ],
+          "lines": [
+            {
+              "speaker": "young_wenheng",
+              "portrait": "young_wenheng_downcast",
+              "text": "再等等。"
+            },
+            {
+              "speaker": "young_wenheng",
+              "portrait": "young_wenheng_downcast",
+              "text": "等他下一封来了，我再告诉他。"
+            },
+            {
+              "speaker": "young_wenheng",
+              "portrait": "young_wenheng_downcast",
+              "text": "别让孩子在外面惦记家里。"
+            },
+            {
+              "speaker": "mailbox_echo",
+              "portrait": "mailbox_echo",
+              "text": "可是他已经回不来了。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:memory_unsent_farewell_seen"
+          ]
+        }
+      ],
+      "barks": [
+        "再等等。",
+        "下一封来了，我就写。"
+      ]
+    },
+    {
+      "id": "uncle_liang",
+      "display_name": "梁叔",
+      "role": "巡夜人",
+      "default_portrait": "uncle_liang_calm",
+      "tags": [
+        "watchman",
+        "mystery",
+        "clocktower"
+      ],
+      "dialogues": [
+        {
+          "id": "uncle_liang_first_warning",
+          "priority": 10,
+          "required_flags": [
+            "letter_001_received"
+          ],
+          "blocked_by_flags": [
+            "met_uncle_liang_street"
+          ],
+          "lines": [
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_calm",
+              "text": "新来的？"
+            },
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_calm",
+              "text": "雨灯镇路窄，晚上别乱走。"
+            },
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_stern",
+              "text": "尤其别跟着水里的倒影走。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:met_uncle_liang_street"
+          ]
+        },
+        {
+          "id": "uncle_liang_clocktower_hook",
+          "priority": 50,
+          "required_flags": [
+            "letter_001_sent"
+          ],
+          "blocked_by_flags": [
+            "ending_hook_seen"
+          ],
+          "lines": [
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_calm",
+              "text": "第一封送到了？"
+            },
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_calm",
+              "text": "那就快了。"
+            },
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_stern",
+              "text": "雨灯镇很少留人。"
+            },
+            {
+              "speaker": "uncle_liang",
+              "portrait": "uncle_liang_stern",
+              "text": "除非那个人，本来就是一封没送完的信。"
+            }
+          ],
+          "choices": [],
+          "effects": [
+            "flag:ending_hook_seen"
+          ]
+        }
+      ],
+      "barks": [
+        "钟楼没准过，可它知道谁该停下。",
+        "巡夜不是看路，是看谁还没回去。"
+      ]
+    }
+  ]
+}

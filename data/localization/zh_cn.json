@@ -1,0 +1,24 @@
+{
+  "ui.start_delivery": "开始投递",
+  "ui.continue_journey": "继续旅程",
+  "ui.save_moment": "留存此刻",
+  "ui.settings": "调整设置",
+  "ui.leave_town": "离开雨灯镇",
+  "ui.handbook": "邮差手册",
+  "ui.pending_letters": "待投信件",
+  "ui.unsigned_letters": "未署名来信",
+  "ui.citizen_roster": "镇民名簿",
+  "ui.stamp_skills": "邮戳能力",
+  "ui.mailbag_pocket": "邮包夹层",
+  "ui.old_objects": "旧物记录",
+  "battle.will": "意志",
+  "battle.lamplight": "灯火值",
+  "battle.obsession": "执念",
+  "battle.seal": "封缄",
+  "battle.delivery_complete": "投递完成",
+  "battle.memory_archived": "记忆归档",
+  "hint.can_send": "真相已拆封，可以寄出了。",
+  "hint.unsent": "这封信还没有寄出。",
+  "hint.save_confirm": "是否留存此刻？"
+}
+
