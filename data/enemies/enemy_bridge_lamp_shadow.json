@@ -2,6 +2,7 @@
   "id": "enemy_bridge_lamp_shadow",
   "display_name": "桥灯影",
   "type": "tutorial",
+  "visual_path": "res://assets/sprites/enemies/bridge_lamp_shadow/bridge_lamp_shadow.png",
   "will": 45,
   "obsession": 52,
   "seal_layers": [
@@ -70,4 +71,3 @@
     "退回谎言后，第二层封缄会短暂松动。"
   ]
 }
-

@@ -6,11 +6,13 @@ const BattleStateMachineScript := preload("res://scripts/battle/battle_state_mac
 const RainlampThemeScript := preload("res://scripts/ui/rainlamp_theme.gd")
 
 @export var auto_start_debug := true
+@export var headless_direct_scene_auto_quit := true
 @export var debug_encounter_id := "enc_tutorial_wet_paper"
 @export var debug_enemy_id := "enemy_wet_paper_echo"
 @export var enemy_image_paths: Dictionary = {
 	"enemy_return_letter": "res://assets/sprites/enemies/return_letter_idle_3x3/idle-1.png",
-	"enemy_wet_paper_echo": "res://assets/sprites/enemies/return_letter_idle_3x3/idle-1.png",
+	"enemy_wet_paper_echo": "res://assets/sprites/enemies/wet_paper_echo/wet_paper_echo.png",
+	"enemy_bridge_lamp_shadow": "res://assets/sprites/enemies/bridge_lamp_shadow/bridge_lamp_shadow.png",
 }
 
 var machine: RefCounted
@@ -44,6 +46,7 @@ var last_phase_key := ""
 
 
 func _ready() -> void:
+	print("BATTLE_STAGE ready auto_start_debug=%s headless=%s direct_scene=%s" % [auto_start_debug, _is_headless(), _is_direct_scene_root()])
 	command_buttons = {
 		"open_seal": $MarginContainer/BattleLayout/Commands/OpenSealButton,
 		"archive_seal": $MarginContainer/BattleLayout/Commands/ArchiveSealButton,
@@ -64,9 +67,12 @@ func _ready() -> void:
 	_ensure_registry_loaded()
 	if auto_start_debug:
 		start_encounter(debug_encounter_id)
+	if headless_direct_scene_auto_quit and _is_headless() and _is_direct_scene_root():
+		_headless_quit_after_debug_start.call_deferred()
 
 
 func start_encounter(encounter_id: String) -> void:
+	print("BATTLE_STAGE start_encounter begin id=%s" % encounter_id)
 	_ensure_registry_loaded()
 	var encounter := _load_encounter(encounter_id)
 	if encounter.is_empty():
@@ -82,9 +88,11 @@ func start_encounter(encounter_id: String) -> void:
 
 	active_encounter_id = encounter_id
 	start_enemy(str(enemies[0]), encounter)
+	print("BATTLE_STAGE start_encounter end id=%s enemy=%s" % [encounter_id, active_enemy_id])
 
 
 func start_enemy(enemy_id: String, encounter_data: Dictionary = {}) -> void:
+	print("BATTLE_STAGE start_enemy begin id=%s" % enemy_id)
 	_ensure_registry_loaded()
 	var enemy_data := _load_enemy(enemy_id)
 	if enemy_data.is_empty():
@@ -106,6 +114,7 @@ func start_enemy(enemy_id: String, encounter_data: Dictionary = {}) -> void:
 	machine.logged.connect(_append_log)
 	machine.changed.connect(_on_battle_changed)
 	machine.setup(enemy_data, _load_skills(), encounter_data)
+	print("BATTLE_STAGE start_enemy end id=%s machine=yes" % enemy_id)
 
 
 func _on_command_pressed(skill_id: String) -> void:
@@ -275,6 +284,8 @@ func _result_text(phase_key: String) -> String:
 
 func _show_skill_feedback(skill_id: String) -> void:
 	feedback_label.text = _skill_feedback_text(skill_id)
+	_pulse_enemy_visual(Color(1.0, 0.88, 0.62, 1.0))
+	_flash_feedback_panel()
 
 
 func _skill_feedback_text(skill_id: String) -> String:
@@ -301,10 +312,14 @@ func _on_phase_changed(phase_key: String) -> void:
 	if phase_key == "victory":
 		result_sfx_played = true
 		feedback_label.text = "胜利：回信归档，雨声退到窗外。"
+		_pulse_enemy_visual(Color(0.72, 1.0, 0.82, 1.0))
+		_flash_feedback_panel()
 		_play_sfx("victory")
 	elif phase_key == "defeat":
 		result_sfx_played = true
 		feedback_label.text = "失败：墨迹漫开，灯火暂熄。"
+		_pulse_enemy_visual(Color(1.0, 0.45, 0.45, 1.0))
+		_flash_feedback_panel()
 		_play_sfx("defeat")
 
 
@@ -327,6 +342,38 @@ func _play_sfx(sound_id: String, volume_db: float = -8.0) -> void:
 
 func _audio_manager() -> Node:
 	return get_node_or_null("/root/AudioManager")
+
+
+func _pulse_enemy_visual(tint: Color) -> void:
+	if enemy_texture == null:
+		return
+	var tween := create_tween()
+	tween.tween_property(enemy_texture, "modulate", tint, 0.08)
+	tween.tween_property(enemy_texture, "modulate", Color.WHITE, 0.16)
+
+
+func _flash_feedback_panel() -> void:
+	if feedback_panel == null:
+		return
+	var tween := create_tween()
+	tween.tween_property(feedback_panel, "modulate", Color(1.0, 0.92, 0.72, 1.0), 0.06)
+	tween.tween_property(feedback_panel, "modulate", Color.WHITE, 0.14)
+
+
+func _headless_quit_after_debug_start() -> void:
+	for frame in range(6):
+		await get_tree().process_frame
+	var machine_ready := machine != null
+	print("BATTLE_SCENE_SMOKE_OK encounter=%s enemy=%s machine=%s" % [active_encounter_id, active_enemy_id, machine_ready])
+	get_tree().quit(0)
+
+
+func _is_headless() -> bool:
+	return DisplayServer.get_name().to_lower() == "headless"
+
+
+func _is_direct_scene_root() -> bool:
+	return get_tree() != null and get_tree().current_scene == self
 
 
 func _ensure_registry_loaded() -> void:

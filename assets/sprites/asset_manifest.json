@@ -55,6 +55,30 @@
       "preview_gif": "assets/sprites/enemies/return_letter_idle_3x3/animation.gif",
       "meta": "assets/sprites/enemies/return_letter_idle_3x3/pipeline-meta.json",
       "notes": "Boss 视觉标杆成立，源图少数帧触边，正式战斗版建议再生成更大留白。"
+    },
+    {
+      "id": "wet_paper_echo_battle",
+      "display_name": "湿信纸残影战斗图",
+      "type": "enemy_battle_sprite",
+      "status": "runtime_active",
+      "path": "assets/sprites/enemies/wet_paper_echo/wet_paper_echo.png",
+      "size": [
+        96,
+        96
+      ],
+      "notes": "第一场湿信教程战独立敌方图像，避免复用 Boss 图。"
+    },
+    {
+      "id": "bridge_lamp_shadow_battle",
+      "display_name": "桥灯影战斗图",
+      "type": "enemy_battle_sprite",
+      "status": "runtime_active",
+      "path": "assets/sprites/enemies/bridge_lamp_shadow/bridge_lamp_shadow.png",
+      "size": [
+        96,
+        96
+      ],
+      "notes": "第二场桥灯教学战独立敌方图像，使用琥珀灯影轮廓。"
     }
   ]
 }

@@ -2,6 +2,7 @@
   "id": "enemy_wet_paper_echo",
   "display_name": "湿信纸残影",
   "type": "tutorial",
+  "visual_path": "res://assets/sprites/enemies/wet_paper_echo/wet_paper_echo.png",
   "will": 24,
   "obsession": 34,
   "seal_layers": [
@@ -52,4 +53,3 @@
     "拆封后使用封存，可以压住它的强力行动。"
   ]
 }
-

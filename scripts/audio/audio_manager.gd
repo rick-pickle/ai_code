@@ -26,13 +26,17 @@ var _playback_enabled := true
 
 func _ready() -> void:
 	_playback_enabled = not _is_headless()
+	if not _playback_enabled:
+		print("AUDIO_STAGE ready headless=true playback_enabled=false created_player=false")
+		return
+
 	_ambience_player = AudioStreamPlayer.new()
 	_ambience_player.name = "AmbiencePlayer"
 	_ambience_player.bus = DEFAULT_BUS
 	_ambience_player.volume_db = -18.0
 	add_child(_ambience_player)
-	if _playback_enabled:
-		play_ambience("rain")
+	print("AUDIO_STAGE ready headless=false playback_enabled=true created_player=true")
+	play_ambience("rain")
 
 
 func _exit_tree() -> void:

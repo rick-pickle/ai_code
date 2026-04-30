@@ -63,12 +63,15 @@ func load_map(map_id: String, spawn_id: String = "") -> void:
 
 
 func start_encounter(encounter_id: String) -> void:
+	print("GAME_ROOT_STAGE start_encounter begin id=%s old_battle_valid=%s" % [encounter_id, active_battle != null and is_instance_valid(active_battle)])
 	if active_battle != null and is_instance_valid(active_battle):
 		active_battle.queue_free()
+		active_battle = null
 
 	active_battle = BATTLE_SCENE.instantiate()
 	active_battle.set("auto_start_debug", false)
 	ui_layer.add_child(active_battle)
+	print("GAME_ROOT_STAGE start_encounter added id=%s node_path=%s" % [encounter_id, active_battle.get_path()])
 	if active_battle.has_signal("battle_finished"):
 		active_battle.connect("battle_finished", Callable(self, "_on_battle_finished"))
 	if active_battle.has_method("start_encounter"):
