@@ -22,5 +22,5 @@ shape = SubResource("CapsuleShape2D_player")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 enabled = true
-zoom = Vector2(2, 2)
+zoom = Vector2(1, 1)
 position_smoothing_enabled = true

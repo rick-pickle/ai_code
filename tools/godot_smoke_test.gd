@@ -64,6 +64,7 @@ func _load_game_root() -> Node:
 	await process_frame
 	await process_frame
 	_stage("load_game_root end node=%s" % game_root.name)
+	_report_viewport(game_root)
 	if _timed_out():
 		return null
 	return game_root
@@ -218,3 +219,25 @@ func _enemy_texture_path(active_battle: Node) -> String:
 	if texture_rect == null or texture_rect.texture == null:
 		return ""
 	return texture_rect.texture.resource_path
+
+
+func _report_viewport(game_root: Node) -> void:
+	var viewport_size := root.get_visible_rect().size
+	var zoom := Vector2.ONE
+	var player := game_root.get("player") as Node
+	if player != null:
+		var camera := player.get_node_or_null("Camera2D") as Camera2D
+		if camera != null:
+			zoom = camera.zoom
+	var visible_world := Vector2(
+		viewport_size.x / max(0.001, zoom.x),
+		viewport_size.y / max(0.001, zoom.y)
+	)
+	print("VIEWPORT_SMOKE viewport=%dx%d camera_zoom=%.2fx%.2f visible_world=%.0fx%.0f" % [
+		int(viewport_size.x),
+		int(viewport_size.y),
+		zoom.x,
+		zoom.y,
+		visible_world.x,
+		visible_world.y
+	])

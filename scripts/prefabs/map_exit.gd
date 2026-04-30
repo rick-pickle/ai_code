@@ -83,11 +83,12 @@ func _ensure_prompt_label() -> void:
 	if _prompt_label == null:
 		_prompt_label = Label.new()
 		_prompt_label.name = "Prompt"
-		_prompt_label.position = Vector2(-72, -42)
-		_prompt_label.size = Vector2(144, 22)
+		_prompt_label.position = Vector2(-66, -34)
+		_prompt_label.size = Vector2(132, 18)
 		_prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_prompt_label.z_index = 20
 		add_child(_prompt_label)
+	_prompt_label.add_theme_font_size_override("font_size", 12)
 	_prompt_label.visible = false
 
 

@@ -27,14 +27,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
 
 [node name="BattleLayout" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 8
 
 [node name="Header" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
@@ -62,7 +62,7 @@ text = "返回地图"
 [node name="Body" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 10
 
 [node name="PartyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
 layout_mode = 2
@@ -97,7 +97,7 @@ layout_mode = 2
 theme_override_constants/separation = 5
 
 [node name="EnemyImageFrame" type="PanelContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow"]
-custom_minimum_size = Vector2(70, 70)
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
 
 [node name="EnemyTexture" type="TextureRect" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow/EnemyImageFrame"]
@@ -111,7 +111,7 @@ size_flags_horizontal = 3
 text = "执念："
 
 [node name="SealPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
-custom_minimum_size = Vector2(0, 42)
+custom_minimum_size = Vector2(0, 68)
 layout_mode = 2
 
 [node name="SealLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/SealPanel"]
@@ -125,20 +125,20 @@ autowrap_mode = 3
 text = "意图："
 
 [node name="ResultLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LogPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 86)
 layout_mode = 2
 
 [node name="LogLabel" type="RichTextLabel" parent="MarginContainer/BattleLayout/LogPanel"]
 layout_mode = 2
 scroll_active = true
-fit_content = true
+fit_content = false
 
 [node name="FeedbackPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
 custom_minimum_size = Vector2(0, 24)
@@ -151,9 +151,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Commands" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
+[node name="Commands" type="GridContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
-theme_override_constants/separation = 3
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 5
+columns = 3
 
 [node name="OpenSealButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
 layout_mode = 2
