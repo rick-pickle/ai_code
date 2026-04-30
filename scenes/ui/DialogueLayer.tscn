@@ -27,11 +27,14 @@ mouse_filter = 2
 color = Color(0.09, 0.06, 0.04, 0.28)
 
 [node name="DialogBox" type="PanelContainer" parent="Root"]
+custom_minimum_size = Vector2(0, 156)
 layout_mode = 1
 anchor_left = 0.035
-anchor_top = 0.66
+anchor_top = 1.0
 anchor_right = 0.965
-anchor_bottom = 0.96
+anchor_bottom = 1.0
+offset_top = -172.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -83,8 +86,15 @@ size_flags_horizontal = 3
 text = "旁白"
 vertical_alignment = 1
 
-[node name="DialogueText" type="Label" parent="Root/DialogBox/Margin/Content"]
-custom_minimum_size = Vector2(0, 50)
+[node name="TextScroll" type="ScrollContainer" parent="Root/DialogBox/Margin/Content"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DialogueText" type="Label" parent="Root/DialogBox/Margin/Content/TextScroll"]
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -92,8 +102,16 @@ text = "……"
 autowrap_mode = 3
 vertical_alignment = 1
 
-[node name="Choices" type="VBoxContainer" parent="Root/DialogBox/Margin/Content"]
+[node name="ChoicesScroll" type="ScrollContainer" parent="Root/DialogBox/Margin/Content"]
+visible = false
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Choices" type="VBoxContainer" parent="Root/DialogBox/Margin/Content/ChoicesScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 3
 
 [node name="Footer" type="HBoxContainer" parent="Root/DialogBox/Margin/Content"]

@@ -9,8 +9,8 @@
   "asset_prompt_id": "",
   "dimensions": {
     "unit": "px",
-    "width": 640,
-    "height": 360
+    "width": 1024,
+    "height": 1536
   },
   "ambient": {
     "time_of_day": "dusk",
@@ -24,8 +24,8 @@
       "id": "from_rainlamp_street",
       "label": "店门",
       "position": {
-        "x": 318,
-        "y": 314
+        "x": 508.8,
+        "y": 1339.733
       },
       "facing": "up",
       "required_flags": [],
@@ -39,10 +39,10 @@
       "target_map_id": "rainlamp_street",
       "target_spawn_id": "from_bakery",
       "area": {
-        "x": 276,
-        "y": 332,
-        "w": 88,
-        "h": 24
+        "x": 441.6,
+        "y": 1416.533,
+        "w": 140.8,
+        "h": 102.4
       },
       "required_flags": [],
       "blocked_by_flags": [],
@@ -53,55 +53,55 @@
     {
       "id": "back_wall_oven_shelves",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 640,
-        "h": 86
+        "x": 0.0,
+        "y": 0.0,
+        "w": 1024.0,
+        "h": 366.933
       }
     },
     {
       "id": "service_counter",
       "area": {
-        "x": 138,
-        "y": 136,
-        "w": 364,
-        "h": 46
+        "x": 220.8,
+        "y": 580.267,
+        "w": 582.4,
+        "h": 196.267
       }
     },
     {
       "id": "left_bread_display",
       "area": {
-        "x": 70,
-        "y": 210,
-        "w": 166,
-        "h": 86
+        "x": 112.0,
+        "y": 896.0,
+        "w": 265.6,
+        "h": 366.933
       }
     },
     {
       "id": "right_bun_display",
       "area": {
-        "x": 382,
-        "y": 214,
-        "w": 176,
-        "h": 82
+        "x": 611.2,
+        "y": 913.067,
+        "w": 281.6,
+        "h": 349.867
       }
     },
     {
       "id": "left_wall",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 42,
-        "h": 360
+        "x": 0.0,
+        "y": 0.0,
+        "w": 67.2,
+        "h": 1536.0
       }
     },
     {
       "id": "right_wall",
       "area": {
-        "x": 598,
-        "y": 0,
-        "w": 42,
-        "h": 360
+        "x": 956.8,
+        "y": 0.0,
+        "w": 67.2,
+        "h": 1536.0
       }
     }
   ],
@@ -110,8 +110,8 @@
       "instance_id": "linmo_bakery_counter",
       "npc_id": "linmo",
       "position": {
-        "x": 330,
-        "y": 154
+        "x": 528.0,
+        "y": 657.067
       },
       "facing": "down",
       "required_flags": [],

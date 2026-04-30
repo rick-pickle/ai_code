@@ -5,6 +5,7 @@ const INTERACTABLE_SCENE := preload("res://scenes/prefabs/Interactable.tscn")
 const NPC_SCENE := preload("res://scenes/prefabs/NPC.tscn")
 const MAP_EXIT_SCRIPT := preload("res://scripts/prefabs/map_exit.gd")
 const BATTLE_SCENE := preload("res://scenes/battle/BattleScene.tscn")
+const RainlampThemeScript := preload("res://scripts/ui/rainlamp_theme.gd")
 
 @export var start_map_id := "post_office"
 
@@ -17,10 +18,14 @@ var current_map_data: Dictionary = {}
 var current_map: Node2D
 var player: Node2D
 var active_battle: Node
+var objective_panel: PanelContainer
+var objective_label: Label
 
 
 func _ready() -> void:
 	_ensure_registry_loaded()
+	_create_objective_hint()
+	dialogue_layer.dialogue_started.connect(_on_dialogue_started)
 	dialogue_layer.dialogue_finished.connect(_on_dialogue_finished)
 	player = PLAYER_SCENE.instantiate() as Node2D
 	load_map(start_map_id)
@@ -60,6 +65,8 @@ func load_map(map_id: String, spawn_id: String = "") -> void:
 		resolved_spawn_id = str(map_data.get("default_spawn_id", "player_start"))
 	player.global_position = _spawn_position(map_data, resolved_spawn_id)
 	_configure_player_bounds()
+	_refresh_objective_hint()
+	_refresh_objective_marker()
 
 
 func start_encounter(encounter_id: String) -> void:
@@ -67,6 +74,7 @@ func start_encounter(encounter_id: String) -> void:
 	if active_battle != null and is_instance_valid(active_battle):
 		active_battle.queue_free()
 		active_battle = null
+	_set_objective_visible(false)
 
 	active_battle = BATTLE_SCENE.instantiate()
 	active_battle.set("auto_start_debug", false)
@@ -91,7 +99,7 @@ func _clear_world() -> void:
 func _refresh_runtime_entities() -> void:
 	if current_map == null or current_map_data.is_empty():
 		return
-	for node_name in ["RuntimeBlockers", "RuntimeInteractables", "RuntimeNPCs", "RuntimeExits"]:
+	for node_name in ["RuntimeBlockers", "RuntimeInteractables", "RuntimeNPCs", "RuntimeExits", "RuntimeObjectiveMarker"]:
 		var runtime_node := current_map.get_node_or_null(node_name)
 		if runtime_node != null:
 			current_map.remove_child(runtime_node)
@@ -100,6 +108,8 @@ func _refresh_runtime_entities() -> void:
 	_spawn_interactables(current_map_data)
 	_spawn_npcs(current_map_data)
 	_spawn_exits(current_map_data)
+	_refresh_objective_hint()
+	_refresh_objective_marker()
 
 
 func _spawn_interactables(map_data: Dictionary) -> void:
@@ -109,14 +119,22 @@ func _spawn_interactables(map_data: Dictionary) -> void:
 
 	var items := _interactables_for_map(str(map_data.get("id", "")), map_data)
 	for item in items:
+		var item_required_flags := _string_array(item.get("required_flags", []))
+		var item_blocked_flags := _string_array(item.get("blocked_by_flags", []))
+		var item_locked_text := str(item.get("locked_text", ""))
+		if _has_any_flag(item_blocked_flags):
+			continue
+		if not _flags_satisfied(item_required_flags) and item_locked_text.strip_edges().is_empty():
+			continue
+
 		var interactable := INTERACTABLE_SCENE.instantiate() as Interactable
 		interactable.name = str(item.get("id", "Interactable"))
 		interactable.dialogue_id = str(item.get("dialogue_id", item.get("id", "")))
 		interactable.prompt_text = str(item.get("display_name", "Interact"))
 		interactable.required_actor_group = "player"
-		interactable.required_flags = _string_array(item.get("required_flags", []))
-		interactable.blocked_by_flags = _string_array(item.get("blocked_by_flags", []))
-		interactable.locked_text = str(item.get("locked_text", ""))
+		interactable.required_flags = item_required_flags
+		interactable.blocked_by_flags = item_blocked_flags
+		interactable.locked_text = item_locked_text
 		interactable.repeat_text = _string_array(item.get("repeat_text", []))
 		interactable.base_text = _string_array(item.get("text", []))
 		interactable.effects = _string_array(item.get("effects", []))
@@ -261,17 +279,24 @@ func _on_battle_finished(encounter_id: String, victory: bool, _reward_flags: Arr
 	active_battle = null
 	call_deferred("_refresh_runtime_entities")
 	if not victory:
+		_refresh_objective_hint()
 		return
 	var encounter := _encounter_data(encounter_id)
 	var post_dialogue_id := str(encounter.get("post_battle_dialogue_id", "")).strip_edges()
 	if not post_dialogue_id.is_empty() and not _dialogue_data(post_dialogue_id).is_empty():
 		dialogue_layer.start_dialogue(post_dialogue_id)
+	_refresh_objective_hint()
+
+
+func _on_dialogue_started(_dialogue_id: String) -> void:
+	_set_objective_visible(false)
 
 
 func _on_dialogue_finished(dialogue_id: String, _applied_effects: Array) -> void:
 	var dialogue := _dialogue_data(dialogue_id)
 	_apply_effects(_string_array(dialogue.get("effects", [])))
 	call_deferred("_refresh_runtime_entities")
+	_refresh_objective_hint()
 
 
 func _apply_effects(effects: Array[String]) -> void:
@@ -290,6 +315,146 @@ func _apply_effects(effects: Array[String]) -> void:
 				start_encounter(encounter_id)
 		elif not effect_id.strip_edges().is_empty():
 			push_warning("Unsupported effect: %s" % effect_id)
+
+
+func _create_objective_hint() -> void:
+	objective_panel = PanelContainer.new()
+	objective_panel.name = "ObjectivePanel"
+	objective_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	objective_panel.position = Vector2(12, 12)
+	objective_panel.custom_minimum_size = Vector2(360, 28)
+	objective_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	objective_panel.visible = false
+	objective_panel.add_theme_stylebox_override("panel", RainlampThemeScript.inset_style(Color(0.93, 0.84, 0.64), RainlampThemeScript.SEAL_RED_DARK))
+	ui_layer.add_child(objective_panel)
+
+	var margin := MarginContainer.new()
+	margin.name = "Margin"
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_top", 4)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_bottom", 4)
+	objective_panel.add_child(margin)
+
+	objective_label = Label.new()
+	objective_label.name = "ObjectiveLabel"
+	objective_label.text = ""
+	objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	objective_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	objective_label.add_theme_font_size_override("font_size", 12)
+	RainlampThemeScript.apply_label(objective_label, RainlampThemeScript.SEAL_RED_DARK)
+	margin.add_child(objective_label)
+
+
+func _refresh_objective_hint() -> void:
+	if objective_panel == null or objective_label == null:
+		return
+	var text := _objective_text()
+	objective_label.text = text
+	_set_objective_visible(not text.strip_edges().is_empty() and active_battle == null and not _dialogue_is_open())
+
+
+func _set_objective_visible(value: bool) -> void:
+	if objective_panel != null:
+		objective_panel.visible = value
+
+
+func _dialogue_is_open() -> bool:
+	return dialogue_layer != null and dialogue_layer.has_method("is_dialogue_open") and bool(dialogue_layer.call("is_dialogue_open"))
+
+
+func _objective_text() -> String:
+	if not _has_flag("postman_handbook_obtained"):
+		return "当前投递：从门口向上走，到柜台正中查看邮差手册"
+	if not _has_flag("letter_001_received"):
+		return "当前投递：拿起第一封湿信"
+	if not _has_flag("tutorial_battle_01_cleared"):
+		return "当前投递：处理湿信纸残影"
+	if not _has_flag("found_wenheng_bridge"):
+		return "当前投递：去雨灯街问路，前往旧石桥找温衡"
+	if not _has_flag("bakery_lie_discovered"):
+		return "当前投递：去面包店查清回信真相"
+	if not _has_flag("tutorial_battle_02_cleared"):
+		return "当前投递：回旧石桥调查桥灯影"
+	if not _has_flag("bridge_memory_unlocked"):
+		return "当前投递：再看桥灯，进入记忆桥"
+	if not _has_flag("memory_mailbox_seen") or not _has_flag("memory_unsent_letter_seen"):
+		return "当前投递：调查记忆桥上的信箱和未寄出的信"
+	if not _has_flag("memory_truth_line_seen"):
+		return "当前投递：查看水洼里的最后一句真话"
+	if not _has_flag("boss_return_letter_started"):
+		return "当前投递：靠近湿信纸旋涡"
+	if not _has_flag("letter_001_sent"):
+		return "当前投递：寄出无址回信"
+	if not _has_flag("thirteenth_letter_seen"):
+		return "当前投递：去旧钟楼查看第十三封信"
+	return "当前投递：第一封信已归档"
+
+
+func _has_flag(flag_id: String) -> bool:
+	var game_state := get_node_or_null("/root/GameState")
+	return game_state != null and game_state.has_method("has_flag") and bool(game_state.call("has_flag", flag_id))
+
+
+func _refresh_objective_marker() -> void:
+	if current_map == null:
+		return
+	var old_marker := current_map.get_node_or_null("RuntimeObjectiveMarker")
+	if old_marker != null:
+		current_map.remove_child(old_marker)
+		old_marker.queue_free()
+
+	var marker_data := _objective_marker_data()
+	if marker_data.is_empty():
+		return
+
+	var interactables := current_map.get_node_or_null("RuntimeInteractables")
+	if interactables == null:
+		return
+	var target := interactables.get_node_or_null(str(marker_data.get("target_id", ""))) as Node2D
+	if target == null:
+		return
+
+	var marker := Node2D.new()
+	marker.name = "RuntimeObjectiveMarker"
+	marker.z_index = 80
+	current_map.add_child(marker)
+	var marker_offset: Vector2 = marker_data.get("offset", Vector2(48, -44))
+	marker.global_position = target.global_position + marker_offset
+
+	var label := Label.new()
+	label.name = "MarkerLabel"
+	label.text = str(marker_data.get("text", "v"))
+	label.position = Vector2(-34, -18)
+	label.custom_minimum_size = Vector2(72, 22)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 13)
+	RainlampThemeScript.apply_label(label, Color(1.0, 0.86, 0.36))
+	marker.add_child(label)
+
+
+func _objective_marker_data() -> Dictionary:
+	if current_map_id == "post_office":
+		if not _has_flag("postman_handbook_obtained"):
+			return {"target_id": "post_office_handbook", "text": "v 手册", "offset": Vector2(48, -44)}
+		if not _has_flag("letter_001_received"):
+			return {"target_id": "post_office_first_letter", "text": "v 湿信", "offset": Vector2(28, -44)}
+
+	if current_map_id == "old_stone_bridge" and _has_flag("found_wenheng_bridge") and _has_flag("bakery_lie_discovered") and not _has_flag("bridge_memory_unlocked"):
+		return {"target_id": "old_bridge_lamp", "text": "v 桥灯", "offset": Vector2(34, -50)}
+
+	if current_map_id == "memory_bridge" and _has_flag("memory_bridge_seen") and not _has_flag("letter_001_sent"):
+		if not _has_flag("memory_mailbox_seen"):
+			return {"target_id": "memory_bridge_mailbox", "text": "v 信箱", "offset": Vector2(30, -44)}
+		if not _has_flag("memory_unsent_letter_seen"):
+			return {"target_id": "memory_bridge_unsent_letter", "text": "v 信纸", "offset": Vector2(30, -44)}
+		if not _has_flag("memory_truth_line_seen"):
+			return {"target_id": "memory_bridge_truth_pool", "text": "v 水洼", "offset": Vector2(30, -44)}
+		if not _has_flag("boss_return_letter_started"):
+			return {"target_id": "memory_bridge_boss_trigger", "text": "v 湿信", "offset": Vector2(30, -50)}
+
+	return {}
 
 
 func _flags_satisfied(flags: Array[String]) -> bool:
@@ -412,6 +577,10 @@ func _map_scale() -> Vector2:
 	if design_size.x <= 0.0 or design_size.y <= 0.0 or texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		return Vector2.ONE
 	return Vector2(texture_size.x / design_size.x, texture_size.y / design_size.y)
+
+
+func map_scale_for_smoke() -> Vector2:
+	return _map_scale()
 
 
 func _average_map_scale() -> float:

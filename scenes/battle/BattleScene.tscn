@@ -27,14 +27,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
 
 [node name="BattleLayout" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 5
 
 [node name="Header" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
@@ -60,17 +62,20 @@ layout_mode = 2
 text = "返回地图"
 
 [node name="Body" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="PartyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
+custom_minimum_size = Vector2(0, 282)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="PartyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
+custom_minimum_size = Vector2(238, 0)
+layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="PartyBox" type="VBoxContainer" parent="MarginContainer/BattleLayout/Body/PartyPanel"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="PartyTitle" type="Label" parent="MarginContainer/BattleLayout/Body/PartyPanel/PartyBox"]
 layout_mode = 2
@@ -82,11 +87,11 @@ text = "阿澄意志：30/30\n祈意志：24/24\n灯火值：3/8"
 
 [node name="EnemyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 
 [node name="EnemyBox" type="VBoxContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel"]
 layout_mode = 2
-theme_override_constants/separation = 3
+theme_override_constants/separation = 2
 
 [node name="EnemyTitle" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
 layout_mode = 2
@@ -94,10 +99,12 @@ text = "回信封面"
 
 [node name="EnemyVisualRow" type="HBoxContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 5
+alignment = 1
 
 [node name="EnemyImageFrame" type="PanelContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow"]
-custom_minimum_size = Vector2(112, 112)
+custom_minimum_size = Vector2(148, 148)
 layout_mode = 2
 
 [node name="EnemyTexture" type="TextureRect" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow/EnemyImageFrame"]
@@ -106,13 +113,14 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="EnemyStatsLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "执念："
 
 [node name="SealPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(420, 58)
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="SealLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/SealPanel"]
 layout_mode = 2
@@ -125,14 +133,14 @@ autowrap_mode = 3
 text = "意图："
 
 [node name="ResultLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
-custom_minimum_size = Vector2(0, 28)
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LogPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
-custom_minimum_size = Vector2(0, 86)
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 
 [node name="LogLabel" type="RichTextLabel" parent="MarginContainer/BattleLayout/LogPanel"]
@@ -141,7 +149,7 @@ scroll_active = true
 fit_content = false
 
 [node name="FeedbackPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
 [node name="FeedbackLabel" type="Label" parent="MarginContainer/BattleLayout/FeedbackPanel"]
@@ -151,38 +159,52 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Commands" type="GridContainer" parent="MarginContainer/BattleLayout"]
+[node name="CommandPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+
+[node name="CommandBox" type="VBoxContainer" parent="MarginContainer/BattleLayout/CommandPanel"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="CommandTitle" type="Label" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox"]
+layout_mode = 2
+text = "投递指令"
+horizontal_alignment = 1
+
+[node name="Commands" type="GridContainer" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 5
+theme_override_constants/v_separation = 4
 columns = 3
 
-[node name="OpenSealButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+[node name="OpenSealButton" type="Button" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox/Commands"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "拆封 2"
 
-[node name="ArchiveSealButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+[node name="ArchiveSealButton" type="Button" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox/Commands"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "封存 2"
 
-[node name="ReturnButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+[node name="ReturnButton" type="Button" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox/Commands"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "退回 3"
 
-[node name="SendButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+[node name="SendButton" type="Button" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox/Commands"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "寄出 0"
 
-[node name="SeeButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+[node name="SeeButton" type="Button" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox/Commands"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "照见 1"
 
-[node name="LamplightButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
+[node name="LamplightButton" type="Button" parent="MarginContainer/BattleLayout/CommandPanel/CommandBox/Commands"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "添灯 2"

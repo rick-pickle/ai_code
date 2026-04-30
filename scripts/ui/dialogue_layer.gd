@@ -32,8 +32,10 @@ const RainlampThemeScript := preload("res://scripts/ui/rainlamp_theme.gd")
 @onready var speaker_label: Label = $Root/DialogBox/Margin/Content/Header/TitleStack/SpeakerLabel
 @onready var portrait_texture: TextureRect = $Root/DialogBox/Margin/Content/Header/PortraitFrame/PortraitTexture
 @onready var portrait_placeholder: Label = $Root/DialogBox/Margin/Content/Header/PortraitFrame/PortraitPlaceholder
-@onready var dialogue_text: Label = $Root/DialogBox/Margin/Content/DialogueText
-@onready var choices_box: VBoxContainer = $Root/DialogBox/Margin/Content/Choices
+@onready var text_scroll: ScrollContainer = $Root/DialogBox/Margin/Content/TextScroll
+@onready var dialogue_text: Label = $Root/DialogBox/Margin/Content/TextScroll/DialogueText
+@onready var choices_scroll: ScrollContainer = $Root/DialogBox/Margin/Content/ChoicesScroll
+@onready var choices_box: VBoxContainer = $Root/DialogBox/Margin/Content/ChoicesScroll/Choices
 @onready var continue_button: Button = $Root/DialogBox/Margin/Content/Footer/ContinueButton
 
 var _runtime: DialogueRuntime
@@ -43,6 +45,7 @@ var _choices_active := false
 func _ready() -> void:
 	add_to_group("dialogue_layer")
 	root.visible = false
+	_apply_safe_dialogue_layout()
 	_apply_theme()
 	_ensure_runtime()
 	continue_button.pressed.connect(_advance)
@@ -88,6 +91,40 @@ func _apply_theme() -> void:
 	RainlampThemeScript.apply_button(continue_button, true)
 
 
+func _apply_safe_dialogue_layout() -> void:
+	if dialog_box == null:
+		return
+	dialog_box.anchor_left = 0.035
+	dialog_box.anchor_top = 1.0
+	dialog_box.anchor_right = 0.965
+	dialog_box.anchor_bottom = 1.0
+	dialog_box.offset_left = 0.0
+	dialog_box.offset_top = -172.0
+	dialog_box.offset_right = 0.0
+	dialog_box.offset_bottom = -16.0
+	dialog_box.custom_minimum_size = Vector2(0, 156)
+	if text_scroll != null:
+		text_scroll.custom_minimum_size = Vector2(0, 58)
+	if choices_scroll != null:
+		choices_scroll.custom_minimum_size = Vector2(0, 44)
+		choices_scroll.visible = false
+
+
+func _set_dialogue_expanded(expanded: bool) -> void:
+	if dialog_box == null:
+		return
+	if expanded:
+		dialog_box.offset_top = -216.0
+		dialog_box.custom_minimum_size = Vector2(0, 200)
+		if text_scroll != null:
+			text_scroll.custom_minimum_size = Vector2(0, 44)
+	else:
+		dialog_box.offset_top = -172.0
+		dialog_box.custom_minimum_size = Vector2(0, 156)
+		if text_scroll != null:
+			text_scroll.custom_minimum_size = Vector2(0, 58)
+
+
 func _ensure_runtime() -> void:
 	if _runtime != null:
 		return
@@ -113,13 +150,16 @@ func _on_dialogue_started(dialogue_id: String, _dialogue: Dictionary) -> void:
 	root.visible = true
 	_choices_active = false
 	_clear_choices()
+	_reset_scrolls()
 	dialogue_started.emit(dialogue_id)
 
 
 func _on_dialogue_line_changed(dialogue_id: String, line_index: int, line: Dictionary) -> void:
 	_choices_active = false
 	_clear_choices()
+	_set_dialogue_expanded(false)
 	_show_line(line)
+	_reset_scrolls()
 	_play_dialogue_advance_sfx()
 	continue_button.visible = true
 	continue_button.disabled = false
@@ -131,6 +171,9 @@ func _on_choices_requested(_dialogue_id: String, choices: Array) -> void:
 	_choices_active = true
 	continue_button.visible = false
 	_clear_choices()
+	_set_dialogue_expanded(true)
+	if choices_scroll != null:
+		choices_scroll.visible = true
 
 	for index in range(choices.size()):
 		var choice := _as_dictionary(choices[index])
@@ -143,6 +186,7 @@ func _on_choices_requested(_dialogue_id: String, choices: Array) -> void:
 		choices_box.add_child(button)
 		if index == 0:
 			button.call_deferred("grab_focus")
+	_update_choice_scroll_height(choices.size())
 
 
 func _on_choice_button_pressed(choice_index: int) -> void:
@@ -159,6 +203,8 @@ func _on_dialogue_finished(dialogue_id: String, applied_effects: Array) -> void:
 	root.visible = false
 	_choices_active = false
 	_clear_choices()
+	_set_dialogue_expanded(false)
+	_reset_scrolls()
 	dialogue_finished.emit(dialogue_id, applied_effects)
 
 
@@ -166,12 +212,16 @@ func _on_dialogue_cancelled(_dialogue_id: String) -> void:
 	root.visible = false
 	_choices_active = false
 	_clear_choices()
+	_set_dialogue_expanded(false)
+	_reset_scrolls()
 
 
 func _on_dialogue_failed(dialogue_id: String, reason: String) -> void:
 	root.visible = false
 	_choices_active = false
 	_clear_choices()
+	_set_dialogue_expanded(false)
+	_reset_scrolls()
 	push_warning("对话无法开始：%s，%s" % [dialogue_id, reason])
 
 
@@ -231,6 +281,22 @@ func _choice_text(choice: Dictionary, index: int) -> String:
 func _clear_choices() -> void:
 	for child in choices_box.get_children():
 		child.queue_free()
+	if choices_scroll != null:
+		choices_scroll.visible = false
+
+
+func _reset_scrolls() -> void:
+	if text_scroll != null:
+		text_scroll.scroll_vertical = 0
+	if choices_scroll != null:
+		choices_scroll.scroll_vertical = 0
+
+
+func _update_choice_scroll_height(choice_count: int) -> void:
+	if choices_scroll == null:
+		return
+	var rows := clampi(choice_count, 1, 3)
+	choices_scroll.custom_minimum_size = Vector2(0, 24 + rows * 24)
 
 
 func _as_dictionary(value: Variant) -> Dictionary:

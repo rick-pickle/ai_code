@@ -9,8 +9,8 @@
   "asset_prompt_id": "",
   "dimensions": {
     "unit": "px",
-    "width": 960,
-    "height": 540
+    "width": 1024,
+    "height": 1536
   },
   "ambient": {
     "time_of_day": "memory_dusk",
@@ -24,8 +24,8 @@
       "id": "from_old_stone_bridge",
       "label": "桥灯倒影",
       "position": {
-        "x": 472,
-        "y": 314
+        "x": 503.467,
+        "y": 893.156
       },
       "facing": "up",
       "required_flags": [
@@ -41,10 +41,10 @@
       "target_map_id": "old_stone_bridge",
       "target_spawn_id": "from_memory_bridge",
       "area": {
-        "x": 430,
-        "y": 398,
-        "w": 118,
-        "h": 74
+        "x": 458.667,
+        "y": 1132.089,
+        "w": 125.867,
+        "h": 210.489
       },
       "required_flags": [
         "boss_return_letter_started"
@@ -60,10 +60,10 @@
       "target_map_id": "old_stone_bridge",
       "target_spawn_id": "after_boss",
       "area": {
-        "x": 430,
-        "y": 398,
-        "w": 118,
-        "h": 74
+        "x": 458.667,
+        "y": 1132.089,
+        "w": 125.867,
+        "h": 210.489
       },
       "required_flags": [
         "letter_001_sent"
@@ -76,46 +76,46 @@
     {
       "id": "memory_fog_north",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 960,
-        "h": 64
+        "x": 0.0,
+        "y": 0.0,
+        "w": 1024.0,
+        "h": 182.044
       }
     },
     {
       "id": "memory_fog_west",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 182,
-        "h": 540
+        "x": 0.0,
+        "y": 0.0,
+        "w": 194.133,
+        "h": 1536.0
       }
     },
     {
       "id": "memory_fog_east",
       "area": {
-        "x": 778,
-        "y": 0,
-        "w": 182,
-        "h": 540
+        "x": 829.867,
+        "y": 0.0,
+        "w": 194.133,
+        "h": 1536.0
       }
     },
     {
       "id": "memory_bridge_rail_left",
       "area": {
-        "x": 190,
-        "y": 86,
-        "w": 42,
-        "h": 368
+        "x": 202.667,
+        "y": 244.622,
+        "w": 44.8,
+        "h": 1046.756
       }
     },
     {
       "id": "memory_bridge_rail_right",
       "area": {
-        "x": 728,
-        "y": 86,
-        "w": 42,
-        "h": 368
+        "x": 776.533,
+        "y": 244.622,
+        "w": 44.8,
+        "h": 1046.756
       }
     }
   ],
@@ -124,8 +124,8 @@
       "instance_id": "young_wenheng_memory",
       "npc_id": "young_wenheng",
       "position": {
-        "x": 526,
-        "y": 246
+        "x": 561.067,
+        "y": 699.733
       },
       "facing": "left",
       "required_flags": [

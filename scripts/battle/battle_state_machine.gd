@@ -197,8 +197,10 @@ func snapshot() -> Dictionary:
 		"enemy_obsession": enemy.obsession if enemy != null else 0,
 		"enemy_max_obsession": enemy.max_obsession if enemy != null else 0,
 		"enemy_statuses": _status_labels(enemy.statuses if enemy != null else {}),
+		"revealed_layers": enemy.revealed_layers if enemy != null else 0,
 		"seal_lines": _seal_lines(),
 		"intent_text": _intent_text(),
+		"tutorial_hint": _tutorial_hint(),
 		"commands": _command_snapshots(),
 		"reward_flags": reward_flags.duplicate()
 	}
@@ -554,6 +556,20 @@ func _intent_text() -> String:
 	if _rain_blocks_intent():
 		return "雨噪太重，敌方意图被盖住"
 	return "未照见"
+
+
+func _tutorial_hint() -> String:
+	if enemy == null or phase != Phase.PLAYER_TURN:
+		return ""
+	var hints = enemy.metadata.get("tutorial_hints", [])
+	if typeof(hints) != TYPE_ARRAY or hints.is_empty():
+		return ""
+	if turn_number <= 1:
+		return str(hints[0])
+	var hint_index := 1
+	if enemy.revealed_layers > 0:
+		hint_index = min(enemy.revealed_layers, hints.size() - 1)
+	return str(hints[min(hint_index, hints.size() - 1)])
 
 
 func _seal_lines() -> Array:

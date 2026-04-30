@@ -9,8 +9,8 @@
   "asset_prompt_id": "",
   "dimensions": {
     "unit": "px",
-    "width": 960,
-    "height": 540
+    "width": 1024,
+    "height": 1536
   },
   "ambient": {
     "time_of_day": "early_morning_after_rain",
@@ -24,8 +24,8 @@
       "id": "from_rainlamp_street",
       "label": "钟楼巷口",
       "position": {
-        "x": 192,
-        "y": 374
+        "x": 204.8,
+        "y": 1063.822
       },
       "facing": "right",
       "required_flags": [
@@ -41,10 +41,10 @@
       "target_map_id": "rainlamp_street",
       "target_spawn_id": "from_clocktower_exterior",
       "area": {
-        "x": 76,
-        "y": 332,
-        "w": 116,
-        "h": 94
+        "x": 81.067,
+        "y": 944.356,
+        "w": 123.733,
+        "h": 267.378
       },
       "required_flags": [],
       "blocked_by_flags": [],
@@ -55,46 +55,46 @@
     {
       "id": "clocktower_building",
       "area": {
-        "x": 472,
-        "y": 30,
-        "w": 338,
-        "h": 226
+        "x": 503.467,
+        "y": 85.333,
+        "w": 360.533,
+        "h": 642.844
       }
     },
     {
       "id": "north_wall",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 960,
-        "h": 64
+        "x": 0.0,
+        "y": 0.0,
+        "w": 1024.0,
+        "h": 182.044
       }
     },
     {
       "id": "west_wall",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 72,
-        "h": 540
+        "x": 0.0,
+        "y": 0.0,
+        "w": 76.8,
+        "h": 1536.0
       }
     },
     {
       "id": "east_wall",
       "area": {
-        "x": 842,
-        "y": 0,
-        "w": 118,
-        "h": 540
+        "x": 898.133,
+        "y": 0.0,
+        "w": 125.867,
+        "h": 1536.0
       }
     },
     {
       "id": "courtyard_tree",
       "area": {
-        "x": 166,
-        "y": 82,
-        "w": 202,
-        "h": 122
+        "x": 177.067,
+        "y": 233.244,
+        "w": 215.467,
+        "h": 347.022
       }
     }
   ],
@@ -103,8 +103,8 @@
       "instance_id": "uncle_liang_clocktower",
       "npc_id": "uncle_liang",
       "position": {
-        "x": 626,
-        "y": 258
+        "x": 667.733,
+        "y": 733.867
       },
       "facing": "left",
       "required_flags": [

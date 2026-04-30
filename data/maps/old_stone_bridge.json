@@ -9,8 +9,8 @@
   "asset_prompt_id": "",
   "dimensions": {
     "unit": "px",
-    "width": 960,
-    "height": 540
+    "width": 1024,
+    "height": 1536
   },
   "ambient": {
     "time_of_day": "dusk",
@@ -24,8 +24,8 @@
       "id": "from_rainlamp_street",
       "label": "雨灯街桥头",
       "position": {
-        "x": 152,
-        "y": 324
+        "x": 162.133,
+        "y": 921.6
       },
       "facing": "right",
       "required_flags": [],
@@ -35,8 +35,8 @@
       "id": "from_memory_bridge",
       "label": "从记忆回到桥灯下",
       "position": {
-        "x": 478,
-        "y": 282
+        "x": 509.867,
+        "y": 802.133
       },
       "facing": "up",
       "required_flags": [
@@ -48,8 +48,8 @@
       "id": "after_boss",
       "label": "寄出后桥头",
       "position": {
-        "x": 512,
-        "y": 294
+        "x": 546.133,
+        "y": 836.267
       },
       "facing": "up",
       "required_flags": [
@@ -65,10 +65,10 @@
       "target_map_id": "rainlamp_street",
       "target_spawn_id": "from_old_stone_bridge",
       "area": {
-        "x": 44,
-        "y": 274,
-        "w": 112,
-        "h": 96
+        "x": 46.933,
+        "y": 779.378,
+        "w": 119.467,
+        "h": 273.067
       },
       "required_flags": [],
       "blocked_by_flags": [],
@@ -80,10 +80,10 @@
       "target_map_id": "memory_bridge",
       "target_spawn_id": "from_old_stone_bridge",
       "area": {
-        "x": 438,
-        "y": 228,
-        "w": 118,
-        "h": 92
+        "x": 467.2,
+        "y": 648.533,
+        "w": 125.867,
+        "h": 261.689
       },
       "required_flags": [
         "bakery_lie_discovered",
@@ -99,46 +99,46 @@
     {
       "id": "north_river",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 960,
-        "h": 92
+        "x": 0.0,
+        "y": 0.0,
+        "w": 1024.0,
+        "h": 261.689
       }
     },
     {
       "id": "west_river_edge",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 64,
-        "h": 540
+        "x": 0.0,
+        "y": 0.0,
+        "w": 68.267,
+        "h": 1536.0
       }
     },
     {
       "id": "east_river_edge",
       "area": {
-        "x": 886,
-        "y": 0,
-        "w": 74,
-        "h": 540
+        "x": 945.067,
+        "y": 0.0,
+        "w": 78.933,
+        "h": 1536.0
       }
     },
     {
       "id": "south_arches",
       "area": {
-        "x": 158,
-        "y": 392,
-        "w": 650,
-        "h": 118
+        "x": 168.533,
+        "y": 1115.022,
+        "w": 693.333,
+        "h": 335.644
       }
     },
     {
       "id": "bridge_lamp_base",
       "area": {
-        "x": 470,
-        "y": 214,
-        "w": 64,
-        "h": 42
+        "x": 501.333,
+        "y": 608.711,
+        "w": 68.267,
+        "h": 119.467
       }
     }
   ],
@@ -147,8 +147,8 @@
       "instance_id": "wenheng_bridge_waiting",
       "npc_id": "wenheng",
       "position": {
-        "x": 586,
-        "y": 254
+        "x": 625.067,
+        "y": 722.489
       },
       "facing": "left",
       "required_flags": [
@@ -167,8 +167,8 @@
       "instance_id": "wenheng_bridge_after_boss",
       "npc_id": "wenheng",
       "position": {
-        "x": 588,
-        "y": 254
+        "x": 627.2,
+        "y": 722.489
       },
       "facing": "left",
       "required_flags": [
@@ -186,8 +186,8 @@
       "instance_id": "linmo_bridge_after_boss",
       "npc_id": "linmo",
       "position": {
-        "x": 682,
-        "y": 294
+        "x": 727.467,
+        "y": 836.267
       },
       "facing": "left",
       "required_flags": [

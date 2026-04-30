@@ -7,15 +7,15 @@
         "display_name": "邮差手册",
         "kind": "story_pickup",
         "position": {
-          "x": 320,
-          "y": 146
+          "x": 561.0,
+          "y": 568.589
         },
-        "radius": 28,
+        "radius": 79.066,
         "area": {
-          "x": 258,
-          "y": 196,
-          "w": 84,
-          "h": 36
+          "x": 452.306,
+          "y": 763.311,
+          "w": 147.263,
+          "h": 140.2
         },
         "required_flags": [],
         "blocked_by_flags": [
@@ -38,15 +38,15 @@
         "display_name": "第一封湿信",
         "kind": "story_pickup",
         "position": {
-          "x": 382,
-          "y": 154
+          "x": 669.694,
+          "y": 599.744
         },
-        "radius": 26,
+        "radius": 73.418,
         "area": {
-          "x": 350,
-          "y": 196,
-          "w": 78,
-          "h": 36
+          "x": 613.594,
+          "y": 763.311,
+          "w": 136.744,
+          "h": 140.2
         },
         "required_flags": [
           "postman_handbook_obtained"
@@ -73,10 +73,10 @@
         "display_name": "旧邮局公告板",
         "kind": "investigation",
         "position": {
-          "x": 180,
-          "y": 96
+          "x": 315.562,
+          "y": 373.867
         },
-        "radius": 24,
+        "radius": 67.771,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -96,11 +96,13 @@
         "display_name": "空信箱",
         "kind": "investigation",
         "position": {
-          "x": 112,
-          "y": 230
+          "x": 196.35,
+          "y": 895.722
         },
-        "radius": 28,
-        "required_flags": [],
+        "radius": 79.066,
+        "required_flags": [
+          "postman_handbook_obtained"
+        ],
         "blocked_by_flags": [],
         "text": [
           "信箱里没有信，只有一点积水。",
@@ -111,17 +113,23 @@
         ],
         "effects": [
           "flag:inspected_empty_mailbox"
-        ]
+        ],
+        "area": {
+          "x": 154.275,
+          "y": 1035.922,
+          "w": 168.3,
+          "h": 124.622
+        }
       },
       {
         "id": "post_office_uniform",
         "display_name": "旧邮差制服",
         "kind": "investigation",
         "position": {
-          "x": 490,
-          "y": 94
+          "x": 859.031,
+          "y": 366.078
         },
-        "radius": 24,
+        "radius": 67.771,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -140,10 +148,10 @@
         "display_name": "雨窗",
         "kind": "flavor",
         "position": {
-          "x": 536,
-          "y": 178
+          "x": 939.675,
+          "y": 693.211
         },
-        "radius": 22,
+        "radius": 62.123,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -162,10 +170,10 @@
         "display_name": "街心雨灯",
         "kind": "investigation",
         "position": {
-          "x": 514,
-          "y": 264
+          "x": 548.267,
+          "y": 750.933
         },
-        "radius": 30,
+        "radius": 58.667,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -184,10 +192,10 @@
         "display_name": "街边水洼",
         "kind": "investigation",
         "position": {
-          "x": 706,
-          "y": 398
+          "x": 753.067,
+          "y": 1132.089
         },
-        "radius": 26,
+        "radius": 50.844,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -206,10 +214,10 @@
         "display_name": "旧石桥路牌",
         "kind": "navigation_hint",
         "position": {
-          "x": 804,
-          "y": 252
+          "x": 857.6,
+          "y": 716.8
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -228,10 +236,10 @@
         "display_name": "面包店窗灯",
         "kind": "navigation_hint",
         "position": {
-          "x": 442,
-          "y": 292
+          "x": 471.467,
+          "y": 830.578
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -250,10 +258,10 @@
         "display_name": "纸伞架",
         "kind": "flavor",
         "position": {
-          "x": 286,
-          "y": 246
+          "x": 305.067,
+          "y": 699.733
         },
-        "radius": 22,
+        "radius": 43.022,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -272,10 +280,10 @@
         "display_name": "钟楼巷口",
         "kind": "navigation_hint",
         "position": {
-          "x": 590,
-          "y": 118
+          "x": 629.333,
+          "y": 335.644
         },
-        "radius": 26,
+        "radius": 50.844,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -309,10 +317,10 @@
         "display_name": "面包店柜台",
         "kind": "investigation",
         "position": {
-          "x": 318,
-          "y": 176
+          "x": 508.8,
+          "y": 750.933
         },
-        "radius": 26,
+        "radius": 76.267,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -324,17 +332,23 @@
         ],
         "effects": [
           "flag:bakery_counter_seen"
-        ]
+        ],
+        "area": {
+          "x": 406.4,
+          "y": 776.533,
+          "w": 211.2,
+          "h": 145.067
+        }
       },
       {
         "id": "bakery_red_bean_bun",
         "display_name": "红豆包",
         "kind": "story_pickup",
         "position": {
-          "x": 374,
-          "y": 178
+          "x": 598.4,
+          "y": 759.467
         },
-        "radius": 20,
+        "radius": 58.667,
         "required_flags": [
           "letter_001_received"
         ],
@@ -350,22 +364,28 @@
         ],
         "effects": [
           "flag:received_red_bean_bun"
-        ]
+        ],
+        "area": {
+          "x": 550.4,
+          "y": 776.533,
+          "w": 134.4,
+          "h": 128.0
+        }
       },
       {
         "id": "bakery_linmo_drawer",
         "display_name": "林茉的抽屉",
         "kind": "key_investigation",
         "position": {
-          "x": 430,
-          "y": 146
+          "x": 688.0,
+          "y": 622.933
         },
-        "radius": 22,
+        "radius": 64.533,
         "area": {
-          "x": 406,
-          "y": 176,
-          "w": 58,
-          "h": 42
+          "x": 649.6,
+          "y": 750.933,
+          "w": 92.8,
+          "h": 179.2
         },
         "required_flags": [
           "found_wenheng_bridge"
@@ -393,10 +413,10 @@
         "display_name": "旧送货单",
         "kind": "investigation",
         "position": {
-          "x": 178,
-          "y": 132
+          "x": 284.8,
+          "y": 563.2
         },
-        "radius": 24,
+        "radius": 70.4,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -415,10 +435,10 @@
         "display_name": "起雾的窗",
         "kind": "flavor",
         "position": {
-          "x": 510,
-          "y": 104
+          "x": 816.0,
+          "y": 443.733
         },
-        "radius": 22,
+        "radius": 64.533,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -439,10 +459,10 @@
         "display_name": "旧石桥桥灯",
         "kind": "key_investigation",
         "position": {
-          "x": 502,
-          "y": 232
+          "x": 535.467,
+          "y": 659.911
         },
-        "radius": 30,
+        "radius": 58.667,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -487,17 +507,23 @@
         ],
         "effects": [
           "flag:inspected_old_bridge_lamp"
-        ]
+        ],
+        "area": {
+          "x": 480.0,
+          "y": 728.178,
+          "w": 110.933,
+          "h": 119.467
+        }
       },
       {
         "id": "old_bridge_rail_marks",
         "display_name": "桥栏刻痕",
         "kind": "investigation",
         "position": {
-          "x": 610,
-          "y": 210
+          "x": 650.667,
+          "y": 597.333
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -516,10 +542,10 @@
         "display_name": "灯下干痕",
         "kind": "investigation",
         "position": {
-          "x": 522,
-          "y": 280
+          "x": 556.8,
+          "y": 796.444
         },
-        "radius": 22,
+        "radius": 43.022,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -538,10 +564,10 @@
         "display_name": "河面倒影",
         "kind": "flavor",
         "position": {
-          "x": 456,
-          "y": 382
+          "x": 486.4,
+          "y": 1086.578
         },
-        "radius": 28,
+        "radius": 54.756,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -560,10 +586,10 @@
         "display_name": "旧布包",
         "kind": "investigation",
         "position": {
-          "x": 632,
-          "y": 284
+          "x": 674.133,
+          "y": 807.822
         },
-        "radius": 20,
+        "radius": 39.111,
         "required_flags": [
           "found_wenheng_bridge"
         ],
@@ -586,10 +612,10 @@
         "display_name": "桥头旧信箱",
         "kind": "investigation",
         "position": {
-          "x": 350,
-          "y": 258
+          "x": 373.333,
+          "y": 733.867
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [],
         "blocked_by_flags": [],
         "text": [
@@ -610,10 +636,10 @@
         "display_name": "记忆中的信箱",
         "kind": "key_investigation",
         "position": {
-          "x": 388,
-          "y": 246
+          "x": 413.867,
+          "y": 699.733
         },
-        "radius": 26,
+        "radius": 50.844,
         "required_flags": [
           "memory_bridge_seen"
         ],
@@ -636,10 +662,10 @@
         "display_name": "未寄出的告别信",
         "kind": "key_investigation",
         "position": {
-          "x": 524,
-          "y": 282
+          "x": 558.933,
+          "y": 802.133
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [
           "memory_bridge_seen"
         ],
@@ -663,10 +689,10 @@
         "display_name": "记忆桥灯",
         "kind": "investigation",
         "position": {
-          "x": 486,
-          "y": 220
+          "x": 518.4,
+          "y": 625.778
         },
-        "radius": 28,
+        "radius": 54.756,
         "required_flags": [
           "memory_bridge_seen"
         ],
@@ -687,10 +713,10 @@
         "display_name": "真话的水洼",
         "kind": "key_investigation",
         "position": {
-          "x": 584,
-          "y": 338
+          "x": 622.933,
+          "y": 961.422
         },
-        "radius": 28,
+        "radius": 54.756,
         "required_flags": [
           "memory_unsent_letter_seen",
           "memory_mailbox_seen"
@@ -714,10 +740,10 @@
         "display_name": "湿信纸旋涡",
         "kind": "boss_trigger",
         "position": {
-          "x": 492,
-          "y": 292
+          "x": 524.8,
+          "y": 830.578
         },
-        "radius": 34,
+        "radius": 66.489,
         "required_flags": [
           "memory_truth_line_seen"
         ],
@@ -744,10 +770,10 @@
         "display_name": "凉掉的红豆包",
         "kind": "investigation",
         "position": {
-          "x": 350,
-          "y": 336
+          "x": 373.333,
+          "y": 955.733
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [
           "letter_001_sent"
         ],
@@ -768,10 +794,10 @@
         "display_name": "仍亮着的灯",
         "kind": "investigation",
         "position": {
-          "x": 448,
-          "y": 318
+          "x": 477.867,
+          "y": 904.533
         },
-        "radius": 26,
+        "radius": 50.844,
         "required_flags": [
           "letter_001_sent"
         ],
@@ -792,10 +818,10 @@
         "display_name": "第十三封信",
         "kind": "ending_hook",
         "position": {
-          "x": 520,
-          "y": 366
+          "x": 554.667,
+          "y": 1041.067
         },
-        "radius": 28,
+        "radius": 54.756,
         "required_flags": [
           "letter_001_sent"
         ],
@@ -819,15 +845,15 @@
         "display_name": "旧钟楼木门",
         "kind": "flavor",
         "position": {
-          "x": 666,
-          "y": 220
+          "x": 710.4,
+          "y": 625.778
         },
-        "radius": 28,
+        "radius": 54.756,
         "area": {
-          "x": 636,
-          "y": 250,
-          "w": 70,
-          "h": 42
+          "x": 678.4,
+          "y": 711.111,
+          "w": 74.667,
+          "h": 119.467
         },
         "required_flags": [
           "letter_001_sent"
@@ -849,10 +875,10 @@
         "display_name": "湿石阶",
         "kind": "flavor",
         "position": {
-          "x": 588,
-          "y": 386
+          "x": 627.2,
+          "y": 1097.956
         },
-        "radius": 24,
+        "radius": 46.933,
         "required_flags": [
           "letter_001_sent"
         ],

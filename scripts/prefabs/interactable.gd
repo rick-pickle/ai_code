@@ -36,6 +36,8 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _has_target_in_range():
 		return
+	if not _can_show_interaction():
+		return
 
 	for action in interact_actions:
 		if InputMap.has_action(action) and event.is_action_pressed(action):
@@ -45,6 +47,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func interact() -> bool:
+	if not _can_show_interaction():
+		return false
+
 	var active_dialogue_id := _resolve_dialogue_id()
 	if active_dialogue_id.strip_edges().is_empty():
 		return _fail("Interactable has no dialogue_id.")
@@ -110,14 +115,26 @@ func _refresh_prompt() -> void:
 	if prompt_label == null:
 		return
 	prompt_label.text = _prompt_message()
-	prompt_label.visible = show_prompt_when_in_range and _has_target_in_range()
+	prompt_label.visible = show_prompt_when_in_range and _has_target_in_range() and _can_show_interaction()
 
 
 func _prompt_message() -> String:
 	var target_name := prompt_text.strip_edges()
 	if target_name.is_empty():
-		target_name = "交互"
-	return "按确认/互动：%s" % target_name
+		target_name = "互动"
+	return "按确认互动：%s" % target_name
+
+
+func is_available() -> bool:
+	return _flags_satisfied(required_flags) and not _has_any_flag(blocked_by_flags)
+
+
+func _can_show_interaction() -> bool:
+	if _has_any_flag(blocked_by_flags):
+		return false
+	if _flags_satisfied(required_flags):
+		return true
+	return not locked_text.strip_edges().is_empty()
 
 
 func _resolve_dialogue_id() -> String:
@@ -202,10 +219,10 @@ func _select_text_and_effects() -> Dictionary:
 	if not _flags_satisfied(required_flags):
 		if not locked_text.strip_edges().is_empty():
 			return {"text": [locked_text], "effects": []}
-		return {"text": repeat_text if not repeat_text.is_empty() else base_text, "effects": []}
+		return {"text": [], "effects": []}
 
 	if _has_any_flag(blocked_by_flags):
-		return {"text": repeat_text if not repeat_text.is_empty() else base_text, "effects": []}
+		return {"text": [], "effects": []}
 
 	for raw_entry in conditional_text:
 		if typeof(raw_entry) != TYPE_DICTIONARY:

@@ -18,6 +18,36 @@ PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 WAV_SIGNATURE = b"RIFF"
 WAVE_SIGNATURE = b"WAVE"
 
+MAP_REFERENCE_ASSETS = {
+    "post_office": ROOT / "assets" / "maps" / "post_office_reference.png",
+    "rainlamp_street": ROOT / "assets" / "maps" / "rainlamp_street_reference.png",
+    "bakery": ROOT / "assets" / "maps" / "bakery_reference.png",
+    "old_stone_bridge": ROOT / "assets" / "maps" / "old_stone_bridge_reference.png",
+    "memory_bridge": ROOT / "assets" / "maps" / "memory_bridge_reference.png",
+    "clocktower_exterior": ROOT / "assets" / "maps" / "clocktower_exterior_reference.png",
+}
+
+CRITICAL_INTERACTABLE_IDS = {
+    "post_office_handbook",
+    "post_office_first_letter",
+    "post_office_empty_mailbox",
+    "bakery_counter",
+    "bakery_red_bean_bun",
+    "bakery_linmo_drawer",
+    "old_bridge_lamp",
+    "old_bridge_cloth_bag",
+    "memory_bridge_mailbox",
+    "memory_bridge_unsent_letter",
+    "memory_bridge_lamp",
+    "memory_bridge_truth_pool",
+    "memory_bridge_boss_trigger",
+    "clocktower_red_bean_bun",
+    "clocktower_lit_lamp",
+    "clocktower_thirteenth_letter",
+    "clocktower_old_door",
+    "clocktower_wet_stairs",
+}
+
 
 @dataclass
 class Reporter:
@@ -231,6 +261,148 @@ def validate_area_rect(reporter: Reporter, owner: str, value: Any) -> None:
         reporter.error(f"{owner} area.w must be > 0")
     if isinstance(value.get("h"), (int, float)) and value["h"] <= 0:
         reporter.error(f"{owner} area.h must be > 0")
+
+
+def _dimensions_from(map_data: dict[str, Any]) -> tuple[float, float]:
+    dimensions = map_data.get("dimensions", {})
+    if not isinstance(dimensions, dict):
+        return 0.0, 0.0
+    width = dimensions.get("width", 0)
+    height = dimensions.get("height", 0)
+    if not isinstance(width, (int, float)) or not isinstance(height, (int, float)):
+        return 0.0, 0.0
+    return float(width), float(height)
+
+
+def _rect_tuple(value: Any) -> tuple[float, float, float, float] | None:
+    if not isinstance(value, dict):
+        return None
+    keys = ["x", "y", "w", "h"]
+    if not all(isinstance(value.get(key), (int, float)) for key in keys):
+        return None
+    return float(value["x"]), float(value["y"]), float(value["w"]), float(value["h"])
+
+
+def _position_tuple(value: Any) -> tuple[float, float] | None:
+    if not isinstance(value, dict):
+        return None
+    if not isinstance(value.get("x"), (int, float)) or not isinstance(value.get("y"), (int, float)):
+        return None
+    return float(value["x"]), float(value["y"])
+
+
+def _contains_rect(outer: tuple[float, float, float, float], inner: tuple[float, float, float, float]) -> bool:
+    ox, oy, ow, oh = outer
+    ix, iy, iw, ih = inner
+    epsilon = 0.001
+    return (
+        ix >= ox - epsilon
+        and iy >= oy - epsilon
+        and ix + iw <= ox + ow + epsilon
+        and iy + ih <= oy + oh + epsilon
+    )
+
+
+def _trigger_rect(item: dict[str, Any]) -> tuple[float, float, float, float] | None:
+    area = _rect_tuple(item.get("area"))
+    if area is not None:
+        return area
+    position = _position_tuple(item.get("position"))
+    radius = item.get("radius", 0)
+    if position is None or not isinstance(radius, (int, float)) or radius <= 0:
+        return None
+    x, y = position
+    r = float(radius)
+    return x - r, y - r, r * 2.0, r * 2.0
+
+
+def validate_map_reference_scales(
+    reporter: Reporter,
+    maps: dict[str, dict[str, Any]],
+) -> None:
+    for map_id, image_path in sorted(MAP_REFERENCE_ASSETS.items()):
+        map_data = maps.get(map_id)
+        if map_data is None:
+            reporter.error(f"Map reference scale check references missing map: {map_id}")
+            continue
+        if not image_path.exists():
+            reporter.error(f"Map {map_id} missing reference PNG for scale check: {rel(image_path)}")
+            continue
+        try:
+            texture_width, texture_height, _color_type, _has_alpha = png_info(image_path)
+        except (OSError, ValueError) as exc:
+            reporter.error(f"Map {map_id} reference PNG cannot be read for scale check: {rel(image_path)} ({exc})")
+            continue
+
+        design_width, design_height = _dimensions_from(map_data)
+        if design_width <= 0 or design_height <= 0:
+            reporter.error(f"Map {map_id} has invalid dimensions for scale check")
+            continue
+        scale_x = texture_width / design_width
+        scale_y = texture_height / design_height
+        reporter.info(
+            f"Map {map_id} scale sanity: dimensions={design_width:.0f}x{design_height:.0f}, "
+            f"texture={texture_width}x{texture_height}, scale={scale_x:.3f}x{scale_y:.3f}"
+        )
+        if abs(scale_x - scale_y) > 0.02 or abs(scale_x - 1.0) > 0.02 or abs(scale_y - 1.0) > 0.02:
+            reporter.error(
+                f"Map {map_id} dimensions do not match baked texture scale: "
+                f"dimensions={design_width:.0f}x{design_height:.0f}, "
+                f"texture={texture_width}x{texture_height}, scale={scale_x:.3f}x{scale_y:.3f}"
+            )
+
+
+def validate_interactable_reachability(
+    reporter: Reporter,
+    parsed: dict[Path, Any],
+    maps: dict[str, dict[str, Any]],
+) -> None:
+    path = ROOT / "data" / "interactables" / "vertical_slice_interactables.json"
+    root = parsed.get(path, {})
+    grouped = root.get("interactables_by_map", {}) if isinstance(root, dict) else {}
+    if not isinstance(grouped, dict):
+        reporter.error(f"Interactables root has no dictionary interactables_by_map: {rel(path)}")
+        return
+
+    checked = 0
+    for map_id, items in sorted(grouped.items()):
+        if not isinstance(items, list):
+            continue
+        blocker_rects = []
+        for blocker in maps.get(map_id, {}).get("blockers", []):
+            if isinstance(blocker, dict):
+                rect = _rect_tuple(blocker.get("area"))
+                if rect is not None:
+                    blocker_rects.append((str(blocker.get("id", "<unnamed>")), rect))
+
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            item_id = str(item.get("id", ""))
+            if item_id not in CRITICAL_INTERACTABLE_IDS:
+                continue
+            checked += 1
+            trigger = _trigger_rect(item)
+            if trigger is None:
+                reporter.error(f"Critical interactable {map_id}.{item_id} has no valid trigger area/radius")
+                continue
+            contained_by = [
+                blocker_id
+                for blocker_id, blocker_rect in blocker_rects
+                if _contains_rect(blocker_rect, trigger)
+            ]
+            if contained_by:
+                reporter.error(
+                    f"Critical interactable {map_id}.{item_id} trigger is fully inside blocker(s): "
+                    f"{', '.join(contained_by)}"
+                )
+            else:
+                x, y, w, h = trigger
+                reporter.info(
+                    f"Critical interactable reachable: {map_id}.{item_id} "
+                    f"trigger=({x:.1f},{y:.1f},{w:.1f},{h:.1f})"
+                )
+    reporter.info(f"Critical interactable reachability checked: {checked}")
 
 
 def validate_maps(
@@ -747,6 +919,8 @@ def main() -> int:
     dialogue_ids = load_dialogue_ids(parsed, interactable_ids)
 
     validate_maps(reporter, maps, npc_ids, dialogue_ids, interactable_ids)
+    validate_map_reference_scales(reporter, maps)
+    validate_interactable_reachability(reporter, parsed, maps)
     encounter_count = validate_encounters(reporter, parsed, set(enemies))
     validate_mainline_path(reporter, parsed)
     png_count = validate_png_assets(reporter, parsed)

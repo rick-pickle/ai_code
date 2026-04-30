@@ -31,6 +31,10 @@
     "addressless_delivery",
     "refuse_to_leave"
   ],
-  "victory_condition": "use_send_letter_on_final_layer"
+  "victory_condition": "use_send_letter_on_final_layer",
+  "tutorial_hints": [
+    "先拆出表层等待，别急着寄出。",
+    "谎言出现时用退回，照见可以看清下一步。",
+    "三层真相都松动后，再把这封信寄出。"
+  ]
 }
-

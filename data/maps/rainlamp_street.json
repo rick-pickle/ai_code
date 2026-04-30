@@ -9,8 +9,8 @@
   "asset_prompt_id": "rainlamp_street_map",
   "dimensions": {
     "unit": "px",
-    "width": 960,
-    "height": 540
+    "width": 1024,
+    "height": 1536
   },
   "ambient": {
     "time_of_day": "dusk_to_night",
@@ -24,8 +24,8 @@
       "id": "from_post_office",
       "label": "旧邮局门口",
       "position": {
-        "x": 142,
-        "y": 352
+        "x": 151.467,
+        "y": 1001.244
       },
       "facing": "right",
       "required_flags": [],
@@ -35,8 +35,8 @@
       "id": "from_bakery",
       "label": "面包店门口",
       "position": {
-        "x": 450,
-        "y": 386
+        "x": 480.0,
+        "y": 1097.956
       },
       "facing": "down",
       "required_flags": [],
@@ -46,8 +46,8 @@
       "id": "from_old_stone_bridge",
       "label": "旧石桥街口",
       "position": {
-        "x": 780,
-        "y": 318
+        "x": 832.0,
+        "y": 904.533
       },
       "facing": "left",
       "required_flags": [],
@@ -57,8 +57,8 @@
       "id": "from_clocktower_exterior",
       "label": "旧钟楼巷口",
       "position": {
-        "x": 588,
-        "y": 142
+        "x": 627.2,
+        "y": 403.911
       },
       "facing": "down",
       "required_flags": [
@@ -74,10 +74,10 @@
       "target_map_id": "post_office",
       "target_spawn_id": "from_rainlamp_street",
       "area": {
-        "x": 86,
-        "y": 292,
-        "w": 90,
-        "h": 82
+        "x": 91.733,
+        "y": 830.578,
+        "w": 96.0,
+        "h": 233.244
       },
       "required_flags": [],
       "blocked_by_flags": [],
@@ -89,10 +89,10 @@
       "target_map_id": "bakery",
       "target_spawn_id": "from_rainlamp_street",
       "area": {
-        "x": 404,
-        "y": 302,
-        "w": 92,
-        "h": 68
+        "x": 430.933,
+        "y": 859.022,
+        "w": 98.133,
+        "h": 193.422
       },
       "required_flags": [],
       "blocked_by_flags": [],
@@ -104,10 +104,10 @@
       "target_map_id": "old_stone_bridge",
       "target_spawn_id": "from_rainlamp_street",
       "area": {
-        "x": 790,
-        "y": 270,
-        "w": 132,
-        "h": 94
+        "x": 842.667,
+        "y": 768.0,
+        "w": 140.8,
+        "h": 267.378
       },
       "required_flags": [
         "letter_001_received"
@@ -121,10 +121,10 @@
       "target_map_id": "clocktower_exterior",
       "target_spawn_id": "from_rainlamp_street",
       "area": {
-        "x": 548,
-        "y": 78,
-        "w": 96,
-        "h": 74
+        "x": 584.533,
+        "y": 221.867,
+        "w": 102.4,
+        "h": 210.489
       },
       "required_flags": [
         "letter_001_sent"
@@ -137,37 +137,37 @@
     {
       "id": "west_building_fronts",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 150,
-        "h": 278
+        "x": 0.0,
+        "y": 0.0,
+        "w": 160.0,
+        "h": 790.756
       }
     },
     {
       "id": "north_roofs",
       "area": {
-        "x": 0,
-        "y": 0,
-        "w": 960,
-        "h": 64
+        "x": 0.0,
+        "y": 0.0,
+        "w": 1024.0,
+        "h": 182.044
       }
     },
     {
       "id": "east_building_fronts",
       "area": {
-        "x": 826,
-        "y": 0,
-        "w": 134,
-        "h": 540
+        "x": 881.067,
+        "y": 0.0,
+        "w": 142.933,
+        "h": 1536.0
       }
     },
     {
       "id": "south_water_edge",
       "area": {
-        "x": 0,
-        "y": 466,
-        "w": 960,
-        "h": 74
+        "x": 0.0,
+        "y": 1325.511,
+        "w": 1024.0,
+        "h": 210.489
       }
     }
   ],
@@ -176,8 +176,8 @@
       "instance_id": "umbrella_owner_street",
       "npc_id": "umbrella_shop_owner",
       "position": {
-        "x": 292,
-        "y": 296
+        "x": 311.467,
+        "y": 841.956
       },
       "facing": "down",
       "required_flags": [],
@@ -194,8 +194,8 @@
       "instance_id": "rain_counting_child_street",
       "npc_id": "rain_counting_child",
       "position": {
-        "x": 628,
-        "y": 368
+        "x": 669.867,
+        "y": 1046.756
       },
       "facing": "left",
       "required_flags": [],
@@ -212,8 +212,8 @@
       "instance_id": "rain_counting_child_after_boss",
       "npc_id": "rain_counting_child",
       "position": {
-        "x": 628,
-        "y": 368
+        "x": 669.867,
+        "y": 1046.756
       },
       "facing": "left",
       "required_flags": [
@@ -229,8 +229,8 @@
       "instance_id": "uncle_liang_far_street",
       "npc_id": "uncle_liang",
       "position": {
-        "x": 672,
-        "y": 160
+        "x": 716.8,
+        "y": 455.111
       },
       "facing": "down",
       "required_flags": [],

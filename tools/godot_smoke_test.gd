@@ -98,6 +98,11 @@ func _smoke_maps(game_root: Node) -> void:
 			_fail("Map %s is missing Background Sprite2D." % map_id)
 		elif background.texture == null:
 			_fail("Map %s Background has no texture." % map_id)
+		var map_scale := Vector2.ONE
+		if game_root.has_method("map_scale_for_smoke"):
+			map_scale = game_root.call("map_scale_for_smoke")
+		if abs(map_scale.x - map_scale.y) > 0.02 or abs(map_scale.x - 1.0) > 0.02 or abs(map_scale.y - 1.0) > 0.02:
+			_fail("Map %s has unsafe reference scale %.3fx%.3f" % [map_id, map_scale.x, map_scale.y])
 
 		var blockers := current_map.get_node_or_null("RuntimeBlockers")
 		if blockers == null:
@@ -106,7 +111,7 @@ func _smoke_maps(game_root: Node) -> void:
 			_fail("Map %s RuntimeBlockers has no children." % map_id)
 		var blocker_count := blockers.get_child_count() if blockers != null else 0
 		var has_texture := background != null and background.texture != null
-		_stage("map end id=%s blockers=%d texture=%s" % [map_id, blocker_count, has_texture])
+		_stage("map end id=%s blockers=%d texture=%s scale=%.3fx%.3f" % [map_id, blocker_count, has_texture, map_scale.x, map_scale.y])
 
 
 func _smoke_encounters(game_root: Node) -> void:
