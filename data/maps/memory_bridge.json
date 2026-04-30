@@ -72,6 +72,53 @@
       "locked_text": ""
     }
   ],
+  "blockers": [
+    {
+      "id": "memory_fog_north",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 960,
+        "h": 64
+      }
+    },
+    {
+      "id": "memory_fog_west",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 182,
+        "h": 540
+      }
+    },
+    {
+      "id": "memory_fog_east",
+      "area": {
+        "x": 778,
+        "y": 0,
+        "w": 182,
+        "h": 540
+      }
+    },
+    {
+      "id": "memory_bridge_rail_left",
+      "area": {
+        "x": 190,
+        "y": 86,
+        "w": 42,
+        "h": 368
+      }
+    },
+    {
+      "id": "memory_bridge_rail_right",
+      "area": {
+        "x": 728,
+        "y": 86,
+        "w": 42,
+        "h": 368
+      }
+    }
+  ],
   "npcs": [
     {
       "instance_id": "young_wenheng_memory",

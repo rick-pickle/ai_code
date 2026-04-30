@@ -24,34 +24,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.24)
+color = Color(0.09, 0.06, 0.04, 0.28)
 
 [node name="DialogBox" type="PanelContainer" parent="Root"]
 layout_mode = 1
-anchor_left = 0.04
-anchor_top = 0.53
-anchor_right = 0.96
+anchor_left = 0.035
+anchor_top = 0.49
+anchor_right = 0.965
 anchor_bottom = 0.96
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Margin" type="MarginContainer" parent="Root/DialogBox"]
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
 
 [node name="Content" type="VBoxContainer" parent="Root/DialogBox/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="Header" type="HBoxContainer" parent="Root/DialogBox/Margin/Content"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="PortraitFrame" type="PanelContainer" parent="Root/DialogBox/Margin/Content/Header"]
-custom_minimum_size = Vector2(56, 56)
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 
 [node name="PortraitTexture" type="TextureRect" parent="Root/DialogBox/Margin/Content/Header/PortraitFrame"]
@@ -68,14 +68,23 @@ text = "像"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SpeakerLabel" type="Label" parent="Root/DialogBox/Margin/Content/Header"]
+[node name="TitleStack" type="VBoxContainer" parent="Root/DialogBox/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="StampLabel" type="Label" parent="Root/DialogBox/Margin/Content/Header/TitleStack"]
+layout_mode = 2
+text = "雨灯镇邮册"
+
+[node name="SpeakerLabel" type="Label" parent="Root/DialogBox/Margin/Content/Header/TitleStack"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "旁白"
 vertical_alignment = 1
 
 [node name="DialogueText" type="Label" parent="Root/DialogBox/Margin/Content"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 43)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -85,7 +94,7 @@ vertical_alignment = 1
 
 [node name="Choices" type="VBoxContainer" parent="Root/DialogBox/Margin/Content"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="Footer" type="HBoxContainer" parent="Root/DialogBox/Margin/Content"]
 layout_mode = 2

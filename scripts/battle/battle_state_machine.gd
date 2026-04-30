@@ -524,7 +524,7 @@ func _default_enemy_action(skill_id: String) -> Dictionary:
 func _damage_party(amount: int, target: String) -> void:
 	match target:
 		"party":
-			var split := max(1, int(ceil(amount / 2.0)))
+			var split: int = max(1, int(ceil(amount / 2.0)))
 			acheng_will = max(0, acheng_will - split)
 			qi_will = max(0, qi_will - split)
 			_log("阿澄与祈各失去 %d 点意志。" % split)

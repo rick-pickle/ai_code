@@ -13,6 +13,7 @@ config/features=PackedStringArray("4.2")
 
 GameState="*res://scripts/autoload/game_state.gd"
 DataRegistry="*res://scripts/autoload/data_registry.gd"
+AudioManager="*res://scripts/audio/audio_manager.gd"
 
 [display]
 
@@ -24,4 +25,3 @@ window/stretch/aspect="keep"
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-

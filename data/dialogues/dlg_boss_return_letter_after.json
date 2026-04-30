@@ -1,0 +1,54 @@
+{
+  "id": "dlg_boss_return_letter_after",
+  "lines": [
+    {
+      "speaker": "wenheng",
+      "portrait": "wenheng_calm",
+      "text": "雨声……轻了。"
+    },
+    {
+      "speaker": "wenheng",
+      "portrait": "wenheng_calm",
+      "text": "我一直以为，是雨把字冲淡了。原来是我自己不敢读。"
+    },
+    {
+      "speaker": "linmo",
+      "portrait": "linmo_downcast",
+      "text": "温伯，对不起。我替他写了那么多封信，却没有一封敢写真话。"
+    },
+    {
+      "speaker": "wenheng",
+      "portrait": "wenheng_smile",
+      "text": "小茉，你让桥没有空着。也让我多等了许多年灯。"
+    },
+    {
+      "speaker": "linmo",
+      "portrait": "linmo_soft",
+      "text": "那盏灯，以后不用只照一个人了。"
+    },
+    {
+      "speaker": "acheng",
+      "portrait": "acheng_calm",
+      "text": "这封信，我会寄出去。寄到它该停下的地方。"
+    },
+    {
+      "speaker": "qi",
+      "portrait": "qi_calm",
+      "text": "第一封，寄出。别急着松手，阿澄。邮包里还有声音。"
+    },
+    {
+      "speaker": "acheng",
+      "portrait": "acheng_confused",
+      "text": "还有信？"
+    },
+    {
+      "speaker": "qi",
+      "portrait": "qi_worried",
+      "text": "第十三封还没醒。等雨真的停一下，它会自己露出来。"
+    }
+  ],
+  "choices": [],
+  "effects": [
+    "flag:bridge_waiter_resolved"
+  ]
+}

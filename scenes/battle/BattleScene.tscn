@@ -11,6 +11,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_battle_scene")
 
+[node name="PaperBackground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.80, 0.71, 0.55, 1)
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -18,18 +27,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
 
 [node name="BattleLayout" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
 [node name="Header" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="EncounterLabel" type="Label" parent="MarginContainer/BattleLayout/Header"]
 layout_mode = 2
@@ -45,10 +54,15 @@ text = "阶段："
 layout_mode = 2
 text = "重开"
 
+[node name="CloseButton" type="Button" parent="MarginContainer/BattleLayout/Header"]
+visible = false
+layout_mode = 2
+text = "返回地图"
+
 [node name="Body" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="PartyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
 layout_mode = 2
@@ -60,7 +74,7 @@ theme_override_constants/separation = 4
 
 [node name="PartyTitle" type="Label" parent="MarginContainer/BattleLayout/Body/PartyPanel/PartyBox"]
 layout_mode = 2
-text = "我方"
+text = "我方信札"
 
 [node name="PartyStatsLabel" type="Label" parent="MarginContainer/BattleLayout/Body/PartyPanel/PartyBox"]
 layout_mode = 2
@@ -68,31 +82,57 @@ text = "阿澄意志：30/30\n祈意志：24/24\n灯火值：3/8"
 
 [node name="EnemyPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="EnemyBox" type="VBoxContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="EnemyTitle" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
 layout_mode = 2
-text = "敌方"
+text = "回信封面"
 
-[node name="EnemyStatsLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+[node name="EnemyVisualRow" type="HBoxContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
 layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="EnemyImageFrame" type="PanelContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+
+[node name="EnemyTexture" type="TextureRect" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow/EnemyImageFrame"]
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnemyStatsLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "执念："
 
-[node name="SealLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+[node name="SealPanel" type="PanelContainer" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+
+[node name="SealLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/SealPanel"]
 layout_mode = 2
 text = "封缄："
+autowrap_mode = 3
 
 [node name="IntentLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
 layout_mode = 2
 autowrap_mode = 3
 text = "意图："
 
+[node name="ResultLabel" type="Label" parent="MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="LogPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
-custom_minimum_size = Vector2(0, 76)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 
 [node name="LogLabel" type="RichTextLabel" parent="MarginContainer/BattleLayout/LogPanel"]
@@ -100,9 +140,20 @@ layout_mode = 2
 scroll_active = true
 fit_content = true
 
+[node name="FeedbackPanel" type="PanelContainer" parent="MarginContainer/BattleLayout"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="FeedbackLabel" type="Label" parent="MarginContainer/BattleLayout/FeedbackPanel"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="Commands" type="HBoxContainer" parent="MarginContainer/BattleLayout"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="OpenSealButton" type="Button" parent="MarginContainer/BattleLayout/Commands"]
 layout_mode = 2

@@ -13,6 +13,28 @@
       "notes": "视觉方向强，源图部分帧格内留白不足，正式工程建议再生成严格留白版。"
     },
     {
+      "id": "acheng_walk_4x4_v2",
+      "display_name": "阿澄四向行走正式留白版",
+      "type": "player_walk_sheet",
+      "status": "runtime_active",
+      "raw": "assets/sprites/characters/acheng_walk_4x4_v2/raw-sheet.png",
+      "sheet": "assets/sprites/characters/acheng_walk_4x4_v2/sheet-transparent.png",
+      "preview_gif": "assets/sprites/characters/acheng_walk_4x4_v2/animation.gif",
+      "meta": "assets/sprites/characters/acheng_walk_4x4_v2/pipeline-meta.json",
+      "notes": "当前 Player.tscn 使用的 4x4 行走 sheet，输出帧有足够透明留白并由 player_controller.gd 驱动。"
+    },
+    {
+      "id": "npc_roster",
+      "display_name": "垂直切片 NPC 像素角色组",
+      "type": "npc_roster",
+      "status": "runtime_active",
+      "raw": "assets/sprites/characters/npc_roster/raw-sheet.png",
+      "sheet": "assets/sprites/characters/npc_roster/sheet-transparent.png",
+      "preview_gif": "assets/sprites/characters/npc_roster/animation.gif",
+      "meta": "assets/sprites/characters/npc_roster/pipeline-meta.json",
+      "notes": "顺序为温衡、林茉、梁叔、纸伞铺老板、数雨点的小孩、祈；NPC.tscn 按 npc_id 映射到单帧 PNG。"
+    },
+    {
       "id": "qi_hover_1x4",
       "display_name": "祈悬浮待机",
       "type": "companion_hover_sheet",
@@ -36,4 +58,3 @@
     }
   ]
 }
-

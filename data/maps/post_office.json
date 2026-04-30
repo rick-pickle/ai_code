@@ -63,6 +63,53 @@
       "locked_text": "柜台上的手册和第一封信还没看完。雨声在门外等着。"
     }
   ],
+  "blockers": [
+    {
+      "id": "north_wall_and_shelves",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 640,
+        "h": 72
+      }
+    },
+    {
+      "id": "left_wall",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 54,
+        "h": 360
+      }
+    },
+    {
+      "id": "right_wall",
+      "area": {
+        "x": 586,
+        "y": 0,
+        "w": 54,
+        "h": 360
+      }
+    },
+    {
+      "id": "front_counter",
+      "area": {
+        "x": 186,
+        "y": 164,
+        "w": 308,
+        "h": 46
+      }
+    },
+    {
+      "id": "mail_sorting_table",
+      "area": {
+        "x": 78,
+        "y": 198,
+        "w": 104,
+        "h": 68
+      }
+    }
+  ],
   "npcs": [
     {
       "instance_id": "qi_post_office",

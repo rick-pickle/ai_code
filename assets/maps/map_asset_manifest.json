@@ -26,7 +26,58 @@
       ],
       "status": "visual_reference",
       "notes": "适合作为旧邮局室内布局、交互点、灯光层次和碰撞遮挡标杆。正式工程建议按 480x270 视口裁出房间区域或重绘成可编辑 TileMap。"
+    },
+    {
+      "id": "bakery_reference",
+      "display_name": "面包店视觉地图",
+      "type": "baked_raster_reference",
+      "path": "assets/maps/bakery_reference.png",
+      "prompt": "assets/prompts/bakery_map.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "runtime_reference",
+      "notes": "用于二次验收的正式参考地图，包含柜台、烤炉、红豆包展示、雨窗和可走动线。"
+    },
+    {
+      "id": "old_stone_bridge_reference",
+      "display_name": "旧石桥视觉地图",
+      "type": "baked_raster_reference",
+      "path": "assets/maps/old_stone_bridge_reference.png",
+      "prompt": "assets/prompts/old_stone_bridge_map.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "runtime_reference",
+      "notes": "用于温衡初见、桥灯教学战和记忆入口的正式参考地图。"
+    },
+    {
+      "id": "memory_bridge_reference",
+      "display_name": "记忆石桥视觉地图",
+      "type": "baked_raster_reference",
+      "path": "assets/maps/memory_bridge_reference.png",
+      "prompt": "assets/prompts/memory_bridge_map.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "runtime_reference",
+      "notes": "用于真相调查、湿信纸旋涡和 Boss 前记忆空间。"
+    },
+    {
+      "id": "clocktower_exterior_reference",
+      "display_name": "旧钟楼外围视觉地图",
+      "type": "baked_raster_reference",
+      "path": "assets/maps/clocktower_exterior_reference.png",
+      "prompt": "assets/prompts/clocktower_exterior_map.txt",
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "runtime_reference",
+      "notes": "用于第一封信寄出后的第十三封信钩子与梁叔悬念。"
     }
   ]
 }
-

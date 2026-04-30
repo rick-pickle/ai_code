@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/maps/reference_map.gd" id="1_map_script"]
+[ext_resource type="Texture2D" path="res://assets/maps/memory_bridge_reference.png" id="2_map_texture"]
+
+[node name="Map_MemoryBridge_Reference" type="Node2D"]
+script = ExtResource("1_map_script")
+map_id = "memory_bridge"
+display_name = "记忆石桥"
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2_map_texture")
+centered = false
+
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="from_old_stone_bridge" type="Marker2D" parent="Spawns"]
+position = Vector2(503, 893)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(512, 768)
+enabled = true
+zoom = Vector2(2, 2)

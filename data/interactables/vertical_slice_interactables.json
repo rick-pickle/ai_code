@@ -11,6 +11,12 @@
           "y": 146
         },
         "radius": 28,
+        "area": {
+          "x": 258,
+          "y": 196,
+          "w": 84,
+          "h": 36
+        },
         "required_flags": [],
         "blocked_by_flags": [
           "postman_handbook_obtained"
@@ -36,6 +42,12 @@
           "y": 154
         },
         "radius": 26,
+        "area": {
+          "x": 350,
+          "y": 196,
+          "w": 78,
+          "h": 36
+        },
         "required_flags": [
           "postman_handbook_obtained"
         ],
@@ -52,6 +64,7 @@
         ],
         "effects": [
           "flag:letter_001_received",
+          "encounter:enc_tutorial_wet_paper",
           "quest_step:letter_001_bridge_waiter.ask_about_wenheng"
         ]
       },
@@ -348,6 +361,12 @@
           "y": 146
         },
         "radius": 22,
+        "area": {
+          "x": 406,
+          "y": 176,
+          "w": 58,
+          "h": 42
+        },
         "required_flags": [
           "found_wenheng_bridge"
         ],
@@ -431,6 +450,21 @@
           "像有人每天都站在那里，把雨也等累了。"
         ],
         "conditional_text": [
+          {
+            "required_flags": [
+              "found_wenheng_bridge"
+            ],
+            "blocked_by_flags": [
+              "tutorial_battle_02_cleared"
+            ],
+            "text": [
+              "桥灯忽然晃了一下，灯芯里的雨声变得刺耳。",
+              "祈低声说：先别拆信。先把灯里的影子退回去。"
+            ],
+            "effects": [
+              "encounter:enc_tutorial_bridge_lamp"
+            ]
+          },
           {
             "required_flags": [
               "bakery_lie_discovered",
@@ -789,6 +823,12 @@
           "y": 220
         },
         "radius": 28,
+        "area": {
+          "x": 636,
+          "y": 250,
+          "w": 70,
+          "h": 42
+        },
         "required_flags": [
           "letter_001_sent"
         ],

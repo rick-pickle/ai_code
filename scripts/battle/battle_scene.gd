@@ -1,25 +1,46 @@
 extends Control
 
+signal battle_finished(encounter_id: String, victory: bool, reward_flags: Array)
+
 const BattleStateMachineScript := preload("res://scripts/battle/battle_state_machine.gd")
+const RainlampThemeScript := preload("res://scripts/ui/rainlamp_theme.gd")
 
 @export var auto_start_debug := true
 @export var debug_encounter_id := "enc_tutorial_wet_paper"
 @export var debug_enemy_id := "enemy_wet_paper_echo"
+@export var enemy_image_paths: Dictionary = {
+	"enemy_return_letter": "res://assets/sprites/enemies/return_letter_idle_3x3/idle-1.png",
+	"enemy_wet_paper_echo": "res://assets/sprites/enemies/return_letter_idle_3x3/idle-1.png",
+}
 
 var machine: RefCounted
 var command_buttons: Dictionary = {}
 var active_encounter_id := ""
 var active_enemy_id := ""
 var victory_flags_applied := false
+var result_sfx_played := false
+var last_phase_key := ""
 
 @onready var encounter_label: Label = $MarginContainer/BattleLayout/Header/EncounterLabel
 @onready var phase_label: Label = $MarginContainer/BattleLayout/Header/PhaseLabel
 @onready var restart_button: Button = $MarginContainer/BattleLayout/Header/RestartButton
+@onready var close_button: Button = $MarginContainer/BattleLayout/Header/CloseButton
+@onready var party_panel: PanelContainer = $MarginContainer/BattleLayout/Body/PartyPanel
+@onready var party_title: Label = $MarginContainer/BattleLayout/Body/PartyPanel/PartyBox/PartyTitle
 @onready var party_stats_label: Label = $MarginContainer/BattleLayout/Body/PartyPanel/PartyBox/PartyStatsLabel
-@onready var enemy_stats_label: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyStatsLabel
-@onready var seal_label: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/SealLabel
+@onready var enemy_panel: PanelContainer = $MarginContainer/BattleLayout/Body/EnemyPanel
+@onready var enemy_title: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyTitle
+@onready var enemy_image_frame: PanelContainer = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow/EnemyImageFrame
+@onready var enemy_texture: TextureRect = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow/EnemyImageFrame/EnemyTexture
+@onready var enemy_stats_label: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/EnemyVisualRow/EnemyStatsLabel
+@onready var seal_panel: PanelContainer = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/SealPanel
+@onready var seal_label: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/SealPanel/SealLabel
 @onready var intent_label: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/IntentLabel
+@onready var result_label: Label = $MarginContainer/BattleLayout/Body/EnemyPanel/EnemyBox/ResultLabel
+@onready var log_panel: PanelContainer = $MarginContainer/BattleLayout/LogPanel
 @onready var log_label: RichTextLabel = $MarginContainer/BattleLayout/LogPanel/LogLabel
+@onready var feedback_panel: PanelContainer = $MarginContainer/BattleLayout/FeedbackPanel
+@onready var feedback_label: Label = $MarginContainer/BattleLayout/FeedbackPanel/FeedbackLabel
 
 
 func _ready() -> void:
@@ -31,11 +52,14 @@ func _ready() -> void:
 		"see_through": $MarginContainer/BattleLayout/Commands/SeeButton,
 		"lamplight": $MarginContainer/BattleLayout/Commands/LamplightButton
 	}
+	_apply_theme()
 
 	for skill_id in command_buttons.keys():
 		var button: Button = command_buttons[skill_id]
 		button.pressed.connect(_on_command_pressed.bind(str(skill_id)))
 	restart_button.pressed.connect(_on_restart_pressed)
+	close_button.pressed.connect(_on_close_pressed)
+	close_button.visible = false
 
 	_ensure_registry_loaded()
 	if auto_start_debug:
@@ -51,7 +75,7 @@ func start_encounter(encounter_id: String) -> void:
 			start_enemy(debug_enemy_id)
 		return
 
-	var enemies = encounter.get("enemies", [])
+	var enemies: Variant = encounter.get("enemies", [])
 	if typeof(enemies) != TYPE_ARRAY or enemies.is_empty():
 		_append_log("遭遇没有配置敌人：%s。" % encounter_id)
 		return
@@ -69,7 +93,14 @@ func start_enemy(enemy_id: String, encounter_data: Dictionary = {}) -> void:
 
 	active_enemy_id = enemy_id
 	victory_flags_applied = false
+	result_sfx_played = false
+	last_phase_key = ""
+	close_button.visible = false
+	result_label.text = ""
+	feedback_label.text = ""
 	log_label.clear()
+	_apply_enemy_texture(enemy_id, enemy_data)
+	_play_encounter_intro_sfx(enemy_id)
 
 	machine = BattleStateMachineScript.new()
 	machine.logged.connect(_append_log)
@@ -80,7 +111,13 @@ func start_enemy(enemy_id: String, encounter_data: Dictionary = {}) -> void:
 func _on_command_pressed(skill_id: String) -> void:
 	if machine == null:
 		return
-	machine.use_skill(skill_id)
+	var accepted: bool = machine.use_skill(skill_id)
+	if accepted:
+		_play_skill_sfx(skill_id)
+		var snapshot: Dictionary = machine.snapshot()
+		var phase_key := str(snapshot.get("phase_key", ""))
+		if phase_key != "victory" and phase_key != "defeat":
+			_show_skill_feedback(skill_id)
 
 
 func _on_restart_pressed() -> void:
@@ -88,6 +125,19 @@ func _on_restart_pressed() -> void:
 		start_encounter(active_encounter_id)
 	elif active_enemy_id != "":
 		start_enemy(active_enemy_id)
+
+
+func _on_close_pressed() -> void:
+	var victory := false
+	var rewards: Array = []
+	if machine != null and machine.has_method("snapshot"):
+		var snapshot: Dictionary = machine.snapshot()
+		victory = str(snapshot.get("phase_key", "")) == "victory"
+		var raw_rewards: Variant = snapshot.get("reward_flags", [])
+		if typeof(raw_rewards) == TYPE_ARRAY:
+			rewards = raw_rewards
+	battle_finished.emit(active_encounter_id, victory, rewards)
+	queue_free()
 
 
 func _on_battle_changed(snapshot: Dictionary) -> void:
@@ -114,22 +164,34 @@ func _on_battle_changed(snapshot: Dictionary) -> void:
 		int(snapshot.get("enemy_max_obsession", 0)),
 		enemy_statuses
 	]
-	seal_label.text = _join_lines(snapshot.get("seal_lines", []), "无封缄")
+	seal_label.text = "封缄：\n%s" % _join_lines(snapshot.get("seal_lines", []), "无封缄")
 	intent_label.text = "意图：%s" % str(snapshot.get("intent_text", ""))
 
-	for command in snapshot.get("commands", []):
-		if typeof(command) != TYPE_DICTIONARY:
-			continue
-		var skill_id := str(command.get("id", ""))
-		var button: Button = command_buttons.get(skill_id)
-		if button == null:
-			continue
-		button.text = "%s %d" % [str(command.get("label", skill_id)), int(command.get("cost", 0))]
-		button.disabled = bool(command.get("disabled", true))
+	var commands: Variant = snapshot.get("commands", [])
+	if typeof(commands) == TYPE_ARRAY:
+		for command in commands:
+			if typeof(command) != TYPE_DICTIONARY:
+				continue
+			var command_data: Dictionary = command
+			var skill_id := str(command_data.get("id", ""))
+			if not command_buttons.has(skill_id):
+				continue
+			var button: Button = command_buttons[skill_id]
+			button.text = "%s %d" % [str(command_data.get("label", skill_id)), int(command_data.get("cost", 0))]
+			button.disabled = bool(command_data.get("disabled", true))
 
-	if str(snapshot.get("phase_key", "")) == "victory" and not victory_flags_applied:
+	var phase_key := str(snapshot.get("phase_key", ""))
+	if phase_key == "victory" and not victory_flags_applied:
 		victory_flags_applied = true
 		_apply_reward_flags(snapshot.get("reward_flags", []))
+
+	if phase_key != last_phase_key:
+		_on_phase_changed(phase_key)
+		last_phase_key = phase_key
+
+	close_button.visible = phase_key == "victory" or phase_key == "defeat"
+	close_button.text = "返回地图" if phase_key == "victory" else "离开战斗"
+	result_label.text = _result_text(phase_key)
 
 
 func _append_log(message: String) -> void:
@@ -139,7 +201,7 @@ func _append_log(message: String) -> void:
 	log_label.scroll_to_line(max(0, log_label.get_line_count() - 1))
 
 
-func _apply_reward_flags(flags) -> void:
+func _apply_reward_flags(flags: Variant) -> void:
 	if typeof(flags) != TYPE_ARRAY:
 		return
 	var game_state := get_node_or_null("/root/GameState")
@@ -150,11 +212,128 @@ func _apply_reward_flags(flags) -> void:
 		_append_log("已设置标记：%s。" % flag_id)
 
 
+func _apply_theme() -> void:
+	party_panel.add_theme_stylebox_override("panel", RainlampThemeScript.panel_style())
+	enemy_panel.add_theme_stylebox_override("panel", RainlampThemeScript.panel_style(RainlampThemeScript.PAPER_LIGHT))
+	enemy_image_frame.add_theme_stylebox_override("panel", RainlampThemeScript.inset_style(Color(0.77, 0.66, 0.48), RainlampThemeScript.SEAL_RED_DARK))
+	seal_panel.add_theme_stylebox_override("panel", RainlampThemeScript.inset_style(Color(0.89, 0.77, 0.58), RainlampThemeScript.SEAL_RED_DARK))
+	log_panel.add_theme_stylebox_override("panel", RainlampThemeScript.inset_style())
+	feedback_panel.add_theme_stylebox_override("panel", RainlampThemeScript.inset_style(Color(0.95, 0.86, 0.66), RainlampThemeScript.SEAL_RED_DARK))
+
+	for label in [encounter_label, phase_label, party_title, party_stats_label, enemy_title, enemy_stats_label, seal_label, intent_label]:
+		var typed_label: Label = label
+		RainlampThemeScript.apply_label(typed_label)
+		typed_label.add_theme_font_size_override("font_size", 11)
+
+	party_title.add_theme_color_override("font_color", RainlampThemeScript.SEAL_RED_DARK)
+	enemy_title.add_theme_color_override("font_color", RainlampThemeScript.SEAL_RED_DARK)
+	result_label.add_theme_color_override("font_color", RainlampThemeScript.SEAL_RED)
+	result_label.add_theme_font_size_override("font_size", 12)
+	RainlampThemeScript.apply_label(feedback_label, RainlampThemeScript.SEAL_RED_DARK)
+	feedback_label.add_theme_font_size_override("font_size", 11)
+	RainlampThemeScript.apply_rich_text(log_label)
+
+	for skill_id in command_buttons.keys():
+		var command_button: Button = command_buttons[skill_id]
+		RainlampThemeScript.apply_button(command_button, skill_id == "send_letter")
+	RainlampThemeScript.apply_button(restart_button)
+	RainlampThemeScript.apply_button(close_button, true)
+
+
+func _apply_enemy_texture(enemy_id: String, enemy_data: Dictionary) -> void:
+	var texture := _load_enemy_texture(enemy_id, enemy_data)
+	enemy_texture.texture = texture
+	enemy_texture.visible = texture != null
+
+
+func _load_enemy_texture(enemy_id: String, enemy_data: Dictionary) -> Texture2D:
+	var configured_path := ""
+	if enemy_image_paths.has(enemy_id):
+		configured_path = str(enemy_image_paths[enemy_id])
+	else:
+		for key in ["image_path", "texture_path", "sprite_path", "visual_path"]:
+			if enemy_data.has(key):
+				configured_path = str(enemy_data[key])
+				break
+
+	if configured_path.is_empty() or not ResourceLoader.exists(configured_path):
+		return null
+
+	var loaded: Resource = load(configured_path)
+	if loaded is Texture2D:
+		return loaded
+	return null
+
+
+func _result_text(phase_key: String) -> String:
+	if phase_key == "victory":
+		return "封缄已释，回信归档"
+	if phase_key == "defeat":
+		return "信纸浸透，灯火暂熄"
+	return ""
+
+
+func _show_skill_feedback(skill_id: String) -> void:
+	feedback_label.text = _skill_feedback_text(skill_id)
+
+
+func _skill_feedback_text(skill_id: String) -> String:
+	match skill_id:
+		"open_seal":
+			return "纸边掀起，封泥松动。"
+		"archive_seal":
+			return "封蜡压平，回声被收入旧档。"
+		"return_to_sender":
+			return "退回戳印落下，谎言沿雨声折返。"
+		"send_letter":
+			return "信被寄出，灯下只剩湿亮的邮路。"
+		"see_through":
+			return "灯芯一亮，敌意露出字脚。"
+		"lamplight":
+			return "添灯后，信纸边缘重新泛暖。"
+		_:
+			return ""
+
+
+func _on_phase_changed(phase_key: String) -> void:
+	if result_sfx_played:
+		return
+	if phase_key == "victory":
+		result_sfx_played = true
+		feedback_label.text = "胜利：回信归档，雨声退到窗外。"
+		_play_sfx("victory")
+	elif phase_key == "defeat":
+		result_sfx_played = true
+		feedback_label.text = "失败：墨迹漫开，灯火暂熄。"
+		_play_sfx("defeat")
+
+
+func _play_encounter_intro_sfx(enemy_id: String) -> void:
+	if enemy_id == "enemy_return_letter":
+		_play_sfx("boss_appear", -6.0)
+
+
+func _play_skill_sfx(skill_id: String) -> void:
+	var audio := _audio_manager()
+	if audio != null and audio.has_method("play_skill"):
+		audio.play_skill(skill_id)
+
+
+func _play_sfx(sound_id: String, volume_db: float = -8.0) -> void:
+	var audio := _audio_manager()
+	if audio != null and audio.has_method("play_sfx"):
+		audio.play_sfx(sound_id, volume_db)
+
+
+func _audio_manager() -> Node:
+	return get_node_or_null("/root/AudioManager")
+
+
 func _ensure_registry_loaded() -> void:
 	var registry := get_node_or_null("/root/DataRegistry")
 	if registry == null or not registry.has_method("load_all"):
 		return
-	var enemies = registry.get("enemies")
+	var enemies: Variant = registry.get("enemies")
 	if typeof(enemies) != TYPE_DICTIONARY or enemies.is_empty():
 		registry.load_all()
 
@@ -162,7 +341,7 @@ func _ensure_registry_loaded() -> void:
 func _load_encounter(encounter_id: String) -> Dictionary:
 	var registry := get_node_or_null("/root/DataRegistry")
 	if registry != null:
-		var registry_encounters = registry.get("encounters")
+		var registry_encounters: Variant = registry.get("encounters")
 		if typeof(registry_encounters) == TYPE_DICTIONARY and registry_encounters.has(encounter_id):
 			return registry_encounters[encounter_id]
 	return _load_collection_file("res://data/encounters/vertical_slice_encounters.json", "encounters").get(encounter_id, {})
@@ -171,7 +350,7 @@ func _load_encounter(encounter_id: String) -> Dictionary:
 func _load_enemy(enemy_id: String) -> Dictionary:
 	var registry := get_node_or_null("/root/DataRegistry")
 	if registry != null:
-		var registry_enemies = registry.get("enemies")
+		var registry_enemies: Variant = registry.get("enemies")
 		if typeof(registry_enemies) == TYPE_DICTIONARY and registry_enemies.has(enemy_id):
 			return registry_enemies[enemy_id]
 	return _load_json_file("res://data/enemies/%s.json" % enemy_id)
@@ -180,7 +359,7 @@ func _load_enemy(enemy_id: String) -> Dictionary:
 func _load_skills() -> Dictionary:
 	var registry := get_node_or_null("/root/DataRegistry")
 	if registry != null:
-		var registry_skills = registry.get("skills")
+		var registry_skills: Variant = registry.get("skills")
 		if typeof(registry_skills) == TYPE_DICTIONARY and not registry_skills.is_empty():
 			return registry_skills
 	return _load_collection_file("res://data/skills/core_skills.json", "skills")
@@ -200,14 +379,14 @@ func _load_json_file(path: String) -> Dictionary:
 		push_warning("Missing JSON file: %s" % path)
 		return {}
 	var file := FileAccess.open(path, FileAccess.READ)
-	var parsed = JSON.parse_string(file.get_as_text())
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_warning("Invalid JSON object: %s" % path)
 		return {}
 	return parsed
 
 
-func _join_lines(lines, empty_text: String) -> String:
+func _join_lines(lines: Variant, empty_text: String) -> String:
 	if typeof(lines) != TYPE_ARRAY or lines.is_empty():
 		return empty_text
 	var text := ""

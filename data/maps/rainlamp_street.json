@@ -133,6 +133,44 @@
       "locked_text": "旧钟楼的巷子被雨幕遮住。现在看过去，只剩一片水光。"
     }
   ],
+  "blockers": [
+    {
+      "id": "west_building_fronts",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 278
+      }
+    },
+    {
+      "id": "north_roofs",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 960,
+        "h": 64
+      }
+    },
+    {
+      "id": "east_building_fronts",
+      "area": {
+        "x": 826,
+        "y": 0,
+        "w": 134,
+        "h": 540
+      }
+    },
+    {
+      "id": "south_water_edge",
+      "area": {
+        "x": 0,
+        "y": 466,
+        "w": 960,
+        "h": 74
+      }
+    }
+  ],
   "npcs": [
     {
       "instance_id": "umbrella_owner_street",

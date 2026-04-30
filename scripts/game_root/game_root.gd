@@ -2,6 +2,7 @@ extends Node2D
 
 const PLAYER_SCENE := preload("res://scenes/prefabs/Player.tscn")
 const INTERACTABLE_SCENE := preload("res://scenes/prefabs/Interactable.tscn")
+const NPC_SCENE := preload("res://scenes/prefabs/NPC.tscn")
 const MAP_EXIT_SCRIPT := preload("res://scripts/prefabs/map_exit.gd")
 const BATTLE_SCENE := preload("res://scenes/battle/BattleScene.tscn")
 
@@ -32,21 +33,24 @@ func load_map(map_id: String, spawn_id: String = "") -> void:
 		push_warning("Missing map data: %s" % map_id)
 		return
 
-	var map_scene := _load_map_scene(map_data)
-	if map_scene == null:
-		push_warning("Missing map scene for map: %s" % map_id)
-		return
-
 	_clear_world()
 	current_map_id = map_id
 	current_map_data = map_data
-	current_map = map_scene.instantiate() as Node2D
+	var map_scene := _load_map_scene(map_data)
+	if map_scene == null:
+		print("Using generated reference layout for map: %s" % map_id)
+		current_map = _create_generated_map(map_data)
+	else:
+		current_map = map_scene.instantiate() as Node2D
 	if current_map == null:
 		push_warning("Map scene root must be a Node2D: %s" % map_id)
 		return
 	world.add_child(current_map)
+	_disable_embedded_cameras(current_map)
 	_apply_on_enter_flags(map_data)
+	_spawn_blockers(map_data)
 	_spawn_interactables(map_data)
+	_spawn_npcs(map_data)
 	_spawn_exits(map_data)
 
 	if player.get_parent() != world:
@@ -55,6 +59,7 @@ func load_map(map_id: String, spawn_id: String = "") -> void:
 	if resolved_spawn_id.strip_edges().is_empty():
 		resolved_spawn_id = str(map_data.get("default_spawn_id", "player_start"))
 	player.global_position = _spawn_position(map_data, resolved_spawn_id)
+	_configure_player_bounds()
 
 
 func start_encounter(encounter_id: String) -> void:
@@ -64,6 +69,8 @@ func start_encounter(encounter_id: String) -> void:
 	active_battle = BATTLE_SCENE.instantiate()
 	active_battle.set("auto_start_debug", false)
 	ui_layer.add_child(active_battle)
+	if active_battle.has_signal("battle_finished"):
+		active_battle.connect("battle_finished", Callable(self, "_on_battle_finished"))
 	if active_battle.has_method("start_encounter"):
 		active_battle.call_deferred("start_encounter", encounter_id)
 	else:
@@ -74,7 +81,22 @@ func _clear_world() -> void:
 	for child in world.get_children():
 		if child == player:
 			continue
+		world.remove_child(child)
 		child.queue_free()
+
+
+func _refresh_runtime_entities() -> void:
+	if current_map == null or current_map_data.is_empty():
+		return
+	for node_name in ["RuntimeBlockers", "RuntimeInteractables", "RuntimeNPCs", "RuntimeExits"]:
+		var runtime_node := current_map.get_node_or_null(node_name)
+		if runtime_node != null:
+			current_map.remove_child(runtime_node)
+			runtime_node.queue_free()
+	_spawn_blockers(current_map_data)
+	_spawn_interactables(current_map_data)
+	_spawn_npcs(current_map_data)
+	_spawn_exits(current_map_data)
 
 
 func _spawn_interactables(map_data: Dictionary) -> void:
@@ -101,8 +123,75 @@ func _spawn_interactables(map_data: Dictionary) -> void:
 		interactables_parent.add_child(interactable)
 
 
+func _spawn_blockers(map_data: Dictionary) -> void:
+	var blockers: Array = map_data.get("blockers", [])
+	if blockers.is_empty():
+		return
+
+	var blockers_parent := Node2D.new()
+	blockers_parent.name = "RuntimeBlockers"
+	current_map.add_child(blockers_parent)
+
+	for raw_blocker in blockers:
+		if typeof(raw_blocker) != TYPE_DICTIONARY:
+			continue
+		var blocker: Dictionary = raw_blocker
+		var body := StaticBody2D.new()
+		body.name = str(blocker.get("id", "Blocker"))
+		var collision := CollisionShape2D.new()
+		var shape := RectangleShape2D.new()
+		var rect := _rect_from(blocker.get("area", {}))
+		shape.size = rect.size
+		collision.shape = shape
+		body.position = rect.position + (rect.size * 0.5)
+		body.add_child(collision)
+		blockers_parent.add_child(body)
+
+
+func _spawn_npcs(map_data: Dictionary) -> void:
+	var npcs: Array = map_data.get("npcs", [])
+	if typeof(npcs) != TYPE_ARRAY:
+		return
+
+	var npcs_parent := Node2D.new()
+	npcs_parent.name = "RuntimeNPCs"
+	current_map.add_child(npcs_parent)
+
+	for raw_npc in npcs:
+		if typeof(raw_npc) != TYPE_DICTIONARY:
+			continue
+		var npc_data: Dictionary = raw_npc
+		if not _flags_satisfied(_string_array(npc_data.get("required_flags", []))) or _has_any_flag(_string_array(npc_data.get("blocked_by_flags", []))):
+			continue
+		if not _npc_has_available_dialogue(npc_data):
+			continue
+
+		var npc_id := str(npc_data.get("npc_id", ""))
+		var npc_def := _npc_data(npc_id)
+		var npc := NPC_SCENE.instantiate() as NPCInteractable
+		npc.name = str(npc_data.get("instance_id", npc_id))
+		npc.position = _map_point(_position_from(npc_data))
+		npcs_parent.add_child(npc)
+		npc.configure(npc_data, npc_def)
+
+
+func _npc_has_available_dialogue(npc_data: Dictionary) -> bool:
+	var candidates := _string_array(npc_data.get("dialogue_ids", []))
+	var fallback_id := str(npc_data.get("dialogue_id", "")).strip_edges()
+	if candidates.is_empty() and not fallback_id.is_empty():
+		candidates.append(fallback_id)
+
+	for dialogue_id in candidates:
+		var dialogue := _dialogue_data(dialogue_id)
+		if dialogue.is_empty():
+			continue
+		if _flags_satisfied(_string_array(dialogue.get("required_flags", []))) and not _has_any_flag(_string_array(dialogue.get("blocked_by_flags", []))):
+			return true
+	return false
+
+
 func _spawn_exits(map_data: Dictionary) -> void:
-	var exits := map_data.get("exits", [])
+	var exits: Array = map_data.get("exits", [])
 	if typeof(exits) != TYPE_ARRAY:
 		return
 
@@ -165,9 +254,21 @@ func _on_exit_locked(locked_text: String) -> void:
 	_show_runtime_dialogue("runtime_exit_locked", [locked_text], [])
 
 
+func _on_battle_finished(encounter_id: String, victory: bool, _reward_flags: Array) -> void:
+	active_battle = null
+	call_deferred("_refresh_runtime_entities")
+	if not victory:
+		return
+	var encounter := _encounter_data(encounter_id)
+	var post_dialogue_id := str(encounter.get("post_battle_dialogue_id", "")).strip_edges()
+	if not post_dialogue_id.is_empty() and not _dialogue_data(post_dialogue_id).is_empty():
+		dialogue_layer.start_dialogue(post_dialogue_id)
+
+
 func _on_dialogue_finished(dialogue_id: String, _applied_effects: Array) -> void:
 	var dialogue := _dialogue_data(dialogue_id)
 	_apply_effects(_string_array(dialogue.get("effects", [])))
+	call_deferred("_refresh_runtime_entities")
 
 
 func _apply_effects(effects: Array[String]) -> void:
@@ -186,6 +287,22 @@ func _apply_effects(effects: Array[String]) -> void:
 				start_encounter(encounter_id)
 		elif not effect_id.strip_edges().is_empty():
 			push_warning("Unsupported effect: %s" % effect_id)
+
+
+func _flags_satisfied(flags: Array[String]) -> bool:
+	var game_state := get_node_or_null("/root/GameState")
+	for flag_id in flags:
+		if game_state == null or not game_state.has_method("has_flag") or not bool(game_state.call("has_flag", flag_id)):
+			return false
+	return true
+
+
+func _has_any_flag(flags: Array[String]) -> bool:
+	var game_state := get_node_or_null("/root/GameState")
+	for flag_id in flags:
+		if game_state != null and game_state.has_method("has_flag") and bool(game_state.call("has_flag", flag_id)):
+			return true
+	return false
 
 
 func _show_runtime_dialogue(dialogue_id: String, lines_text: Array[String], effects: Array[String]) -> void:
@@ -248,7 +365,7 @@ func _apply_on_enter_flags(map_data: Dictionary) -> void:
 
 
 func _spawn_position(map_data: Dictionary, spawn_id: String) -> Vector2:
-	var spawns := map_data.get("spawns", [])
+	var spawns: Array = map_data.get("spawns", [])
 	if typeof(spawns) == TYPE_ARRAY:
 		for raw_spawn in spawns:
 			if typeof(raw_spawn) != TYPE_DICTIONARY:
@@ -308,6 +425,95 @@ func _background_texture_size() -> Vector2:
 	return background.texture.get_size()
 
 
+func _configure_player_bounds() -> void:
+	var bounds := _map_bounds()
+	if bounds.size.x <= 0.0 or bounds.size.y <= 0.0:
+		return
+	if player.has_method("set_movement_bounds"):
+		player.call("set_movement_bounds", bounds)
+	if player.has_method("configure_camera_limits"):
+		player.call("configure_camera_limits", bounds)
+
+
+func _map_bounds() -> Rect2:
+	var size := _background_texture_size()
+	if size.x <= 0.0 or size.y <= 0.0:
+		var dimensions = current_map_data.get("dimensions", {})
+		if typeof(dimensions) == TYPE_DICTIONARY:
+			size = Vector2(float(dimensions.get("width", 0.0)), float(dimensions.get("height", 0.0)))
+	if size.x <= 0.0 or size.y <= 0.0:
+		return Rect2()
+
+	var margin := Vector2(18, 18)
+	var origin := current_map.global_position + margin
+	return Rect2(origin, Vector2(max(1.0, size.x - margin.x * 2.0), max(1.0, size.y - margin.y * 2.0)))
+
+
+func _disable_embedded_cameras(root: Node) -> void:
+	if root is Camera2D:
+		(root as Camera2D).enabled = false
+	for child in root.get_children():
+		_disable_embedded_cameras(child)
+
+
+func _create_generated_map(map_data: Dictionary) -> Node2D:
+	var map := Node2D.new()
+	map.name = "Generated_%s" % str(map_data.get("id", "Map"))
+
+	var dimensions = map_data.get("dimensions", {})
+	var width := 960
+	var height := 540
+	if typeof(dimensions) == TYPE_DICTIONARY:
+		width = max(320, int(dimensions.get("width", width)))
+		height = max(240, int(dimensions.get("height", height)))
+
+	var image := Image.create(width, height, false, Image.FORMAT_RGBA8)
+	image.fill(_generated_map_color(str(map_data.get("map_kind", ""))))
+	var texture := ImageTexture.create_from_image(image)
+	var background := Sprite2D.new()
+	background.name = "Background"
+	background.texture = texture
+	background.centered = false
+	map.add_child(background)
+
+	var title := Label.new()
+	title.name = "GeneratedMapLabel"
+	title.text = "%s\n参考占位地图" % str(map_data.get("display_name", map_data.get("id", "")))
+	title.position = Vector2(24, 20)
+	title.add_theme_font_size_override("font_size", 24)
+	map.add_child(title)
+
+	var spawns_parent := Node2D.new()
+	spawns_parent.name = "Spawns"
+	map.add_child(spawns_parent)
+	var spawns: Array = map_data.get("spawns", [])
+	if typeof(spawns) == TYPE_ARRAY:
+		for raw_spawn in spawns:
+			if typeof(raw_spawn) != TYPE_DICTIONARY:
+				continue
+			var spawn: Dictionary = raw_spawn
+			var marker := Marker2D.new()
+			marker.name = str(spawn.get("id", "spawn"))
+			marker.position = _position_from(spawn)
+			spawns_parent.add_child(marker)
+
+	return map
+
+
+func _generated_map_color(map_kind: String) -> Color:
+	match map_kind:
+		"interior":
+			return Color(0.22, 0.18, 0.13, 1.0)
+		"bridge":
+			return Color(0.12, 0.19, 0.22, 1.0)
+		"memory_space":
+			return Color(0.18, 0.19, 0.28, 1.0)
+		"town_landmark":
+			return Color(0.16, 0.23, 0.24, 1.0)
+		_:
+			return Color(0.13, 0.16, 0.2, 1.0)
+
+
 func _load_map_scene(map_data: Dictionary) -> PackedScene:
 	var scene_id := str(map_data.get("scene_id", ""))
 	var candidates: Array[String] = [
@@ -337,6 +543,30 @@ func _dialogue_data(dialogue_id: String) -> Dictionary:
 	var dialogues = registry.get("dialogues")
 	if typeof(dialogues) == TYPE_DICTIONARY and dialogues.has(dialogue_id):
 		return dialogues[dialogue_id]
+	return {}
+
+
+func _npc_data(npc_id: String) -> Dictionary:
+	var registry := get_node_or_null("/root/DataRegistry")
+	if registry == null:
+		return {}
+	var npcs = registry.get("npcs")
+	if typeof(npcs) == TYPE_DICTIONARY and npcs.has(npc_id):
+		var npc = npcs[npc_id]
+		if typeof(npc) == TYPE_DICTIONARY:
+			return npc
+	return {}
+
+
+func _encounter_data(encounter_id: String) -> Dictionary:
+	var registry := get_node_or_null("/root/DataRegistry")
+	if registry == null:
+		return {}
+	var encounters = registry.get("encounters")
+	if typeof(encounters) == TYPE_DICTIONARY and encounters.has(encounter_id):
+		var encounter = encounters[encounter_id]
+		if typeof(encounter) == TYPE_DICTIONARY:
+			return encounter
 	return {}
 
 

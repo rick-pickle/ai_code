@@ -7,9 +7,10 @@ signal dialogue_finished(dialogue_id: String, applied_effects: Array)
 signal dialogue_choice_selected(dialogue_id: String, choice_index: int, choice: Dictionary)
 
 const DialogueRuntimeScript := preload("res://scripts/dialogue/dialogue_runtime.gd")
+const RainlampThemeScript := preload("res://scripts/ui/rainlamp_theme.gd")
 
 @export var advance_actions: Array[StringName] = [&"ui_accept", &"interact"]
-@export var speaker_names := {
+@export var speaker_names: Dictionary = {
 	"acheng": "阿澄",
 	"qi": "祈",
 	"wenheng": "温衡",
@@ -25,7 +26,10 @@ const DialogueRuntimeScript := preload("res://scripts/dialogue/dialogue_runtime.
 @export var portrait_paths: Dictionary = {}
 
 @onready var root: Control = $Root
-@onready var speaker_label: Label = $Root/DialogBox/Margin/Content/Header/SpeakerLabel
+@onready var dialog_box: PanelContainer = $Root/DialogBox
+@onready var portrait_frame: PanelContainer = $Root/DialogBox/Margin/Content/Header/PortraitFrame
+@onready var stamp_label: Label = $Root/DialogBox/Margin/Content/Header/TitleStack/StampLabel
+@onready var speaker_label: Label = $Root/DialogBox/Margin/Content/Header/TitleStack/SpeakerLabel
 @onready var portrait_texture: TextureRect = $Root/DialogBox/Margin/Content/Header/PortraitFrame/PortraitTexture
 @onready var portrait_placeholder: Label = $Root/DialogBox/Margin/Content/Header/PortraitFrame/PortraitPlaceholder
 @onready var dialogue_text: Label = $Root/DialogBox/Margin/Content/DialogueText
@@ -39,6 +43,7 @@ var _choices_active := false
 func _ready() -> void:
 	add_to_group("dialogue_layer")
 	root.visible = false
+	_apply_theme()
 	_ensure_runtime()
 	continue_button.pressed.connect(_advance)
 
@@ -67,6 +72,20 @@ func is_dialogue_open() -> bool:
 func cancel_dialogue() -> void:
 	if _runtime != null:
 		_runtime.cancel()
+
+
+func _apply_theme() -> void:
+	dialog_box.add_theme_stylebox_override("panel", RainlampThemeScript.panel_style())
+	portrait_frame.add_theme_stylebox_override("panel", RainlampThemeScript.inset_style())
+	RainlampThemeScript.apply_label(stamp_label, RainlampThemeScript.SEAL_RED_DARK)
+	RainlampThemeScript.apply_label(speaker_label)
+	RainlampThemeScript.apply_label(portrait_placeholder, RainlampThemeScript.MUTED_INK)
+	RainlampThemeScript.apply_label(dialogue_text)
+	stamp_label.add_theme_font_size_override("font_size", 10)
+	speaker_label.add_theme_font_size_override("font_size", 15)
+	dialogue_text.add_theme_font_size_override("font_size", 13)
+	portrait_placeholder.add_theme_font_size_override("font_size", 18)
+	RainlampThemeScript.apply_button(continue_button, true)
 
 
 func _ensure_runtime() -> void:
@@ -101,6 +120,7 @@ func _on_dialogue_line_changed(dialogue_id: String, line_index: int, line: Dicti
 	_choices_active = false
 	_clear_choices()
 	_show_line(line)
+	_play_dialogue_advance_sfx()
 	continue_button.visible = true
 	continue_button.disabled = false
 	continue_button.call_deferred("grab_focus")
@@ -118,6 +138,7 @@ func _on_choices_requested(_dialogue_id: String, choices: Array) -> void:
 		button.text = _choice_text(choice, index)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		RainlampThemeScript.apply_button(button)
 		button.pressed.connect(_on_choice_button_pressed.bind(index))
 		choices_box.add_child(button)
 		if index == 0:
@@ -130,6 +151,7 @@ func _on_choice_button_pressed(choice_index: int) -> void:
 
 
 func _on_choice_selected(dialogue_id: String, choice_index: int, choice: Dictionary) -> void:
+	_play_dialogue_advance_sfx()
 	dialogue_choice_selected.emit(dialogue_id, choice_index, choice)
 
 
@@ -150,7 +172,7 @@ func _on_dialogue_failed(dialogue_id: String, reason: String) -> void:
 	root.visible = false
 	_choices_active = false
 	_clear_choices()
-	push_warning("对话无法开始：%s（%s）" % [dialogue_id, reason])
+	push_warning("对话无法开始：%s，%s" % [dialogue_id, reason])
 
 
 func _show_line(line: Dictionary) -> void:
@@ -158,11 +180,13 @@ func _show_line(line: Dictionary) -> void:
 	var speaker_text := _speaker_name(speaker_id)
 	speaker_label.text = speaker_text
 	dialogue_text.text = str(line.get("text", ""))
-	_show_portrait(str(line.get("portrait", "")), speaker_text)
+	_show_portrait(str(line.get("portrait", "")), speaker_id, speaker_text)
 
 
-func _show_portrait(portrait_id: String, speaker_text: String) -> void:
+func _show_portrait(portrait_id: String, speaker_id: String, speaker_text: String) -> void:
 	var texture := _load_portrait(portrait_id)
+	if texture == null:
+		texture = _load_portrait(speaker_id)
 	portrait_texture.texture = texture
 	portrait_texture.visible = texture != null
 	portrait_placeholder.visible = texture == null
@@ -176,14 +200,14 @@ func _load_portrait(portrait_id: String) -> Texture2D:
 		return null
 
 	if portrait_paths.has(trimmed_id):
-		var configured = load(str(portrait_paths[trimmed_id]))
+		var configured: Resource = load(str(portrait_paths[trimmed_id]))
 		if configured is Texture2D:
 			return configured
 
 	for extension in ["png", "webp", "jpg", "jpeg"]:
 		var path := "res://assets/portraits/%s.%s" % [trimmed_id, extension]
 		if ResourceLoader.exists(path):
-			var loaded = load(path)
+			var loaded: Resource = load(path)
 			if loaded is Texture2D:
 				return loaded
 
@@ -209,7 +233,13 @@ func _clear_choices() -> void:
 		child.queue_free()
 
 
-func _as_dictionary(value) -> Dictionary:
+func _as_dictionary(value: Variant) -> Dictionary:
 	if typeof(value) == TYPE_DICTIONARY:
 		return value
 	return {}
+
+
+func _play_dialogue_advance_sfx() -> void:
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio != null and audio.has_method("play_sfx"):
+		audio.play_sfx("dialogue_advance", -12.0)

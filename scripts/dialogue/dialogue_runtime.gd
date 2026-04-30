@@ -35,7 +35,7 @@ func start(dialogue_id: String) -> bool:
 		_fail(trimmed_id, "找不到对话数据。")
 		return false
 
-	var lines := dialogue.get("lines", [])
+	var lines: Array = dialogue.get("lines", [])
 	if typeof(lines) != TYPE_ARRAY:
 		_fail(trimmed_id, "对话 lines 必须是数组。")
 		return false
@@ -197,14 +197,14 @@ func _line_index_by_id(line_id: String) -> int:
 
 
 func _current_lines() -> Array:
-	var lines := current_dialogue.get("lines", [])
+	var lines: Array = current_dialogue.get("lines", [])
 	if typeof(lines) != TYPE_ARRAY:
 		return []
 	return lines
 
 
 func _choices_from(container: Dictionary) -> Array:
-	var choices := container.get("choices", [])
+	var choices: Array = container.get("choices", [])
 	if typeof(choices) != TYPE_ARRAY:
 		return []
 	return choices

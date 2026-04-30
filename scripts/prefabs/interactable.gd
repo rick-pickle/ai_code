@@ -17,6 +17,7 @@ signal interaction_failed(reason: String)
 @export var base_text: Array[String] = []
 @export var effects: Array[String] = []
 @export var conditional_text: Array = []
+@export var dialogue_ids: Array[String] = []
 
 var _targets_in_range: Array[Node] = []
 
@@ -44,21 +45,24 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func interact() -> bool:
-	if dialogue_id.strip_edges().is_empty():
+	var active_dialogue_id := _resolve_dialogue_id()
+	if active_dialogue_id.strip_edges().is_empty():
 		return _fail("Interactable has no dialogue_id.")
 
-	_register_runtime_dialogue()
+	if _uses_runtime_dialogue():
+		_register_runtime_dialogue(active_dialogue_id)
+
 	var dialogue_layer := _find_dialogue_layer()
 	if dialogue_layer == null:
 		return _fail("DialogueLayer was not found.")
 	if not dialogue_layer.has_method("start_dialogue"):
 		return _fail("DialogueLayer is missing start_dialogue.")
 
-	var started := bool(dialogue_layer.call("start_dialogue", dialogue_id))
+	var started := bool(dialogue_layer.call("start_dialogue", active_dialogue_id))
 	if not started:
-		return _fail("Dialogue failed to start: %s" % dialogue_id)
+		return _fail("Dialogue failed to start: %s" % active_dialogue_id)
 
-	interacted.emit(dialogue_id)
+	interacted.emit(active_dialogue_id)
 	return true
 
 
@@ -105,11 +109,63 @@ func _find_dialogue_layer() -> Node:
 func _refresh_prompt() -> void:
 	if prompt_label == null:
 		return
-	prompt_label.text = prompt_text
+	prompt_label.text = _prompt_message()
 	prompt_label.visible = show_prompt_when_in_range and _has_target_in_range()
 
 
-func _register_runtime_dialogue() -> void:
+func _prompt_message() -> String:
+	var target_name := prompt_text.strip_edges()
+	if target_name.is_empty():
+		target_name = "交互"
+	return "按确认/互动：%s" % target_name
+
+
+func _resolve_dialogue_id() -> String:
+	var candidates := dialogue_ids.duplicate()
+	if candidates.is_empty() and not dialogue_id.strip_edges().is_empty():
+		candidates.append(dialogue_id)
+
+	var best_id := ""
+	var best_priority := -999999
+	for candidate in candidates:
+		var candidate_id := str(candidate).strip_edges()
+		if candidate_id.is_empty():
+			continue
+		var dialogue := _dialogue_data(candidate_id)
+		if dialogue.is_empty():
+			if best_id.is_empty():
+				best_id = candidate_id
+			continue
+		if not _dialogue_available(dialogue):
+			continue
+		var priority := int(dialogue.get("priority", 0))
+		if best_id.is_empty() or priority > best_priority:
+			best_id = candidate_id
+			best_priority = priority
+	return best_id
+
+
+func _dialogue_available(dialogue: Dictionary) -> bool:
+	return _flags_satisfied(_string_array(dialogue.get("required_flags", []))) and not _has_any_flag(_string_array(dialogue.get("blocked_by_flags", [])))
+
+
+func _dialogue_data(candidate_id: String) -> Dictionary:
+	var registry := get_node_or_null("/root/DataRegistry")
+	if registry == null:
+		return {}
+	var dialogues = registry.get("dialogues")
+	if typeof(dialogues) == TYPE_DICTIONARY and dialogues.has(candidate_id):
+		var dialogue = dialogues[candidate_id]
+		if typeof(dialogue) == TYPE_DICTIONARY:
+			return dialogue
+	return {}
+
+
+func _uses_runtime_dialogue() -> bool:
+	return not base_text.is_empty() or not repeat_text.is_empty() or not locked_text.strip_edges().is_empty() or not effects.is_empty() or not conditional_text.is_empty()
+
+
+func _register_runtime_dialogue(active_dialogue_id: String) -> void:
 	var registry := get_node_or_null("/root/DataRegistry")
 	if registry == null:
 		return
@@ -133,8 +189,8 @@ func _register_runtime_dialogue() -> void:
 	var dialogues = registry.get("dialogues")
 	if typeof(dialogues) != TYPE_DICTIONARY:
 		dialogues = {}
-	dialogues[dialogue_id] = {
-		"id": dialogue_id,
+	dialogues[active_dialogue_id] = {
+		"id": active_dialogue_id,
 		"lines": lines,
 		"choices": [],
 		"effects": selected.get("effects", [])

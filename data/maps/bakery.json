@@ -49,6 +49,62 @@
       "locked_text": ""
     }
   ],
+  "blockers": [
+    {
+      "id": "back_wall_oven_shelves",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 640,
+        "h": 86
+      }
+    },
+    {
+      "id": "service_counter",
+      "area": {
+        "x": 138,
+        "y": 136,
+        "w": 364,
+        "h": 46
+      }
+    },
+    {
+      "id": "left_bread_display",
+      "area": {
+        "x": 70,
+        "y": 210,
+        "w": 166,
+        "h": 86
+      }
+    },
+    {
+      "id": "right_bun_display",
+      "area": {
+        "x": 382,
+        "y": 214,
+        "w": 176,
+        "h": 82
+      }
+    },
+    {
+      "id": "left_wall",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 42,
+        "h": 360
+      }
+    },
+    {
+      "id": "right_wall",
+      "area": {
+        "x": 598,
+        "y": 0,
+        "w": 42,
+        "h": 360
+      }
+    }
+  ],
   "npcs": [
     {
       "instance_id": "linmo_bakery_counter",

@@ -95,6 +95,53 @@
       "locked_text": "桥灯下的雨还只是雨。真话还没被逼到这里。"
     }
   ],
+  "blockers": [
+    {
+      "id": "north_river",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 960,
+        "h": 92
+      }
+    },
+    {
+      "id": "west_river_edge",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 540
+      }
+    },
+    {
+      "id": "east_river_edge",
+      "area": {
+        "x": 886,
+        "y": 0,
+        "w": 74,
+        "h": 540
+      }
+    },
+    {
+      "id": "south_arches",
+      "area": {
+        "x": 158,
+        "y": 392,
+        "w": 650,
+        "h": 118
+      }
+    },
+    {
+      "id": "bridge_lamp_base",
+      "area": {
+        "x": 470,
+        "y": 214,
+        "w": 64,
+        "h": 42
+      }
+    }
+  ],
   "npcs": [
     {
       "instance_id": "wenheng_bridge_waiting",

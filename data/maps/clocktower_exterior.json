@@ -51,6 +51,53 @@
       "locked_text": ""
     }
   ],
+  "blockers": [
+    {
+      "id": "clocktower_building",
+      "area": {
+        "x": 472,
+        "y": 30,
+        "w": 338,
+        "h": 226
+      }
+    },
+    {
+      "id": "north_wall",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 960,
+        "h": 64
+      }
+    },
+    {
+      "id": "west_wall",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "w": 72,
+        "h": 540
+      }
+    },
+    {
+      "id": "east_wall",
+      "area": {
+        "x": 842,
+        "y": 0,
+        "w": 118,
+        "h": 540
+      }
+    },
+    {
+      "id": "courtyard_tree",
+      "area": {
+        "x": 166,
+        "y": 82,
+        "w": 202,
+        "h": 122
+      }
+    }
+  ],
   "npcs": [
     {
       "instance_id": "uncle_liang_clocktower",

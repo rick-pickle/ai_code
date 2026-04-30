@@ -20,6 +20,8 @@ exports/
 *.log
 *.tmp
 *.temp
+__pycache__/
+*.pyc
 
 # OS and editor files
 .DS_Store
